@@ -1,6 +1,5 @@
 package frc.robot.controllers;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -15,15 +14,12 @@ public class CANMotorController implements MotorController {
     }
 
     private final MotorControllerType type;
-    private WPI_TalonSRX motorControllerTSRX;
     private CANSparkMax motorControllerSMAX;
 
     public CANMotorController(int CANID, MotorControllerType Type) {
         type = Type;
 
         switch (type) {
-            case TSRX:
-                motorControllerTSRX = new WPI_TalonSRX(CANID);
             case SMAX_BRUSHED:
                 motorControllerSMAX = new CANSparkMax(CANID, MotorType.kBrushed);
             case SMAX_BRUSHLESS:
@@ -34,8 +30,6 @@ public class CANMotorController implements MotorController {
     @Override
     public void set(double speed) {
         switch (type) {
-            case TSRX:
-                motorControllerTSRX.set(speed);
             case SMAX_BRUSHED:
                 motorControllerSMAX.set(speed);
             case SMAX_BRUSHLESS:
@@ -46,8 +40,6 @@ public class CANMotorController implements MotorController {
     @Override
     public double get() {
         switch (type) {
-            case TSRX:
-                return motorControllerTSRX.get();
             case SMAX_BRUSHED:
                 return motorControllerSMAX.get();
             case SMAX_BRUSHLESS:
@@ -60,8 +52,6 @@ public class CANMotorController implements MotorController {
     @Override
     public void disable() {
         switch (type) {
-            case TSRX:
-                motorControllerTSRX.disable();
             case SMAX_BRUSHED:
                 motorControllerSMAX.disable();
             case SMAX_BRUSHLESS:
@@ -72,8 +62,6 @@ public class CANMotorController implements MotorController {
     @Override
     public void stopMotor() {
         switch (type) {
-            case TSRX:
-                motorControllerTSRX.stopMotor();
             case SMAX_BRUSHED:
                 motorControllerSMAX.stopMotor();
             case SMAX_BRUSHLESS:
@@ -84,8 +72,6 @@ public class CANMotorController implements MotorController {
     @Override
     public void setInverted(boolean inverted) {
         switch (type) {
-            case TSRX:
-                motorControllerTSRX.setInverted(inverted);
             case SMAX_BRUSHED:
                 motorControllerSMAX.setInverted(inverted);
             case SMAX_BRUSHLESS:
@@ -96,8 +82,6 @@ public class CANMotorController implements MotorController {
     @Override
     public boolean getInverted() {
         switch (type) {
-            case TSRX:
-                return motorControllerTSRX.getInverted();
             case SMAX_BRUSHED:
                 return motorControllerSMAX.getInverted();
             case SMAX_BRUSHLESS:
@@ -109,8 +93,6 @@ public class CANMotorController implements MotorController {
 
     public void feed() {
         switch (type) {
-            case TSRX:
-                motorControllerTSRX.feed();
             case SMAX_BRUSHED:
                 motorControllerSMAX.set(get());
             case SMAX_BRUSHLESS:

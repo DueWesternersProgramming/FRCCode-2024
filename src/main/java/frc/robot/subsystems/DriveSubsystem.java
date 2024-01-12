@@ -307,7 +307,7 @@ public class DriveSubsystem extends EntechSubsystem {
     /** Calibrates the gyro. */
     public void calculateHeading() {
         if (ENABLED) {
-            m_gyro.calibrate();
+            m_gyro.reset();
             while (!m_gyro.isCalibrating()) {
                 ;
             }
