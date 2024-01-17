@@ -22,7 +22,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import entech.subsystems.EntechSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.swerve.SwerveModule;
@@ -32,13 +32,8 @@ import frc.robot.swerve.SwerveUtils;
  * The {@code Drivetrain} class contains fields and methods pertaining to the
  * function of the drivetrain.
  */
-public class DriveSubsystem extends EntechSubsystem {
+public class DriveSubsystem extends SubsystemBase {
     private static final boolean ENABLED = true;
-
-    public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 5.30603;
-    public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 3.31033;
-    public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0.59211;
-    public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 5.67266;
 
     public static final int GYRO_ORIENTATION = 1; // might be able to merge with kGyroReversed
 
@@ -66,8 +61,62 @@ public class DriveSubsystem extends EntechSubsystem {
 
     /** Creates a new Drivetrain. */
     public DriveSubsystem() {
+        if (ENABLED) {
+        m_frontLeft = new SwerveModule(
+                RobotConstants.Ports.CAN.FRONT_LEFT_DRIVING,
+                RobotConstants.Ports.CAN.FRONT_LEFT_TURNING,
+                RobotConstants.Ports.CAN.FRONT_LEFT_STEERING, false);
 
-    }
+        m_frontRight = new SwerveModule(
+                RobotConstants.Ports.CAN.FRONT_RIGHT_DRIVING,
+                RobotConstants.Ports.CAN.FRONT_RIGHT_TURNING,
+                RobotConstants.Ports.CAN.FRONT_RIGHT_STEERING, false);
+
+        m_rearLeft = new SwerveModule(
+                RobotConstants.Ports.CAN.REAR_LEFT_DRIVING,
+                RobotConstants.Ports.CAN.REAR_LEFT_TURNING,
+                RobotConstants.Ports.CAN.REAR_LEFT_STEERING, false);
+
+        m_rearRight = new SwerveModule(
+                RobotConstants.Ports.CAN.REAR_RIGHT_DRIVING,
+                RobotConstants.Ports.CAN.REAR_RIGHT_TURNING,
+                RobotConstants.Ports.CAN.REAR_RIGHT_STEERING, false);
+
+        m_gyro = new AHRS(Port.kMXP);
+            // m_gyro.calibrate();
+            // while (m_gyro.isCalibrating()) {
+            // ;
+            // }
+        m_gyro.reset();
+        m_gyro.zeroYaw();
+
+        m_odometry = new SwerveDriveOdometry(
+                DrivetrainConstants.DRIVE_KINEMATICS,
+                Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getAngle()),
+                new SwerveModulePosition[] {
+                        m_frontLeft.getPosition(),
+                        m_frontRight.getPosition(),
+                        m_rearLeft.getPosition(),
+                        m_rearRight.getPosition()
+                    });
+
+        m_frontLeft.calibrateVirtualPosition(DrivetrainConstants.FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
+        m_frontRight.calibrateVirtualPosition(DrivetrainConstants.FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
+        m_rearLeft.calibrateVirtualPosition(DrivetrainConstants.REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
+        m_rearRight.calibrateVirtualPosition(DrivetrainConstants.REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
+
+        resetEncoders();
+
+        calculateHeading();
+        zeroHeading();
+
+        Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(FIELD_LENGTH_INCHES / 2),
+                Units.inchesToMeters(FIELD_WIDTH_INCHES / 2)); // mid field
+        Rotation2d initialRotation = Rotation2d.fromDegrees(180);
+        m_gyro.setAngleAdjustment(0);
+        Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
+        resetOdometry(initialPose);
+        }}
 
     // Bad look on scope needs to be fixed
     // public Pose3d createPose3d() {
@@ -354,68 +403,11 @@ public class DriveSubsystem extends EntechSubsystem {
         return ENABLED ? Optional.of(m_gyro) : Optional.empty();
     }
 
-    @Override
     public boolean isEnabled() {
         return ENABLED;
     }
 
-    @Override
-    public void initialize() {
-        if (ENABLED) {
-            m_frontLeft = new SwerveModule(
-                    RobotConstants.Ports.CAN.FRONT_LEFT_DRIVING,
-                    RobotConstants.Ports.CAN.FRONT_LEFT_TURNING,
-                    RobotConstants.Ports.CAN.FRONT_LEFT_STEERING, false);
-
-            m_frontRight = new SwerveModule(
-                    RobotConstants.Ports.CAN.FRONT_RIGHT_DRIVING,
-                    RobotConstants.Ports.CAN.FRONT_RIGHT_TURNING,
-                    RobotConstants.Ports.CAN.FRONT_RIGHT_STEERING, false);
-
-            m_rearLeft = new SwerveModule(
-                    RobotConstants.Ports.CAN.REAR_LEFT_DRIVING,
-                    RobotConstants.Ports.CAN.REAR_LEFT_TURNING,
-                    RobotConstants.Ports.CAN.REAR_LEFT_STEERING, false);
-
-            m_rearRight = new SwerveModule(
-                    RobotConstants.Ports.CAN.REAR_RIGHT_DRIVING,
-                    RobotConstants.Ports.CAN.REAR_RIGHT_TURNING,
-                    RobotConstants.Ports.CAN.REAR_RIGHT_STEERING, false);
-
-            m_gyro = new AHRS(Port.kMXP);
-            // m_gyro.calibrate();
-            // while (m_gyro.isCalibrating()) {
-            // ;
-            // }
-            m_gyro.reset();
-            m_gyro.zeroYaw();
-
-            m_odometry = new SwerveDriveOdometry(
-                    DrivetrainConstants.DRIVE_KINEMATICS,
-                    Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getAngle()),
-                    new SwerveModulePosition[] {
-                            m_frontLeft.getPosition(),
-                            m_frontRight.getPosition(),
-                            m_rearLeft.getPosition(),
-                            m_rearRight.getPosition()
-                    });
-
-            m_frontLeft.calibrateVirtualPosition(FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
-            m_frontRight.calibrateVirtualPosition(FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
-            m_rearLeft.calibrateVirtualPosition(REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
-            m_rearRight.calibrateVirtualPosition(REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
-
-            resetEncoders();
-
-            calculateHeading();
-            zeroHeading();
-
-            Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(FIELD_LENGTH_INCHES / 2),
-                    Units.inchesToMeters(FIELD_WIDTH_INCHES / 2)); // mid field
-            Rotation2d initialRotation = Rotation2d.fromDegrees(180);
-            m_gyro.setAngleAdjustment(0);
-            Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
-            resetOdometry(initialPose);
-        }
-    }
 }
+
+
+

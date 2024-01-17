@@ -1,17 +1,18 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class RobotConstants {
     public static final class DrivetrainConstants {
+        public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//5.30603;
+        public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//3.31033;
+        public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
+        public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
+    
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
         public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
@@ -22,10 +23,10 @@ public final class RobotConstants {
         public static final double ROTATIONAL_SLEW_RATE = 2.0; // 20.0; //2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
-        public static final double TRACK_WIDTH_METERS = Units.inchesToMeters(21.75);
+        public static final double TRACK_WIDTH_METERS = Units.inchesToMeters(25);
 
         // Distance between centers of right and left wheels on robot
-        public static final double WHEEL_BASE_METERS = Units.inchesToMeters(21.75);
+        public static final double WHEEL_BASE_METERS = Units.inchesToMeters(25);
 
         // Distance between front and back wheels on robot
         public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
@@ -135,7 +136,7 @@ public final class RobotConstants {
 
 
     /**
-     * TODO: Fix this disaster
+     * TODO: Fix this disaster NOT
      */
     public static interface AUTONOMOUS {
         public static final double MAX_SPEED_METERS_PER_SECOND = 3.0; // 4.42; //3.0;

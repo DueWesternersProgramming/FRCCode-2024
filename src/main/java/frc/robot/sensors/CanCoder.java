@@ -4,22 +4,21 @@
 
 package frc.robot.sensors;
 
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.RobotController;
 
 /**
  * The {@code CanCoder} class contains fields and methods pertaining to the function of the absolute encoder.
  */
 public class CanCoder
 {
-	private CANCoder _canCoder;
+	private CANcoder _canCoder;
 	private boolean inverted;
 	private double positionOffset;
 
 	public CanCoder(int port) {
-		this._canCoder = new CANCoder(port);
+		this._canCoder = new CANcoder(port);
 		this.inverted = false;
 		this.positionOffset = 0.0;
 	}
@@ -31,7 +30,7 @@ public class CanCoder
 	 */
 	public double getPosition() {
 
-		return (inverted ? -1.0 : 1.0) * Units.degreesToRadians(_canCoder.getAbsolutePosition());
+		return (inverted ? -1.0 : 1.0) * Units.degreesToRadians(_canCoder.getAbsolutePosition().getValue());
 	}
 
 	/**

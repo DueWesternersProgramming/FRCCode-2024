@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
-import entech.commands.EntechCommand;
+import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.subsystems.DriveSubsystem;
 
-public class GyroReset extends EntechCommand {
+public class GyroReset extends Command {
     private final Runnable reset;
 
     public GyroReset(DriveSubsystem driveSubsystem) {

@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.RobotConstants.DrivetrainConstants;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 /*
@@ -30,9 +31,7 @@ public class RobotContainer {
     public enum Autonomous {
 
     }
-
-    private Autonomous auto = null;
-
+    
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
     private final Field2d field = new Field2d(); // a representation of the field
@@ -46,8 +45,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        driveSubsystem.initialize();
-
+        driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driverGamepad));
     }
 
     public TrajectoryConfig createTrajectoryConfig() {

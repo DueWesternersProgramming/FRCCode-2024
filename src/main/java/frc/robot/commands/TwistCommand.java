@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import entech.commands.EntechCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.OI.UserPolicy;
 
-public class TwistCommand extends EntechCommand {
+public class TwistCommand extends Command {
     public TwistCommand() {
 
     }

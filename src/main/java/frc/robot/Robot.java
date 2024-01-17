@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,16 +23,12 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
     private CommandFactory m_commandFactory;
-    private OperatorInterface m_operatorInterface;
 
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
         m_commandFactory = new CommandFactory(m_robotContainer);
-        m_operatorInterface = new OperatorInterface(m_commandFactory, m_robotContainer);
-
-        Compressor c = new Compressor(PneumaticsModuleType.REVPH);
-        c.enableDigital();
+        new OperatorInterface(m_commandFactory, m_robotContainer);
 
         SmartDashboard.putData("Swerve Odometry", m_robotContainer.getField());
     }

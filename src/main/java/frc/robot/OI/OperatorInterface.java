@@ -1,24 +1,21 @@
 package frc.robot.OI;
-
-import entech.util.EntechJoystick;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.CommandFactory;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.DriveCommand;
 import frc.robot.commands.TwistCommand;
 import frc.robot.commands.XCommand;
 
 public class OperatorInterface {
 
-        private final EntechJoystick driveJoystick = new EntechJoystick(RobotConstants.Ports.CONTROLLER.JOYSTICK);
-        //private final EntechJoystick operatorPanel = new EntechJoystick(RobotConstants.Ports.CONTROLLER.PANEL);
+        private final Joystick driveJoystick = new Joystick(RobotConstants.Ports.CONTROLLER.JOYSTICK);
 
         public OperatorInterface(CommandFactory commandFactory, RobotContainer robotContainer) {
 
-                driveJoystick.WhilePressed(1, new TwistCommand());
-                driveJoystick.WhenPressed(11, commandFactory.gyroResetCommand());
-                driveJoystick.WhenPressed(9, new XCommand());
-                robotContainer.getDriveSubsystem()
-                                .setDefaultCommand(new DriveCommand(robotContainer.getDriveSubsystem(), driveJoystick));
-        }
+                new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
+
+                new JoystickButton(driveJoystick,11).whileTrue(commandFactory.gyroResetCommand());
+        
+                new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));        }
 }
