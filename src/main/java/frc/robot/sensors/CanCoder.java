@@ -30,7 +30,7 @@ public class CanCoder
 	 */
 	public double getPosition() {
 
-		return (inverted ? -1.0 : 1.0) * Units.degreesToRadians(_canCoder.getAbsolutePosition().getValue());
+		return (inverted ? -1.0 : 1.0) * Units.rotationsToRadians(_canCoder.getAbsolutePosition().getValue());
 	}
 
 	/**

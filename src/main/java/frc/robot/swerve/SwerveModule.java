@@ -13,8 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.RobotConstants.SwerveModuleConstants;
 import frc.robot.sensors.CanCoder;
-
-import com.ctre.phoenix6.hardware.CANcoder;
 /**
  * The {@code SwerveModule} class contains fields and methods pertaining to the
  * function of a swerve module.

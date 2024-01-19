@@ -35,7 +35,7 @@ import frc.robot.swerve.SwerveUtils;
 public class DriveSubsystem extends SubsystemBase {
     private static final boolean ENABLED = true;
 
-    public static final int GYRO_ORIENTATION = 1; // might be able to merge with kGyroReversed
+    public static final int GYRO_ORIENTATION = -1; // might be able to merge with kGyroReversed
 
     public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
     public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
@@ -83,10 +83,6 @@ public class DriveSubsystem extends SubsystemBase {
                 RobotConstants.Ports.CAN.REAR_RIGHT_STEERING, false);
 
         m_gyro = new AHRS(Port.kMXP);
-            // m_gyro.calibrate();
-            // while (m_gyro.isCalibrating()) {
-            // ;
-            // }
         m_gyro.reset();
         m_gyro.zeroYaw();
 
@@ -118,18 +114,8 @@ public class DriveSubsystem extends SubsystemBase {
         resetOdometry(initialPose);
         }}
 
-    // Bad look on scope needs to be fixed
-    // public Pose3d createPose3d() {
-    // Pose2d initial = m_odometry.getPoseMeters();
-
-    // return new Pose3d(new Translation3d(initial.getX(), initial.getY(), 0.0),
-    // new Rotation3d(Units.degreesToRadians(m_gyro.getRoll()),
-    // Units.degreesToRadians(m_gyro.getPitch()),
-    // Units.degreesToRadians(m_gyro.getYaw() * -1)));
-    // }
-
     private double getGyroAngle() {
-        return m_gyro.getAngle() + 0;
+        return m_gyro.getAngle();
     }
 
     @Override

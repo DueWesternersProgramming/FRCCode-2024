@@ -26,8 +26,8 @@ public class DriveCommand extends Command {
 
     @Override
     public void execute() {
-        double xRaw = joystick.getRawAxis(0) * -0.7;
-        double yRaw = joystick.getRawAxis(1) * -0.7;
+        double xRaw = joystick.getRawAxis(0) * 0.7;
+        double yRaw = joystick.getRawAxis(1) * 0.7;
         double rotRaw = joystick.getRawAxis(2) * -0.7;
 
         double xConstrained = MathUtil.applyDeadband(MathUtil.clamp(xRaw, -MAX_SPEED_PERCENT, MAX_SPEED_PERCENT),
