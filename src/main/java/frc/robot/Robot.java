@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.OI.OperatorInterface;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,13 +21,10 @@ import frc.robot.OI.OperatorInterface;
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-    private CommandFactory m_commandFactory;
 
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
-        m_commandFactory = new CommandFactory(m_robotContainer);
-        new OperatorInterface(m_commandFactory, m_robotContainer);
 
         SmartDashboard.putData("Swerve Odometry", m_robotContainer.getField());
     }
@@ -72,7 +68,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_commandFactory.getAutoCommand();
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         /*
          * String autoSelected = SmartDashboard.getString("Auto Selector",

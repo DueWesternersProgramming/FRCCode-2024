@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
+import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.swerve.SwerveModule;
 import frc.robot.swerve.SwerveUtils;
 
@@ -34,11 +35,6 @@ import frc.robot.swerve.SwerveUtils;
  */
 public class DriveSubsystem extends SubsystemBase {
     private static final boolean ENABLED = true;
-
-    public static final int GYRO_ORIENTATION = -1; // might be able to merge with kGyroReversed
-
-    public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
-    public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
 
     private SwerveModule m_frontLeft;
     private SwerveModule m_frontRight;
@@ -63,24 +59,24 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
         if (ENABLED) {
         m_frontLeft = new SwerveModule(
-                RobotConstants.Ports.CAN.FRONT_LEFT_DRIVING,
-                RobotConstants.Ports.CAN.FRONT_LEFT_TURNING,
-                RobotConstants.Ports.CAN.FRONT_LEFT_STEERING, false);
+                RobotConstants.PortConstants.CAN.FRONT_LEFT_DRIVING,
+                RobotConstants.PortConstants.CAN.FRONT_LEFT_TURNING,
+                RobotConstants.PortConstants.CAN.FRONT_LEFT_STEERING, false);
 
         m_frontRight = new SwerveModule(
-                RobotConstants.Ports.CAN.FRONT_RIGHT_DRIVING,
-                RobotConstants.Ports.CAN.FRONT_RIGHT_TURNING,
-                RobotConstants.Ports.CAN.FRONT_RIGHT_STEERING, false);
+                RobotConstants.PortConstants.CAN.FRONT_RIGHT_DRIVING,
+                RobotConstants.PortConstants.CAN.FRONT_RIGHT_TURNING,
+                RobotConstants.PortConstants.CAN.FRONT_RIGHT_STEERING, false);
 
         m_rearLeft = new SwerveModule(
-                RobotConstants.Ports.CAN.REAR_LEFT_DRIVING,
-                RobotConstants.Ports.CAN.REAR_LEFT_TURNING,
-                RobotConstants.Ports.CAN.REAR_LEFT_STEERING, false);
+                RobotConstants.PortConstants.CAN.REAR_LEFT_DRIVING,
+                RobotConstants.PortConstants.CAN.REAR_LEFT_TURNING,
+                RobotConstants.PortConstants.CAN.REAR_LEFT_STEERING, false);
 
         m_rearRight = new SwerveModule(
-                RobotConstants.Ports.CAN.REAR_RIGHT_DRIVING,
-                RobotConstants.Ports.CAN.REAR_RIGHT_TURNING,
-                RobotConstants.Ports.CAN.REAR_RIGHT_STEERING, false);
+                RobotConstants.PortConstants.CAN.REAR_RIGHT_DRIVING,
+                RobotConstants.PortConstants.CAN.REAR_RIGHT_TURNING,
+                RobotConstants.PortConstants.CAN.REAR_RIGHT_STEERING, false);
 
         m_gyro = new AHRS(Port.kMXP);
         m_gyro.reset();
@@ -88,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         m_odometry = new SwerveDriveOdometry(
                 DrivetrainConstants.DRIVE_KINEMATICS,
-                Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getAngle()),
+                Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * m_gyro.getAngle()),
                 new SwerveModulePosition[] {
                         m_frontLeft.getPosition(),
                         m_frontRight.getPosition(),
@@ -106,13 +102,14 @@ public class DriveSubsystem extends SubsystemBase {
         calculateHeading();
         zeroHeading();
 
-        Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(FIELD_LENGTH_INCHES / 2),
-                Units.inchesToMeters(FIELD_WIDTH_INCHES / 2)); // mid field
+        Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES / 2),
+                Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid field
         Rotation2d initialRotation = Rotation2d.fromDegrees(180);
         m_gyro.setAngleAdjustment(0);
         Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
         resetOdometry(initialPose);
-        }}
+        }
+    }
 
     private double getGyroAngle() {
         return m_gyro.getAngle();
@@ -157,7 +154,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             // Update the odometry in the periodic block
             m_odometry.update(
-                    Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getAngle()),
+                    Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * m_gyro.getAngle()),
                     new SwerveModulePosition[] {
                             m_frontLeft.getPosition(),
                             m_frontRight.getPosition(),
@@ -185,7 +182,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         if (ENABLED) {
             m_odometry.resetPosition(
-                    Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getAngle()),
+                    Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * m_gyro.getAngle()),
                     new SwerveModulePosition[] {
                             m_frontLeft.getPosition(),
                             m_frontRight.getPosition(),
@@ -269,7 +266,7 @@ public class DriveSubsystem extends SubsystemBase {
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative
                             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                                    Rotation2d.fromDegrees(GYRO_ORIENTATION * getGyroAngle()))
+                                    Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()))
                             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
             SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -355,7 +352,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public Optional<Double> getHeading() {
-        return ENABLED ? Optional.of(Rotation2d.fromDegrees(GYRO_ORIENTATION * getGyroAngle()).getDegrees())
+        return ENABLED ? Optional.of(Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()).getDegrees())
                 : Optional.empty();
     }
 
@@ -365,7 +362,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public Optional<Double> getTurnRate() {
-        return ENABLED ? Optional.of(m_gyro.getRate() * (DrivetrainConstants.kGyroReversed ? -1.0 : 1.0))
+        return ENABLED ? Optional.of(m_gyro.getRate() * (DrivetrainConstants.GYRO_ORIENTATION))
                 : Optional.empty();
     }
 
@@ -394,6 +391,3 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
 }
-
-
-

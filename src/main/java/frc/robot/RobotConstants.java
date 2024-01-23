@@ -35,7 +35,9 @@ public final class RobotConstants {
                 new Translation2d(-WHEEL_BASE_METERS / 2, TRACK_WIDTH_METERS / 2),
                 new Translation2d(-WHEEL_BASE_METERS / 2, -TRACK_WIDTH_METERS / 2));
 
-        public static final boolean kGyroReversed = false;
+        public static final int GYRO_ORIENTATION = -1;
+
+        public static final boolean kFieldRelative = true;
     }
 
     public static final class SwerveModuleConstants {
@@ -99,7 +101,7 @@ public final class RobotConstants {
         public static final int TURNING_MOTOR_CURRENT_LIMIT_AMPS = 20; // amps
     }
 
-    public static interface Ports {
+    public static interface PortConstants {
 
         public static class CAN {
             public static final int FRONT_LEFT_DRIVING = 5;
@@ -125,20 +127,16 @@ public final class RobotConstants {
         }
     }
 
-        public static interface Offsets {
-            public static final double FRONT_OFFSET_HEAVE_M = 0.0;
-            public static final double FRONT_OFFSET_SWAY_M = 0.25;
-            public static final double FRONT_OFFSET_SURGE_M = 0.0;
-            public static final double FRONT_OFFSET_YAW_DEGREES = 45.0;
-            public static final double FRONT_OFFSET_PITCH_DEGREES = 0.0;
-            public static final double FRONT_OFFSET_ROLL_DEGREES = 0.0;
-        }
+    public static class OffsetConstants {
+        public static final double FRONT_OFFSET_HEAVE_M = 0.0;
+        public static final double FRONT_OFFSET_SWAY_M = 0.25;
+        public static final double FRONT_OFFSET_SURGE_M = 0.0;
+        public static final double FRONT_OFFSET_YAW_DEGREES = 45.0;
+        public static final double FRONT_OFFSET_PITCH_DEGREES = 0.0;
+        public static final double FRONT_OFFSET_ROLL_DEGREES = 0.0;
+    }
 
-
-    /**
-     * TODO: Fix this disaster NOT
-     */
-    public static interface AUTONOMOUS {
+    public static final class AutonomousConstants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 3.0; // 4.42; //3.0;
         public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
@@ -151,11 +149,12 @@ public final class RobotConstants {
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
                 MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED);
+
+        public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
+        public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
     }
 
-    public interface INDICATOR_VALUES {
-        public static final double POSITION_UNKNOWN = -1.0;
-        public static final double POSITION_NOT_SET = -1.1;
+    public static final class TeleopConstants {
+        public static final double MAX_SPEED_PERCENT = 1;
     }
-
 }

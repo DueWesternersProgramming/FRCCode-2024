@@ -4,18 +4,18 @@
 
 package frc.robot;
 
-import java.util.List;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import frc.robot.RobotConstants.DrivetrainConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GyroReset;
+import frc.robot.commands.TwistCommand;
+import frc.robot.commands.XCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 /*
@@ -26,52 +26,60 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
 
-    public static final double GAMEPAD_AXIS_THRESHOLD = 0.2;
+    public final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-    public enum Autonomous {
+    private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.JOYSTICK);
 
-    }
-    
-    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+    SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
+
+    PowerDistribution PDP = new PowerDistribution(16, ModuleType.kRev);
 
     private final Field2d field = new Field2d(); // a representation of the field
 
-    // The driver's controller
-    // CommandXboxController driverGamepad = new
-    // CommandXboxController(Ports.USB.GAMEPAD);
-    Joystick driverGamepad = new Joystick(RobotConstants.Ports.CONTROLLER.JOYSTICK);
-
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
     public RobotContainer() {
-        driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driverGamepad));
+        driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
+        
+        configureButtonBindings();
+
+        Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
+        Shuffleboard.getTab("Power").add(PDP);
     }
 
-    public TrajectoryConfig createTrajectoryConfig() {
-        TrajectoryConfig config = new TrajectoryConfig(
-                RobotConstants.AUTONOMOUS.MAX_SPEED_METERS_PER_SECOND,
-                RobotConstants.AUTONOMOUS.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-                .setKinematics(DrivetrainConstants.DRIVE_KINEMATICS);
-
-        return config;
+    private void configureButtonBindings(){
+        new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
+        new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
+        new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
     }
 
-    public Trajectory createExampleTrajectory(TrajectoryConfig config) {
-        Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                new Pose2d(3, 0, new Rotation2d(0)),
-                config);
-
-        return exampleTrajectory;
+    public Command getAutonomousCommand() {
+        return m_autoPositionChooser.getSelected();
     }
 
     public Field2d getField() {
         return field;
     }
-
-    public DriveSubsystem getDriveSubsystem() {
-        return driveSubsystem;
+    
+    public final class UserPolicy {
+        public static boolean twistable = false;
+        public static boolean xLocked = false;
     }
+
+    //     public TrajectoryConfig createTrajectoryConfig() {
+    //     TrajectoryConfig config = new TrajectoryConfig(
+    //             RobotConstants.AutonomousConstants.MAX_SPEED_METERS_PER_SECOND,
+    //             RobotConstants.AutonomousConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+    //             .setKinematics(DrivetrainConstants.DRIVE_KINEMATICS);
+
+    //     return config;
+    // }
+
+    // public Trajectory createExampleTrajectory(TrajectoryConfig config) {
+    //     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+    //             new Pose2d(0, 0, new Rotation2d(0)),
+    //             List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+    //             new Pose2d(3, 0, new Rotation2d(0)),
+    //             config);
+
+    //     return exampleTrajectory;
+    // }
 }
