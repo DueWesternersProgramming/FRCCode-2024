@@ -28,7 +28,7 @@ public class DriveCommand extends Command {
     public void execute() {
         double xRaw = joystick.getRawAxis(0);
         double yRaw = joystick.getRawAxis(1);
-        double rotRaw = joystick.getRawAxis(2);
+        double rotRaw = -joystick.getRawAxis(2);
 
         double xConstrained = MathUtil.applyDeadband(MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
                 RobotConstants.PortConstants.CONTROLLER.JOYSTICK_AXIS_THRESHOLD);
