@@ -18,10 +18,10 @@ import frc.robot.sensors.CanCoder;
  * function of a swerve module.
  */
 public class SwerveModule {
-    private final CANSparkMax m_drivingSparkMax;
+    public final CANSparkMax m_drivingSparkMax;
     private final CANSparkMax m_turningSparkMax;
 
-    private final RelativeEncoder m_drivingEncoder;
+    public final RelativeEncoder m_drivingEncoder;
     private final RelativeEncoder m_turningEncoder;
     private final CanCoder m_turningAbsoluteEncoder;
 

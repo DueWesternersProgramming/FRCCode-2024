@@ -8,6 +8,11 @@ import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,11 +23,19 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.AutonomousConstants;
@@ -110,6 +123,75 @@ public class DriveSubsystem extends SubsystemBase {
         resetOdometry(initialPose);
         }
     }
+
+
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
+    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
+    private final MutableMeasure<Distance> m_distance = mutable(Meters.of(0));
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
+    private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
+      private final SysIdRoutine m_sysIdRoutine =
+      new SysIdRoutine(
+          // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
+          new SysIdRoutine.Config(),
+          new SysIdRoutine.Mechanism(
+              // Tell SysId how to plumb the driving voltage to the motors.
+              (Measure<Voltage> volts) -> {
+                m_frontRight.m_drivingSparkMax.setVoltage(volts.in(Volts));
+                m_frontLeft.m_drivingSparkMax.setVoltage(volts.in(Volts));
+                m_rearRight.m_drivingSparkMax.setVoltage(volts.in(Volts));
+                m_rearLeft.m_drivingSparkMax.setVoltage(volts.in(Volts));
+              },
+              // Tell SysId how to record a frame of data for each motor on the mechanism being
+              // characterized.
+              log -> {
+                // Record a frame for the left motors.  Since these share an encoder, we consider
+                // the entire group to be one motor.
+                log.motor("front-right")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            m_frontRight.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(m_frontRight.m_drivingEncoder.getPosition(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(m_frontRight.m_drivingEncoder.getVelocity(), MetersPerSecond));
+                // Record a frame for the right motors.  Since these share an encoder, we consider
+                // the entire group to be one motor.
+                log.motor("front-left")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            m_frontLeft.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(m_frontLeft.m_drivingEncoder.getPosition(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(m_frontLeft.m_drivingEncoder.getVelocity(), MetersPerSecond));
+
+                log.motor("back-right")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            m_rearRight.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(m_rearRight.m_drivingEncoder.getPosition(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(m_rearRight.m_drivingEncoder.getVelocity(), MetersPerSecond));
+
+                log.motor("back-left")
+                    .voltage(
+                        m_appliedVoltage.mut_replace(
+                            m_rearLeft.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(m_rearLeft.m_drivingEncoder.getPosition(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(m_rearLeft.m_drivingEncoder.getVelocity(), MetersPerSecond));
+              },
+              // Tell SysId to make generated commands require this subsystem, suffix test state in
+              // WPILog with this subsystem's name ("drive")
+              this));
+    
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return m_sysIdRoutine.quasistatic(direction);
+  }
+
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return m_sysIdRoutine.dynamic(direction);
+  }
 
     private double getGyroAngle() {
         return m_gyro.getAngle();
