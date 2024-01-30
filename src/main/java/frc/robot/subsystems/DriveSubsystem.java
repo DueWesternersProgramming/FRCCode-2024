@@ -104,7 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
                         m_rearLeft.getPosition(),
                         m_rearRight.getPosition()
                     });
-
+        
         m_frontLeft.calibrateVirtualPosition(DrivetrainConstants.FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
         m_frontRight.calibrateVirtualPosition(DrivetrainConstants.FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
         m_rearLeft.calibrateVirtualPosition(DrivetrainConstants.REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
@@ -422,7 +422,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void calculateHeading() {
         if (ENABLED) {
             m_gyro.reset();
-            while (!m_gyro.isCalibrating()) {
+            while (m_gyro.isCalibrating()) {
                 ;
             }
         }
