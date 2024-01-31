@@ -157,4 +157,10 @@ public final class RobotConstants {
     public static final class TeleopConstants {
         public static final double MAX_SPEED_PERCENT = 1;
     }
+
+    public static final class IntakeConstants {
+        public static final int INTAKE_MOTOR_PORT = 20;
+        public static final double INTAKE_MOTOR_SPEED = 0.5;
+        public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
+    }
 }

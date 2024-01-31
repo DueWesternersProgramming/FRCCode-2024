@@ -18,6 +18,7 @@ import frc.robot.commands.GyroReset;
 import frc.robot.commands.TwistCommand;
 import frc.robot.commands.XCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -28,6 +29,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
 
     public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+    public final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
     private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.JOYSTICK);
 
