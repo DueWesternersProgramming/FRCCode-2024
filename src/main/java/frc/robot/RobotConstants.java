@@ -177,4 +177,11 @@ public final class RobotConstants {
         public static final int TRANSIT_MOTOR_PORT_2 = 24;
         public static final double TRANSIT_MOTOR_SPEED = 0.2;
     }
+
+    public static class LightConstants {
+        public static final int kLightPort = 25;
+        public static final int kLightCount = 8;
+        public static final double kLightBrightness = 0.5;
+      }
+    
 }

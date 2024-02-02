@@ -7,7 +7,7 @@ public class StartTransit extends Command {
     private final TransitSubsystem transit;
     
      public StartTransit(TransitSubsystem transit) {
-        this.transit = transit ;
+        this.transit = transit;
         addRequirements(transit);
     }
 
