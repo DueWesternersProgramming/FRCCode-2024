@@ -9,7 +9,7 @@ import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
-
+import frc.robot.RobotConstants.PortConstants;
 
 public class LightSubsystem extends SubsystemBase {
 
@@ -20,7 +20,7 @@ public class LightSubsystem extends SubsystemBase {
     public LightSubsystem(){
 
         try{
-            candle = new CANdle(LightConstants.kLightPort);
+            candle = new CANdle(PortConstants.CAN.kLightPort);
             candleConfig = new CANdleConfiguration();
             candleConfig.stripType = LEDStripType.RGB;
             candleConfig.statusLedOffWhenActive = true;

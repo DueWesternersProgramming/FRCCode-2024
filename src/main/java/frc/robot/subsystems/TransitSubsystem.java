@@ -7,10 +7,11 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.TransitConstants;
+import frc.robot.RobotConstants.PortConstants;
 
 public class TransitSubsystem extends SubsystemBase{
-    CANSparkMax transitMotor1 = new CANSparkMax(TransitConstants.TRANSIT_MOTOR_PORT_1, MotorType.kBrushless);
-    CANSparkMax transitMotor2 = new CANSparkMax(TransitConstants.TRANSIT_MOTOR_PORT_2, MotorType.kBrushless);
+    CANSparkMax transitMotor1 = new CANSparkMax(PortConstants.CAN.TRANSIT_MOTOR_PORT_1, MotorType.kBrushless);
+    CANSparkMax transitMotor2 = new CANSparkMax(PortConstants.CAN.TRANSIT_MOTOR_PORT_2, MotorType.kBrushless);
     RelativeEncoder transitEncoder1 = transitMotor1.getEncoder();
     RelativeEncoder transitEncoder2 = transitMotor2.getEncoder();
 

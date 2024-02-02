@@ -7,10 +7,11 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
+import frc.robot.RobotConstants.PortConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
-    CANSparkMax shooterMotor1 = new CANSparkMax(ShooterConstants.SHOOTER_MOTOR_PORT_1, MotorType.kBrushless);
-    CANSparkMax shooterMotor2 = new CANSparkMax(ShooterConstants.SHOOTER_MOTOR_PORT_2, MotorType.kBrushless);
+    CANSparkMax shooterMotor1 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_1, MotorType.kBrushless);
+    CANSparkMax shooterMotor2 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_2, MotorType.kBrushless);
     RelativeEncoder shooterEncoder1 = shooterMotor1.getEncoder();
     RelativeEncoder shooterEncoder2 = shooterMotor2.getEncoder();
 

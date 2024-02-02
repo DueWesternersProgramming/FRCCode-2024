@@ -8,11 +8,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
+import frc.robot.RobotConstants.PortConstants;
 
 
 public class IntakeSubsystem extends SubsystemBase{
     
-    CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+    CANSparkMax intakeMotor = new CANSparkMax(PortConstants.CAN.INTAKE_MOTOR_PORT, MotorType.kBrushless);
     RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
 
     public IntakeSubsystem(){
