@@ -113,7 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
                         m_frontRight.getPosition(),
                         m_rearLeft.getPosition(),
                         m_rearRight.getPosition()
-                    }, new Pose2d(initialTranslation, initialRotation)
+                    }, new Pose2d(initialTranslation, initialRotation));
         
         m_frontLeft.calibrateVirtualPosition(DrivetrainConstants.FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
         m_frontRight.calibrateVirtualPosition(DrivetrainConstants.FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
@@ -138,7 +138,7 @@ public class DriveSubsystem extends SubsystemBase {
                     new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                             new PIDConstants(SwerveModuleConstants.TRANSLATION_P, SwerveModuleConstants.TRANSLATION_I, SwerveModuleConstants.TRANSLATION_D), // Translation PID constants
                             new PIDConstants(SwerveModuleConstants.ROT_MOTION_P, SwerveModuleConstants.ROT_MOTION_I, SwerveModuleConstants.ROT_MOTION_D), // Rotation PID constants
-                            RobotConstants.AUTONOMOUS.MAX_MODULE_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
+                            RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
                             RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
                             new ReplanningConfig() // Default path replanning config. See the API for the options here
                     ),
