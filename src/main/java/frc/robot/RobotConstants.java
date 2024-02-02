@@ -163,4 +163,18 @@ public final class RobotConstants {
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
     }
+
+    // There is a good chance this will have to be changed
+    
+    public static final class ShooterConstants {
+        public static final int SHOOTER_MOTOR_PORT_1 = 21;
+        public static final int SHOOTER_MOTOR_PORT_2 = 22;
+        public static final double SHOOTER_MOTOR_SPEED = 0.5;
+    }
+
+    public static final class TransitConstants {
+        public static final int TRANSIT_MOTOR_PORT_1 = 23;
+        public static final int TRANSIT_MOTOR_PORT_2 = 24;
+        public static final double TRANSIT_MOTOR_SPEED = 0.2;
+    }
 }
