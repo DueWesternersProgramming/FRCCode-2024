@@ -13,6 +13,8 @@ public final class RobotConstants {
         public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
         public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
     
+        public static final double DRIVE_BASE_RADIUS_METERS = 0.9;   //Needs to be measured
+
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
         public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
