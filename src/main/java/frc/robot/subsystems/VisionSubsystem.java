@@ -1,5 +1,5 @@
 package frc.robot.subsystems;
-
+import frc.robot.RobotConstants.VisionConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
@@ -7,7 +7,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends SubsystemBase{
-    PhotonCamera camera = new PhotonCamera("photonvision");
+    PhotonCamera camera = new PhotonCamera(VisionConstants.PHOTON_CAMERA_NAME);
 
     public VisionSubsystem(){
 
