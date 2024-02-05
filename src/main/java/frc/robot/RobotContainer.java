@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.AutoAimCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.TwistCommand;
 import frc.robot.commands.XCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,7 +32,7 @@ public class RobotContainer {
 
     public final DriveSubsystem driveSubsystem = new DriveSubsystem();
     public final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-
+    public final VisionSubsystem visionSubsystem = new VisionSubsystem();
     private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
@@ -53,10 +55,11 @@ public class RobotContainer {
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
 
-        new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driveJoystick, 10).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        // new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        // new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        // new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        // new JoystickButton(driveJoystick, 10).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
     }
 
     public Command getAutonomousCommand() {
