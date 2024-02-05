@@ -163,4 +163,11 @@ public final class RobotConstants {
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
     }
+
+    public static final class ClimberConstants {
+        public static final int CLIMBER_MOTOR_PORT_1 = 21;
+        public static final int CLIMBER_MOTOR_PORT_2 = 22;
+        public static final double CLIMBER_MOTOR_SPEED = 0.2;
+        public static final double  CLIMBER_MOTOR_REVERSE_SPEED = 0.2;
+    }
 }
