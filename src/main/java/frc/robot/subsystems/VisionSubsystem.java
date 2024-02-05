@@ -26,7 +26,7 @@ public class VisionSubsystem extends SubsystemBase{
     }
     
     public boolean hasResults() {
-        return camera.getLatestResult().hasTargets();
+        return getResult().hasTargets();
     }
 
     public PhotonTrackedTarget getBestTarget(){

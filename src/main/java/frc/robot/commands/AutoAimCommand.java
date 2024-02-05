@@ -12,7 +12,6 @@ public class AutoAimCommand extends Command {
     private final VisionSubsystem visionSubsystem;
     PIDController aimPidController = new PIDController(1, 0, 0);   //TODO: ADD CONSTANTS FOR THIS
 
-
     public AutoAimCommand(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
         this.drive = drive;
         this.visionSubsystem = visionSubsystem;
@@ -29,18 +28,15 @@ public class AutoAimCommand extends Command {
         if (visionSubsystem.hasResults()){
             double power = aimPidController.calculate(visionSubsystem.getTargetYaw(), 0);
             drive.drive(0, 0, power, false, true);
-
         }
     }
 
     @Override
-    public void initialize() {
-        
+    public void initialize() {   
     }
 
     @Override
     public boolean isFinished() {
         return false;
     }
-
 }
