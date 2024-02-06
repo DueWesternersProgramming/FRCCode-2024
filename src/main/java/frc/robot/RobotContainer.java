@@ -17,6 +17,8 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.TwistCommand;
 import frc.robot.commands.XCommand;
+import frc.robot.commands.climber.ClimberCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -30,8 +32,10 @@ public class RobotContainer {
 
     public final DriveSubsystem driveSubsystem = new DriveSubsystem();
     public final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
-    private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.JOYSTICK);
+    private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.DRIVE_JOYSTICK);
+    private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.OPERATOR_JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
 
@@ -41,6 +45,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
+        climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
         
         configureButtonBindings();
 

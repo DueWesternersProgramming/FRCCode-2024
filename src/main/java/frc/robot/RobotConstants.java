@@ -122,8 +122,8 @@ public final class RobotConstants {
 
         public static class CONTROLLER {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
-            public static final int JOYSTICK = 0;
-            public static final int PANEL = 1;
+            public static final int DRIVE_JOYSTICK = 0;
+            public static final int OPERATOR_JOYSTICK = 1;
         }
     }
 
@@ -156,6 +156,10 @@ public final class RobotConstants {
 
     public static final class TeleopConstants {
         public static final double MAX_SPEED_PERCENT = 1;
+        public static final int DRIVE_COMMAND_X_AXIS = 0;
+        public static final int DRIVE_COMMAND_Y_AXIS = 1;
+        public static final int DRIVE_COMMAND_ROT_AXIS = 2;
+        public static final int CLIMBER_COMMAND_AXIS = 0;
     }
 
     public static final class IntakeConstants {
@@ -165,9 +169,10 @@ public final class RobotConstants {
     }
 
     public static final class ClimberConstants {
-        public static final int CLIMBER_MOTOR_PORT_1 = 21;
-        public static final int CLIMBER_MOTOR_PORT_2 = 22;
+        public static final int CLIMBER_MOTOR_1_PORT = 21;
+        public static final int CLIMBER_MOTOR_2_PORT = 22;
         public static final double CLIMBER_MOTOR_SPEED = 0.2;
-        public static final double  CLIMBER_MOTOR_REVERSE_SPEED = 0.2;
+        public static final double CLIMBER_DOWN_POSITION = 0;
+        public static final double CLIMBER_UP_POSITION = 100;
     }
 }

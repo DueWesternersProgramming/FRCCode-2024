@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,38 +12,37 @@ import frc.robot.RobotConstants.ClimberConstants;
 
 public class ClimberSubsystem extends SubsystemBase{
     
-    private static final CANSparkBase climberMotor = null;
-    CANSparkMax climber = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_PORT_1, MotorType.kBrushless);
-    RelativeEncoder climberRelativeEncoder = climberMotor.getEncoder();
+    CANSparkMax climberMotor1 = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_1_PORT, MotorType.kBrushless);
+    CANSparkMax climberMotor2 = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_2_PORT, MotorType.kBrushless);
+    RelativeEncoder climber1RelativeEncoder = climberMotor1.getEncoder();
+    RelativeEncoder climber2RelativeEncoder = climberMotor2.getEncoder();
 
     public ClimberSubsystem(){
-        climberMotor.setIdleMode(IdleMode.kBrake);
-        resetEncoder();
+        climberMotor1.setIdleMode(IdleMode.kBrake);
+        climberMotor2.setIdleMode(IdleMode.kBrake);
+        resetEncoders();
     }
 
     public double getSpeed() {
-        return climberMotor.get();
+        return climberMotor1.get();
     }
 
-    public void climberUp(){
-        public double getEncoderPosition()
-        climberMotor.set(ClimberConstants.CLIMBER_MOTOR_SPEED);
+    public void setSpeed(double speed) {
+        climberMotor1.set(speed);
+        climberMotor2.set(speed);
     }
 
-    public void climberReverse(){
-        climberMotor.set(ClimberConstants.CLIMBER_MOTOR_REVERSE_SPEED);
+    public double getEncoder1Position() {
+        return climber1RelativeEncoder.getPosition();
     }
 
-    public void climberDown(){
-        climberMotor.set(0);
+    public double getEncoder2Position() {
+        return climber2RelativeEncoder.getPosition();
     }
 
-    public double getEncoderPosition() {
-        return climberRelativeEncoder.getPosition();
-    }
-
-    public void resetEncoder() {
-        climberRelativeEncoder.setPosition(0.0);
+    public void resetEncoders() {
+        climber1RelativeEncoder.setPosition(0.0);
+        climber2RelativeEncoder.setPosition(0.0);
     }
 
     @Override
