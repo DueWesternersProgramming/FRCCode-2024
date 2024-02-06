@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.TwistCommand;
@@ -51,13 +50,7 @@ public class RobotContainer {
     private void configureButtonBindings(){
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
-
-        new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driveJoystick, 10).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-    }
+        new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));    }
 
     public Command getAutonomousCommand() {
         return m_autoPositionChooser.getSelected();
