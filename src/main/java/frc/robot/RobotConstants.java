@@ -175,4 +175,10 @@ public final class RobotConstants {
         public static final double CLIMBER_DOWN_POSITION = 0;
         public static final double CLIMBER_UP_POSITION = 100;
     }
+
+    public static final class SubsystemEnabledConstants {
+        public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
+        public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
+    }
 }
