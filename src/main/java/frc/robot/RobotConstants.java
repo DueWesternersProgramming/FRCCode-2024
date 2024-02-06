@@ -7,6 +7,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class RobotConstants {
+    
     public static final class DrivetrainConstants {
         public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//5.30603;
         public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//3.31033;
@@ -118,6 +119,19 @@ public final class RobotConstants {
             public static final int FRONT_RIGHT_STEERING = 2;
             public static final int REAR_LEFT_STEERING = 3;
             public static final int REAR_RIGHT_STEERING = 4;
+
+            public static final int INTAKE_MOTOR_PORT = 20;
+
+            public static final int kLightPort = 25;
+
+            public static final int SHOOTER_MOTOR_PORT_1 = 21;
+            public static final int SHOOTER_MOTOR_PORT_2 = 22;
+
+            public static final int TRANSIT_MOTOR_PORT_1 = 23;
+            public static final int TRANSIT_MOTOR_PORT_2 = 24;
+
+            public static final int LEFT_CLIMBER_PORT = 26;
+            public static final int RIGHT_CLIMBER_PORT = 27;
         }
 
         public static class CONTROLLER {
@@ -168,6 +182,21 @@ public final class RobotConstants {
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
     }
 
+    // There is a good chance this will have to be changed
+    
+    public static final class ShooterConstants {
+        public static final double SHOOTER_MOTOR_SPEED = 0.5;
+    }
+
+    public static final class TransitConstants {
+        public static final double TRANSIT_MOTOR_SPEED = 0.2;
+    }
+
+    public static class LightConstants {
+        public static final int kLightCount = 8;
+        public static final double kLightBrightness = 0.5;
+      }
+    
     public static final class ClimberConstants {
         public static final int CLIMBER_MOTOR_1_PORT = 21;
         public static final int CLIMBER_MOTOR_2_PORT = 22;
