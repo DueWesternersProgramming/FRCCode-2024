@@ -10,6 +10,7 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import frc.robot.RobotConstants.PortConstants;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
 public class LightSubsystem extends SubsystemBase {
 
@@ -17,19 +18,21 @@ public class LightSubsystem extends SubsystemBase {
     CANdleConfiguration candleConfig;
     
     public LightSubsystem(){
-        try{
-            candle = new CANdle(PortConstants.CAN.kLightPort);
-            candleConfig = new CANdleConfiguration();
-            candleConfig.stripType = LEDStripType.RGB;
-            candleConfig.statusLedOffWhenActive = true;
-            candleConfig.disableWhenLOS = false;
-            candleConfig.v5Enabled = true;
-            candleConfig.vBatOutputMode = VBatOutputMode.On;
-            candleConfig.brightnessScalar = LightConstants.kLightBrightness;
-            candle.configAllSettings(candleConfig);
-        }
-        catch (Exception e){
-            System.out.println("Error: " + e);
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
+            try{
+                candle = new CANdle(PortConstants.CAN.kLightPort);
+                candleConfig = new CANdleConfiguration();
+                candleConfig.stripType = LEDStripType.RGB;
+                candleConfig.statusLedOffWhenActive = true;
+                candleConfig.disableWhenLOS = false;
+                candleConfig.v5Enabled = true;
+                candleConfig.vBatOutputMode = VBatOutputMode.On;
+                candleConfig.brightnessScalar = LightConstants.kLightBrightness;
+                candle.configAllSettings(candleConfig);
+            }
+            catch (Exception e){
+                System.out.println("Error: " + e);
+            }
         }
     }
 
@@ -41,7 +44,9 @@ public class LightSubsystem extends SubsystemBase {
      * @param animation The animation being set
      */
     public void setAnimation(Animation animation) {
-        candle.animate(animation);
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+            candle.animate(animation);
+        }
     }
 
     /**
@@ -53,11 +58,15 @@ public class LightSubsystem extends SubsystemBase {
      * @param slot The animation slot being used
      */
     public void setAnimation(Animation animation, int slot){
-        candle.animate(animation, slot);
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+            candle.animate(animation, slot);
+        }
     }
 
     public void stopAnimation(int slot){
-        candle.clearAnimation(slot);
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+            candle.clearAnimation(slot);
+        }
     }
 
     /**
@@ -68,7 +77,9 @@ public class LightSubsystem extends SubsystemBase {
      * @param blue The amount of blue from 0-255
      */
     public void setColor(int red, int green, int blue){
-        candle.setLEDs(red, green, blue);
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+            candle.setLEDs(red, green, blue);
+        }
     }
 
     /**
@@ -81,17 +92,21 @@ public class LightSubsystem extends SubsystemBase {
      * @param startindex The starting LED for this setColor method
      * @param count The number of LEDs to apply this setColor method to
      */
-    public void setColor(int red, int green, int blue, int white, int startindex, int count){
-        candle.setLEDs(red, green, blue, white, startindex, count);
+    public void setColor(int red, int green, int blue, int white, int startindex, int count){ 
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
+            candle.setLEDs(red, green, blue, white, startindex, count);
+        }
     }
 
     public double getCurrent() {
-        return candle.getCurrent();
+        return SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED ? candle.getCurrent() : 0;
     }
 
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Light Current", getCurrent());
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
+            SmartDashboard.putNumber("Light Current", getCurrent());
+        }
     }
 }
