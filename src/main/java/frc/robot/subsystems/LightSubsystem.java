@@ -13,12 +13,10 @@ import frc.robot.RobotConstants.PortConstants;
 
 public class LightSubsystem extends SubsystemBase {
 
-    //public final String setIdleMode = null;
     CANdle candle;
     CANdleConfiguration candleConfig;
     
     public LightSubsystem(){
-
         try{
             candle = new CANdle(PortConstants.CAN.kLightPort);
             candleConfig = new CANdleConfiguration();
