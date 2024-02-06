@@ -1,51 +1,65 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotConstants.IntakeConstants;
-import frc.robot.RobotConstants.PortConstants;
+import frc.robot.RobotConstants.ClimberConstants;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
+
 
 public class ClimberSubsystem extends SubsystemBase{
     
-    CANSparkMax leftClimberMotor = new CANSparkMax(PortConstants.CAN.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-    CANSparkMax rightClimberMotor = new CANSparkMax(PortConstants.CAN.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-    RelativeEncoder leftClimberEncoder = leftClimberMotor.getEncoder();
-    RelativeEncoder rightClimbEncoder = leftClimberMotor.getEncoder();
+    CANSparkMax climberMotor1;
+    CANSparkMax climberMotor2;
+    RelativeEncoder climber1RelativeEncoder;
+    RelativeEncoder climber2RelativeEncoder;
 
     public ClimberSubsystem(){
-        leftClimberMotor.setIdleMode(IdleMode.kBrake);
-        rightClimberMotor.setIdleMode(IdleMode.kBrake);
-        resetEncoder();
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
+            climberMotor1 = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_1_PORT, MotorType.kBrushless);
+            climberMotor2 = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_2_PORT, MotorType.kBrushless);
+            climberMotor1.setIdleMode(IdleMode.kBrake);
+            climberMotor2.setIdleMode(IdleMode.kBrake);
+            climber1RelativeEncoder = climberMotor1.getEncoder();
+            climber2RelativeEncoder = climberMotor2.getEncoder();
+            resetEncoders();
+        }
     }
 
     public double getSpeed() {
-        return leftClimberMotor.get();
+        return SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED ? climberMotor1.get() : 0;
     }
 
-
-    public double getLeftEncoderPosition() {
-        return leftClimberEncoder.getPosition();
+    public void setSpeed(double speed) {
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
+            climberMotor1.set(speed);
+            climberMotor2.set(speed);
+        }
     }
 
-    public double getRightEncoderPosition() {
-        return rightClimbEncoder.getPosition();
+    public double getEncoder1Position() {
+        return SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED ? climber1RelativeEncoder.getPosition() : 0;
     }
 
-    public void resetEncoder() {
-        leftClimberEncoder.setPosition(0.0);
-        rightClimbEncoder.setPosition(0.0);
+    public double getEncoder2Position() {
+        return SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED ? climber2RelativeEncoder.getPosition() : 0;
     }
-    public void brakeMode(){
-        leftClimberMotor.setIdleMode(IdleMode.kBrake);
-        rightClimberMotor.setIdleMode(IdleMode.kBrake);
+
+    public void resetEncoders() {
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
+            climber1RelativeEncoder.setPosition(0.0);
+            climber2RelativeEncoder.setPosition(0.0);
+        }
     }
 
     @Override
     public void periodic() {
-        
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
+            SmartDashboard.putNumber("Climber Speed", getSpeed());
+        }
     }
 }

@@ -136,8 +136,8 @@ public final class RobotConstants {
 
         public static class CONTROLLER {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
-            public static final int JOYSTICK = 0;
-            public static final int PANEL = 1;
+            public static final int DRIVE_JOYSTICK = 0;
+            public static final int OPERATOR_JOYSTICK = 1;
         }
     }
 
@@ -170,10 +170,14 @@ public final class RobotConstants {
 
     public static final class TeleopConstants {
         public static final double MAX_SPEED_PERCENT = 1;
+        public static final int DRIVE_COMMAND_X_AXIS = 0;
+        public static final int DRIVE_COMMAND_Y_AXIS = 1;
+        public static final int DRIVE_COMMAND_ROT_AXIS = 2;
+        public static final int CLIMBER_COMMAND_AXIS = 0;
     }
 
     public static final class IntakeConstants {
-        
+        public static final int INTAKE_MOTOR_PORT = 20;
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
     }
@@ -193,8 +197,17 @@ public final class RobotConstants {
         public static final double kLightBrightness = 0.5;
       }
     
-    public static class ClimberConstants {
-        
+    public static final class ClimberConstants {
+        public static final int CLIMBER_MOTOR_1_PORT = 21;
+        public static final int CLIMBER_MOTOR_2_PORT = 22;
+        public static final double CLIMBER_MOTOR_SPEED = 0.2;
+        public static final double CLIMBER_DOWN_POSITION = 0;
+        public static final double CLIMBER_UP_POSITION = 100;
     }
-    
+
+    public static final class SubsystemEnabledConstants {
+        public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
+        public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
+    }
 }
