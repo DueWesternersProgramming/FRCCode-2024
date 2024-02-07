@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
+import frc.robot.commands.intake.StartIntake;
+import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -52,6 +54,7 @@ public class RobotContainer {
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
+        shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
         
         configureButtonBindings();
 
@@ -64,10 +67,8 @@ public class RobotContainer {
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
 
-        new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        new JoystickButton(driveJoystick, 10).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem)));
+        new JoystickButton(operatorJoystick, 0).onTrue((new StopIntake(intakeSubsystem)));
     }
 
     public Command getAutonomousCommand() {

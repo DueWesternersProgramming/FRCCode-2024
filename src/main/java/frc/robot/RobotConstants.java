@@ -174,6 +174,7 @@ public final class RobotConstants {
         public static final int DRIVE_COMMAND_Y_AXIS = 1;
         public static final int DRIVE_COMMAND_ROT_AXIS = 2;
         public static final int CLIMBER_COMMAND_AXIS = 0;
+        public static final int SHOOTER_COMMAND_AXIS = 3;
     }
 
     public static final class IntakeConstants {
