@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.opencv.objdetect.FaceDetectorYN;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -70,8 +72,6 @@ public class VisionSubsystem extends SubsystemBase{
         return Double.NaN;
     }
 
-
-
     public double GetCamMode()
     {
         return limelightTableEntry.getEntry("camMode").getDouble(0);
@@ -101,12 +101,28 @@ public class VisionSubsystem extends SubsystemBase{
     {
         limelightTableEntry.getEntry("pipeline").setNumber(pipeline);
     }
-
-
+    public boolean hasValidAprilTag(){
+        double result = limelightTableEntry.getEntry("getpipe").getDouble(-1);
+        
+        if (result != -1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public double getTargetID(){
+        try{
+            return limelightTableEntry.getEntry("getpipe").getDouble(-1);
+        }
+        catch(Exception e){
+            return -1;
+        }
+    }
     @Override
     public void periodic() {
         // SmartDashboard.putNumber("tv", limelightTableEntry.getEntry("tv").getDouble(0));
-        // SmartDashboard.putNumber("tx", limelightTableEntry.getEntry("tx").getDouble(0));
+        SmartDashboard.putNumber("tx", limelightTableEntry.getEntry("tx").getDouble(0));
         // SmartDashboard.putNumber("ty", limelightTableEntry.getEntry("ty").getDouble(0));
         // SmartDashboard.putNumber("ta", limelightTableEntry.getEntry("ta").getDouble(0));
         // SmartDashboard.putNumber("camMode", limelightTableEntry.getEntry("camMode").getDouble(-1));
