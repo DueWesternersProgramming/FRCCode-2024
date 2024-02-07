@@ -1,19 +1,21 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class RobotConstants {
-    
     public static final class DrivetrainConstants {
         public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//5.30603;
         public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//3.31033;
         public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
         public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
     
+        public static final double DRIVE_BASE_RADIUS_METERS = 0.9;   //Needs to be measured
+
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
         public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
@@ -42,6 +44,16 @@ public final class RobotConstants {
     }
 
     public static final class SwerveModuleConstants {
+
+        public static final double TRANSLATION_P = 1.0;
+        public static final double ROT_MOTION_P = 0.0;
+
+        public static final double TRANSLATION_I = 0.0;
+        public static final double ROT_MOTION_I = 0.0;
+
+        public static final double TRANSLATION_D = 0.0;
+        public static final double ROT_MOTION_D = 0.0;
+
         public static final double FREE_SPEED_RPM = 5676;
 
         // The MAXSwerve module can be configured with one of three pinion gears: 12T,
@@ -137,7 +149,8 @@ public final class RobotConstants {
         public static class CONTROLLER {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
             public static final int DRIVE_JOYSTICK = 0;
-            public static final int OPERATOR_JOYSTICK = 1;
+            public static final int PANEL = 1;
+            public static final int OPERATOR_JOYSTICK = 2;
         }
     }
 
@@ -173,8 +186,8 @@ public final class RobotConstants {
         public static final int DRIVE_COMMAND_X_AXIS = 0;
         public static final int DRIVE_COMMAND_Y_AXIS = 1;
         public static final int DRIVE_COMMAND_ROT_AXIS = 2;
-        public static final int CLIMBER_COMMAND_AXIS = 0;
         public static final int SHOOTER_COMMAND_AXIS = 3;
+        public static final int CLIMBER_COMMAND_AXIS = 2;
     }
 
     public static final class IntakeConstants {
