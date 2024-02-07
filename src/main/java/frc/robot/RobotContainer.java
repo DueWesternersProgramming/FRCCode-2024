@@ -42,6 +42,7 @@ public class RobotContainer {
     private final Field2d field = new Field2d(); // a representation of the field
 
     public RobotContainer() {
+        System.out.println("HI");
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
         
         configureButtonBindings();
@@ -51,10 +52,10 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings(){
+        System.out.println("HI2");
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
-
         // new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         // new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));

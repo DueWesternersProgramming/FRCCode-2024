@@ -10,7 +10,7 @@ import frc.robot.subsystems.VisionSubsystem;
 public class AutoAimCommand extends Command {
     private final DriveSubsystem drive;
     private final VisionSubsystem visionSubsystem;
-    PIDController aimPidController = new PIDController(1, 0, 0);   //TODO: ADD CONSTANTS FOR THIS
+    PIDController aimPidController = new PIDController(.2, 0, 0);   //TODO: ADD CONSTANTS FOR THIS
 
     public AutoAimCommand(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
         this.drive = drive;
@@ -25,9 +25,9 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void execute() {
-        if (visionSubsystem.hasResults()){
-            double power = aimPidController.calculate(visionSubsystem.getTargetYaw(), 0);
-            drive.drive(0, 0, power, false, true);
+        if (visionSubsystem.HasValidTarget()){
+            double power = aimPidController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
+            drive.drive(0, power, 0, false, true);
         }
     }
 

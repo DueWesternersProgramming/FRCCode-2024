@@ -1,61 +1,116 @@
 package frc.robot.subsystems;
-import frc.robot.Robot;
-import frc.robot.RobotConstants.VisionConstants;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends SubsystemBase{
-    private PhotonCamera camera;
-    public VisionSubsystem(){
-        try {
-            camera = new PhotonCamera(VisionConstants.PHOTON_CAMERA_NAME);
-        }
-        catch (NullPointerException e) {
-            System.out.println("Vision subsytem error:"+e);
-        }
-    }
-
-    public int getAprilTagID() {
-        return getBestTarget().getFiducialId();
-    }
-
-    // private static boolean isValidTagId(int tagId) {
-    //     return tagId > 0 && tagId < 9;
-    // }
-
-    public void setPipeline(int index){
-        camera.setPipelineIndex(index);
-    }
-
-    public PhotonPipelineResult getResult(){
-        return camera.getLatestResult();
-    }
-
-    public boolean isCameraConnected(){
-        return camera.isConnected();
-        
-    }
+ 
+    NetworkTable limelightTableEntry; 
     
-    public boolean hasResults() {
-        return getResult().hasTargets();
-    }
-    public PhotonTrackedTarget getBestTarget(){
+    public VisionSubsystem(){
 
-        return getResult().getBestTarget();
-        
+        try{
+            limelightTableEntry = NetworkTableInstance.getDefault().getTable("limelight");
+            IntializeLimelight();
+        }
+        catch (Exception e){
+            System.out.println("Vision Error: " + e);
+        }
+
     }
-    public double getTargetYaw(){
-        return getBestTarget().getYaw();
+
+    public void IntializeLimelight()
+    {
+        SetLedMode(0);
+        SetCamMode(0);
+        SetActivePipeline(0);
     }
+
+    public boolean HasValidTarget()
+    {
+        double tv = limelightTableEntry.getEntry("tv").getDouble(0);
+
+        if(tv == 1)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public double GetTargetHorizontalOffset()
+    {
+        if(HasValidTarget())
+        {
+            return limelightTableEntry.getEntry("tx").getDouble(0);
+        }
+
+        return Double.NaN;
+    }
+
+    public double GetTargetVerticalOffset()
+    {
+        if(HasValidTarget())
+        {
+            return limelightTableEntry.getEntry("ty").getDouble(0);
+        }
+
+        return Double.NaN;
+    }
+
+    public double GetTargetArea()
+    {
+        if(HasValidTarget())
+        {
+            return limelightTableEntry.getEntry("ta").getDouble(0);
+        }
+
+        return Double.NaN;
+    }
+
+
+
+    public double GetCamMode()
+    {
+        return limelightTableEntry.getEntry("camMode").getDouble(0);
+    }
+
+    public double GetLedMode()
+    {
+        return limelightTableEntry.getEntry("ledMode").getDouble(0);
+    }
+
+    public double getActivePipeline()
+    {
+        return limelightTableEntry.getEntry("getpipe").getDouble(0);
+    }
+
+    public void SetCamMode(double camMode)
+    {
+        limelightTableEntry.getEntry("camMode").setNumber(camMode);
+    }
+
+    public void SetLedMode(double ledMode)
+    {
+        limelightTableEntry.getEntry("ledMode").setNumber(ledMode);
+    }
+
+    public void SetActivePipeline(int pipeline)
+    {
+        limelightTableEntry.getEntry("pipeline").setNumber(pipeline);
+    }
+
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Has a tracked object:", hasResults());
+        // SmartDashboard.putNumber("tv", limelightTableEntry.getEntry("tv").getDouble(0));
+        // SmartDashboard.putNumber("tx", limelightTableEntry.getEntry("tx").getDouble(0));
+        // SmartDashboard.putNumber("ty", limelightTableEntry.getEntry("ty").getDouble(0));
+        // SmartDashboard.putNumber("ta", limelightTableEntry.getEntry("ta").getDouble(0));
+        // SmartDashboard.putNumber("camMode", limelightTableEntry.getEntry("camMode").getDouble(-1));
+        // SmartDashboard.putNumber("ledmode", limelightTableEntry.getEntry("ledMode").getDouble(-1));
+        SmartDashboard.putNumber("pipeline", limelightTableEntry.getEntry("getpipe").getDouble(-1));
     }
 }

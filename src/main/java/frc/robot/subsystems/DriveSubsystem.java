@@ -422,9 +422,6 @@ public class DriveSubsystem extends SubsystemBase {
     public void calculateHeading() {
         if (ENABLED) {
             m_gyro.reset();
-            while (m_gyro.isCalibrating()) {
-                ;
-            }
         }
     }
 
