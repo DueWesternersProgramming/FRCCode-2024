@@ -156,6 +156,9 @@ public final class RobotConstants {
 
     public static final class VisionConstants {
         public static final String PHOTON_CAMERA_NAME = "photonvision";
+        public static final double AUTO_ALIGN_P = 0.25;
+        public static final double AUTO_ALIGN_I = 0;
+        public static final double AUTO_ALIGN_D = 0;
     }
 
     public static final class TeleopConstants {

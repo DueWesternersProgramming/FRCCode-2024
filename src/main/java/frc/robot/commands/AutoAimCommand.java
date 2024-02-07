@@ -4,14 +4,15 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
+import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class AutoAimCommand extends Command {
     private final DriveSubsystem drive;
     private final VisionSubsystem visionSubsystem;
-    PIDController aimPidController = new PIDController(.2, 0, 0);   //TODO: ADD CONSTANTS FOR THIS
-
+    PIDController xPIDController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
+    PIDController yPidController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
     public AutoAimCommand(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
         this.drive = drive;
         this.visionSubsystem = visionSubsystem;
@@ -26,8 +27,9 @@ public class AutoAimCommand extends Command {
     @Override
     public void execute() {
         if (visionSubsystem.HasValidTarget()){
-            double power = aimPidController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
-            drive.drive(0, power, 0, false, true);
+            double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
+            double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
+            drive.drive(0, xPower, 0, false, true);
         }
     }
 
