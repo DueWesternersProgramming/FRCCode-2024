@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -36,13 +38,14 @@ public class RobotContainer {
 
     PowerDistribution PDP = new PowerDistribution(16, ModuleType.kRev);
 
-    private final Field2d field = new Field2d(); // a representation of the field
+    private final Field2d field = new Field2d();
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
         
         configureButtonBindings();
-
+        
+        m_autoPositionChooser = AutoBuilder.buildAutoChooser();
         Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
         Shuffleboard.getTab("Power").add(PDP);
     }
@@ -50,7 +53,8 @@ public class RobotContainer {
     private void configureButtonBindings(){
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));    }
+        new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
+    }
 
     public Command getAutonomousCommand() {
         return m_autoPositionChooser.getSelected();
@@ -65,12 +69,14 @@ public class RobotContainer {
         public static boolean xLocked = false;
     }
 
+
     //     public TrajectoryConfig createTrajectoryConfig() {
     //     TrajectoryConfig config = new TrajectoryConfig(
     //             RobotConstants.AutonomousConstants.MAX_SPEED_METERS_PER_SECOND,
     //             RobotConstants.AutonomousConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
     //             .setKinematics(DrivetrainConstants.DRIVE_KINEMATICS);
 
+    
     //     return config;
     // }
 
