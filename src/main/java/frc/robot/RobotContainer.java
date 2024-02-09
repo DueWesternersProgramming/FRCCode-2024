@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -12,8 +14,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AutoAimCommand;
+
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GyroReset;
 import frc.robot.commands.TwistCommand;
@@ -39,14 +43,15 @@ public class RobotContainer {
 
     PowerDistribution PDP = new PowerDistribution(16, ModuleType.kRev);
 
-    private final Field2d field = new Field2d(); // a representation of the field
+    private final Field2d field = new Field2d();
 
     public RobotContainer() {
         System.out.println("HI");
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
         
         configureButtonBindings();
-
+        AutoBuilder.buildAuto("lineAuto");
+        m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
         Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
         Shuffleboard.getTab("Power").add(PDP);
     }
@@ -56,11 +61,13 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
+
         // new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         // new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // new JoystickButton(driveJoystick, 10).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
+
     }
 
     public Command getAutonomousCommand() {
@@ -76,12 +83,14 @@ public class RobotContainer {
         public static boolean xLocked = false;
     }
 
+
     //     public TrajectoryConfig createTrajectoryConfig() {
     //     TrajectoryConfig config = new TrajectoryConfig(
     //             RobotConstants.AutonomousConstants.MAX_SPEED_METERS_PER_SECOND,
     //             RobotConstants.AutonomousConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
     //             .setKinematics(DrivetrainConstants.DRIVE_KINEMATICS);
 
+    
     //     return config;
     // }
 

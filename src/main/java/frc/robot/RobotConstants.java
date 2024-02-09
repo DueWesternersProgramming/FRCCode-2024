@@ -13,6 +13,8 @@ public final class RobotConstants {
         public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
         public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
     
+        public static final double DRIVE_BASE_RADIUS_METERS = 0.9;   //Needs to be measured
+
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
         public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
@@ -41,6 +43,16 @@ public final class RobotConstants {
     }
 
     public static final class SwerveModuleConstants {
+
+        public static final double TRANSLATION_P = 1.0;
+        public static final double ROT_MOTION_P = 0.0;
+
+        public static final double TRANSLATION_I = 0.0;
+        public static final double ROT_MOTION_I = 0.0;
+
+        public static final double TRANSLATION_D = 0.0;
+        public static final double ROT_MOTION_D = 0.0;
+
         public static final double FREE_SPEED_RPM = 5676;
 
         // The MAXSwerve module can be configured with one of three pinion gears: 12T,
