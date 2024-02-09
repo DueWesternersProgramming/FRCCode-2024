@@ -28,8 +28,9 @@ public class AutoAimCommand extends Command {
     public void execute() {
         if (visionSubsystem.HasValidTarget()){
             double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
-            double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, xPower, 0, false, true);
+            xPIDController.setTolerance(2);
+            //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
+            drive.drive(0, 0, -xPower*0.15, false, true);
         }
     }
 
