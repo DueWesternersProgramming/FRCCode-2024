@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class DeployIntake extends Command {
+public class RetractIntake extends Command {
     private final IntakeSubsystem intake;
     private boolean finished;
     
-     public DeployIntake(IntakeSubsystem intake) {
+     public RetractIntake(IntakeSubsystem intake) {
         this.intake = intake;
         addRequirements(intake);
     }
@@ -20,8 +20,8 @@ public class DeployIntake extends Command {
     
     @Override
     public void execute() {
-        if (intake.getIntakeDeploymentEncoderPosition() <= IntakeConstants.INTAKE_DEPLOYED_POSITION){
-            intake.setIntakeDeploymentMotorSpeed(IntakeConstants.INTAKE_DEPLOYMENT_SPEED);
+        if (intake.getIntakeDeploymentEncoderPosition() >= IntakeConstants.INTAKE_RETRACTED_POSITION){
+            intake.setIntakeDeploymentMotorSpeed(-IntakeConstants.INTAKE_DEPLOYMENT_SPEED);
           }
           else{
             finished = true;

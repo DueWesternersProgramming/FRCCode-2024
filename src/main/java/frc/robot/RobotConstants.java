@@ -195,9 +195,9 @@ public final class RobotConstants {
         
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
-        
+
         public static final double INTAKE_DEPLOYED_POSITION = 100.0;        //needs measuring
-        public static final double INTAKE_RETRACTED_POSITION = 0.0;
+        public static final double INTAKE_RETRACTED_POSITION = 10.0;
 
         public static final double INTAKE_DEPLOYMENT_SPEED = 0.05;
     }
