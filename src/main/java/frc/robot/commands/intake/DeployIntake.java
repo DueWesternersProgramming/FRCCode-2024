@@ -6,6 +6,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class DeployIntake extends Command {
     private final IntakeSubsystem intake;
+    private boolean finished;
     
      public DeployIntake(IntakeSubsystem intake) {
         this.intake = intake;
@@ -14,21 +15,17 @@ public class DeployIntake extends Command {
 
     @Override
     public void initialize() {
-        intake.setIntakeDeploymentMotorSpeed(0.05);
-        while (intake.getIntakeDeploymentEncoderPosition() <= 100) {}
-        
+        finished = false;  
+    }
+    
+    @Override
+    public void execute() {
         if (intake.getIntakeDeploymentEncoderPosition() < IntakeConstants.INTAKE_DEPLOYED_POSITION){
             intake.setIntakeDeploymentMotorSpeed(IntakeConstants.INTAKE_DEPLOYMENT_SPEED);
           }
           else{
             finished = true;
           }
-    }
-    }
-    
-    @Override
-    public void execute() {
-
     }
     
     @Override
@@ -38,6 +35,6 @@ public class DeployIntake extends Command {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return finished;
     }
 }
