@@ -11,7 +11,6 @@ import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
-
 public class IntakeSubsystem extends SubsystemBase{
     
     CANSparkMax intakeMotor;
