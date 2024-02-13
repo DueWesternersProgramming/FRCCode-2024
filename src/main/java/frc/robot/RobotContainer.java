@@ -19,6 +19,10 @@ import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.shooter.StartShooter;
+import frc.robot.commands.shooter.StopShooter;
+import frc.robot.commands.transit.StartTransit;
+import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -68,7 +72,11 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
 
         new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem)));
-        new JoystickButton(operatorJoystick, 0).onTrue((new StopIntake(intakeSubsystem)));
+        new JoystickButton(operatorJoystick, 1).onTrue((new StopIntake(intakeSubsystem)));
+        new JoystickButton(operatorJoystick, 2).onTrue((new StartShooter(shooterSubsystem)));
+        new JoystickButton(operatorJoystick, 1).onTrue((new StopShooter(shooterSubsystem)));
+        new JoystickButton(operatorJoystick, 4).onTrue((new StartTransit(transitSubsystem)));
+        new JoystickButton(operatorJoystick, 5).onTrue((new StopTransit(transitSubsystem)));
     }
 
     public Command getAutonomousCommand() {
