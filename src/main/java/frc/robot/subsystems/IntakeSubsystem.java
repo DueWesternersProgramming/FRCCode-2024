@@ -58,6 +58,10 @@ public class IntakeSubsystem extends SubsystemBase{
         return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeEncoder.getPosition() : 0;
     }
 
+    public double getIntakeDeploymentEncoderPosition() {
+        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeDeploymentEncoder.getPosition() : 0;
+    }
+
     public void resetIntakeEncoder() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             intakeEncoder.setPosition(0.0);
@@ -69,7 +73,7 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeDeploymentEncoder.setPosition(0.0);
         }
     }
-    public void setIntakeDeploymentMoterSpeed(double speed) {
+    public void setIntakeDeploymentMotorSpeed(double speed) {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             intakeDeploymentMotor.set(speed);
         }
