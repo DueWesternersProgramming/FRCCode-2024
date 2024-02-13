@@ -121,6 +121,7 @@ public final class RobotConstants {
             public static final int REAR_RIGHT_STEERING = 4;
 
             public static final int INTAKE_MOTOR_PORT = 20;
+            public static final int INTAKE_DEPLOYMENT_MOTOR_PORT = 28;
 
             public static final int kLightPort = 25;
 
@@ -178,15 +179,17 @@ public final class RobotConstants {
     }
 
     public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_PORT = 20;
+        
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
+        public static final double INTAKE_DEPLOYED_POSITION = 100.0;        //needs measuring
+        public static final double INTAKE_RETRACTED_POSITION = 0.0;
     }
 
     // There is a good chance this will have to be changed
     
     public static final class ShooterConstants {
-        public static final double SHOOTER_MOTOR_SPEED = 0.5;
+        public static final double SHOOTER_MOTOR_SPEED = 1;
     }
 
     public static final class TransitConstants {
