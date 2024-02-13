@@ -13,7 +13,7 @@ public final class RobotConstants {
         public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
         public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
     
-        public static final double DRIVE_BASE_RADIUS_METERS = 0.9;   //Needs to be measured
+        public static final double DRIVE_BASE_RADIUS_METERS = 0.52705;   
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
@@ -55,11 +55,6 @@ public final class RobotConstants {
 
         public static final double FREE_SPEED_RPM = 5676;
 
-        // The MAXSwerve module can be configured with one of three pinion gears: 12T,
-        // 13T, or 14T.
-        // This changes the drive speed of the module (a pinion gear with more teeth
-        // will result in a
-        // robot that drives faster).
         public static final int kDrivingMotorPinionTeeth = 14;
 
         // Invert the turning encoder, since the output shaft rotates in the opposite
