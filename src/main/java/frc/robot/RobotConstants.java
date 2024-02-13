@@ -221,10 +221,10 @@ public final class RobotConstants {
 
     public static final class SubsystemEnabledConstants {
         public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
-        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
-        public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
-        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
-        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
-        public static final boolean LIGHT_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
+        public static final boolean INTAKE_SUBSYSTEM_ENABLED = false;
+        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = false;
+        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = false;
+        public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
     }
 }
