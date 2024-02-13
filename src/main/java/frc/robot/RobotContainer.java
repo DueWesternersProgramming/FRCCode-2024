@@ -51,6 +51,7 @@ public class RobotContainer {
         
         configureButtonBindings();
         AutoBuilder.buildAuto("lineAuto");
+
         m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
         Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
         Shuffleboard.getTab("Power").add(PDP);

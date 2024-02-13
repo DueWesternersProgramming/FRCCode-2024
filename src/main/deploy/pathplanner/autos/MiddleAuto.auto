@@ -16,6 +16,25 @@
           "data": {
             "pathName": "MiddleTrajectory1"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeOn"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeO"
+                }
+              }
+            ]
+          }
         }
       ]
     }
