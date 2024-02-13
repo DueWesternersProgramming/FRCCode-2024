@@ -14,17 +14,29 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.commands.drive.GyroReset;
+import frc.robot.commands.drive.TwistCommand;
+import frc.robot.commands.drive.XCommand;
+import frc.robot.commands.intake.StartIntake;
+import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.shooter.StartShooter;
+import frc.robot.commands.shooter.StopShooter;
+import frc.robot.commands.transit.StartTransit;
+import frc.robot.commands.transit.StopTransit;
+import frc.robot.commands.climber.ClimberCommand;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TransitSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AutoAimCommand;
 
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GyroReset;
-import frc.robot.commands.TwistCommand;
-import frc.robot.commands.XCommand;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -36,8 +48,14 @@ public class RobotContainer {
 
     public final DriveSubsystem driveSubsystem = new DriveSubsystem();
     public final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    public final TransitSubsystem transitSubsystem = new TransitSubsystem();
+    public final LightSubsystem lightSubsystem = new LightSubsystem();
+    public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-    private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.JOYSTICK);
+
+    private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.DRIVE_JOYSTICK);
+    private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.OPERATOR_JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
 
@@ -48,6 +66,8 @@ public class RobotContainer {
     public RobotContainer() {
         System.out.println("HI");
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
+        climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
+        shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
         
         configureButtonBindings();
         AutoBuilder.buildAuto("lineAuto");
@@ -62,13 +82,13 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
-
-        // new JoystickButton(driveJoystick, 7).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        // new JoystickButton(driveJoystick, 8).whileTrue(driveSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        // new JoystickButton(driveJoystick, 9).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        // new JoystickButton(driveJoystick, 10).whileTrue(driveSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
-
+        new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem)));
+        new JoystickButton(operatorJoystick, 1).onTrue((new StopIntake(intakeSubsystem)));
+        new JoystickButton(operatorJoystick, 2).onTrue((new StartShooter(shooterSubsystem)));
+        new JoystickButton(operatorJoystick, 1).onTrue((new StopShooter(shooterSubsystem)));
+        new JoystickButton(operatorJoystick, 4).onTrue((new StartTransit(transitSubsystem)));
+        new JoystickButton(operatorJoystick, 5).onTrue((new StopTransit(transitSubsystem)));
     }
 
     public Command getAutonomousCommand() {

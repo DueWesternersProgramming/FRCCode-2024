@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -125,12 +126,27 @@ public final class RobotConstants {
             public static final int FRONT_RIGHT_STEERING = 2;
             public static final int REAR_LEFT_STEERING = 3;
             public static final int REAR_RIGHT_STEERING = 4;
+
+            public static final int INTAKE_MOTOR_PORT = 20;
+            public static final int INTAKE_DEPLOYMENT_MOTOR_PORT = 28;
+
+            public static final int kLightPort = 25;
+
+            public static final int SHOOTER_MOTOR_PORT_1 = 21;
+            public static final int SHOOTER_MOTOR_PORT_2 = 22;
+
+            public static final int TRANSIT_MOTOR_PORT_1 = 23;
+            public static final int TRANSIT_MOTOR_PORT_2 = 24;
+
+            public static final int LEFT_CLIMBER_PORT = 26;
+            public static final int RIGHT_CLIMBER_PORT = 27;
         }
 
         public static class CONTROLLER {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
-            public static final int JOYSTICK = 0;
+            public static final int DRIVE_JOYSTICK = 0;
             public static final int PANEL = 1;
+            public static final int OPERATOR_JOYSTICK = 2;
         }
     }
 
@@ -170,11 +186,50 @@ public final class RobotConstants {
 
     public static final class TeleopConstants {
         public static final double MAX_SPEED_PERCENT = 1;
+        public static final int DRIVE_COMMAND_X_AXIS = 0;
+        public static final int DRIVE_COMMAND_Y_AXIS = 1;
+        public static final int DRIVE_COMMAND_ROT_AXIS = 2;
+        public static final int SHOOTER_COMMAND_AXIS = 3;
+        public static final int CLIMBER_COMMAND_AXIS = 2;
     }
 
     public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_PORT = 20;
+        
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
+        public static final double INTAKE_DEPLOYED_POSITION = 100.0;        //needs measuring
+        public static final double INTAKE_RETRACTED_POSITION = 0.0;
+    }
+
+    // There is a good chance this will have to be changed
+    
+    public static final class ShooterConstants {
+        public static final double SHOOTER_MOTOR_SPEED = 1;
+    }
+
+    public static final class TransitConstants {
+        public static final double TRANSIT_MOTOR_SPEED = 0.2;
+    }
+
+    public static class LightConstants {
+        public static final int kLightCount = 8;
+        public static final double kLightBrightness = 0.5;
+      }
+    
+    public static final class ClimberConstants {
+        public static final int CLIMBER_MOTOR_1_PORT = 21;
+        public static final int CLIMBER_MOTOR_2_PORT = 22;
+        public static final double CLIMBER_MOTOR_SPEED = 0.2;
+        public static final double CLIMBER_DOWN_POSITION = 0;
+        public static final double CLIMBER_UP_POSITION = 100;
+    }
+
+    public static final class SubsystemEnabledConstants {
+        public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
+        public static final boolean INTAKE_SUBSYSTEM_ENABLED = false;
+        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = false;
+        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = false;
+        public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
     }
 }

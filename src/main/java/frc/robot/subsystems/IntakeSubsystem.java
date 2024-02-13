@@ -8,43 +8,77 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
+import frc.robot.RobotConstants.PortConstants;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
 public class IntakeSubsystem extends SubsystemBase{
     
-    CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-    RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
+    CANSparkMax intakeMotor;
+    CANSparkMax intakeDeploymentMotor;
+    RelativeEncoder intakeDeploymentEncoder;
+    RelativeEncoder intakeEncoder;
 
     public IntakeSubsystem(){
-        intakeMotor.setIdleMode(IdleMode.kBrake);
-        resetEncoder();
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeMotor = new CANSparkMax(PortConstants.CAN.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+            intakeMotor.setIdleMode(IdleMode.kBrake);
+            intakeEncoder = intakeMotor.getEncoder();
+
+            intakeDeploymentMotor = new CANSparkMax(PortConstants.CAN.INTAKE_DEPLOYMENT_MOTOR_PORT, MotorType.kBrushless);
+            intakeDeploymentEncoder = intakeDeploymentMotor.getEncoder();
+            resetIntakeEncoder();
+            //resetIntakeDeploymentEncoder();
+        }
     }
 
-    public double getSpeed() {
-        return intakeMotor.get();
+    public double getIntakeSpeed() {
+        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeMotor.get() : 0;
     }
 
     public void intakeOn(){
-        intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
+        }
     }
 
     public void intakeReverse(){
-        intakeMotor.set(IntakeConstants.INTAKE_REVERSE_MOTOR_SPEED);
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeMotor.set(IntakeConstants.INTAKE_REVERSE_MOTOR_SPEED);
+        }
     }
 
     public void intakeOff(){
-        intakeMotor.set(0);
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeMotor.set(0);
+        }
     }
 
-    public double getEncoderPosition() {
-        return intakeEncoder.getPosition();
+    public double getIntakeEncoderPosition() {
+        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeEncoder.getPosition() : 0;
     }
 
-    public void resetEncoder() {
-        intakeEncoder.setPosition(0.0);
+    public void resetIntakeEncoder() {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeEncoder.setPosition(0.0);
+        }
+    }
+
+    public void resetIntakeDeploymentEncoder() {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeDeploymentEncoder.setPosition(0.0);
+        }
+    }
+    public void setIntakeDeploymentMoterSpeed(double speed) {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeDeploymentMotor.set(speed);
+        }
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Intake Speed", getSpeed());
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
+            SmartDashboard.putNumber("Intake position", intakeDeploymentEncoder.getPosition());
+        }
     }
 }
