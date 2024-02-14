@@ -103,5 +103,6 @@ public class VisionSubsystem extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putNumber("tx", cameraTableEntry.getEntry("tx").getDouble(0));
         SmartDashboard.putNumber("pipeline", cameraTableEntry.getEntry("getpipe").getDouble(-1));
+        SmartDashboard.putNumber("Apriltag ID that I see:", getTargetID());
     }
 }

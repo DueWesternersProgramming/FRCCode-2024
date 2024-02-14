@@ -26,12 +26,6 @@
                 "data": {
                   "name": "intakeOn"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeO"
-                }
               }
             ]
           }
