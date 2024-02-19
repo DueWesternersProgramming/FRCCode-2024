@@ -128,7 +128,6 @@ public final class RobotConstants {
             public static final int REAR_RIGHT_STEERING = 4;
 
             public static final int INTAKE_MOTOR_PORT = 20;
-            public static final int INTAKE_DEPLOYMENT_MOTOR_PORT = 28;
 
             public static final int kLightPort = 25;
 
@@ -181,7 +180,7 @@ public final class RobotConstants {
         public static final String PHOTON_CAMERA_NAME = "photonvision";
         public static final double AUTO_ALIGN_P = 0.05;
         public static final double AUTO_ALIGN_I = 0;
-        public static final double AUTO_ALIGN_D = 45;
+        public static final double AUTO_ALIGN_D = 55;
     }
 
     public static final class TeleopConstants {
@@ -198,10 +197,6 @@ public final class RobotConstants {
         public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
 
-        public static final double INTAKE_DEPLOYED_POSITION = 100.0;        //needs measuring
-        public static final double INTAKE_RETRACTED_POSITION = 10.0;
-
-        public static final double INTAKE_DEPLOYMENT_SPEED = 0.05;
     }
 
     // There is a good chance this will have to be changed
@@ -220,8 +215,7 @@ public final class RobotConstants {
       }
     
     public static final class ClimberConstants {
-        public static final int CLIMBER_MOTOR_1_PORT = 21;
-        public static final int CLIMBER_MOTOR_2_PORT = 22;
+        
         public static final double CLIMBER_MOTOR_SPEED = 0.2;
         public static final double CLIMBER_DOWN_POSITION = 0;
         public static final double CLIMBER_UP_POSITION = 100;
@@ -231,8 +225,8 @@ public final class RobotConstants {
         public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
         public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
         public static final boolean INTAKE_SUBSYSTEM_ENABLED = false;
-        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = false;
-        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = false;
+        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
+        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
         public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
     }
 }

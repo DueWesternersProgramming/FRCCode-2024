@@ -7,7 +7,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotConstants.ClimberConstants;
+import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
 
@@ -20,8 +20,8 @@ public class ClimberSubsystem extends SubsystemBase{
 
     public ClimberSubsystem(){
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
-            climberMotor1 = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_1_PORT, MotorType.kBrushless);
-            climberMotor2 = new CANSparkMax(ClimberConstants.CLIMBER_MOTOR_2_PORT, MotorType.kBrushless);
+            climberMotor1 = new CANSparkMax(PortConstants.CAN.LEFT_CLIMBER_PORT, MotorType.kBrushless);
+            climberMotor2 = new CANSparkMax(PortConstants.CAN.RIGHT_CLIMBER_PORT, MotorType.kBrushless);
             climberMotor1.setIdleMode(IdleMode.kBrake);
             climberMotor2.setIdleMode(IdleMode.kBrake);
             climber1RelativeEncoder = climberMotor1.getEncoder();
