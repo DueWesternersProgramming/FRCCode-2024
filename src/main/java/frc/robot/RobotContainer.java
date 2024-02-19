@@ -70,7 +70,7 @@ public class RobotContainer {
         shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
         
         configureButtonBindings();
-        AutoBuilder.buildAuto("lineAuto");
+        //AutoBuilder.buildAuto("lineAuto");
 
         m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
         Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
@@ -83,10 +83,13 @@ public class RobotContainer {
         new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
+        
         new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem)));
         new JoystickButton(operatorJoystick, 1).onTrue((new StopIntake(intakeSubsystem)));
-        new JoystickButton(operatorJoystick, 2).onTrue((new StartShooter(shooterSubsystem)));
-        new JoystickButton(operatorJoystick, 1).onTrue((new StopShooter(shooterSubsystem)));
+        
+        new JoystickButton(operatorJoystick, 2).whileTrue((new StartShooter(shooterSubsystem))).whileFalse(new StopShooter(shooterSubsystem));
+        //new JoystickButton(operatorJoystick, 1).onTrue((new StopShooter(shooterSubsystem)));
+
         new JoystickButton(operatorJoystick, 4).onTrue((new StartTransit(transitSubsystem)));
         new JoystickButton(operatorJoystick, 5).onTrue((new StopTransit(transitSubsystem)));
     }
