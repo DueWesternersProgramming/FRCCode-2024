@@ -38,15 +38,15 @@ public class TransitSubsystem extends SubsystemBase{
 
     public void transitOn(){
         if (SubsystemEnabledConstants.TRANSIT_SUBSYSTEM_ENABLED){
-            transitMotor1.set(TransitConstants.TRANSIT_MOTOR_SPEED);
-            transitMotor2.set(-TransitConstants.TRANSIT_MOTOR_SPEED);
+            transitMotor1.set(-TransitConstants.TRANSIT_MOTOR_SPEED);
+            transitMotor2.set(TransitConstants.TRANSIT_MOTOR_SPEED);
         }
     }
 
     public void SetTransitSpeed(double speed){
         if (SubsystemEnabledConstants.TRANSIT_SUBSYSTEM_ENABLED){
-            transitMotor1.set(speed);
-            transitMotor2.set(-speed);
+            transitMotor1.set(-speed);
+            transitMotor2.set(speed);
         }
     }
 
