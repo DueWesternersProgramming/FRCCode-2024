@@ -145,6 +145,9 @@ public class DriveSubsystem extends SubsystemBase {
     private double getGyroAngle() {
         return m_gyro.getAngle();
     }
+    public double getHeadingDegrees() {
+        return m_gyro.getRotation2d().getDegrees();
+      }
 
     @Override
     public void periodic() {
@@ -382,6 +385,7 @@ public class DriveSubsystem extends SubsystemBase {
         return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()).getDegrees())
                 : Optional.empty();
     }
+    
 
     /**
      * Returns the turn rate of the robot.

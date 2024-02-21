@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.GyroReset;
+import frc.robot.commands.drive.SnapToHeadingCommand;
 import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
@@ -103,12 +104,13 @@ public class RobotContainer {
         
         new JoystickButton(operatorJoystick, 1).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
 
-        new JoystickButton(operatorJoystick, 2).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
+        new JoystickButton(operatorJoystick, 2).whileTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
 
-        
-        //new JoystickButton(operatorJoystick, 4).onTrue();
 
-        //new POVButton(driveJoystick, 0).whileTrue();
+        new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
+        new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
+        new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
+        new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
     }
 
     public Command getAutonomousCommand() {

@@ -164,9 +164,17 @@ public final class RobotConstants {
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
         public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
 
-        public static final double X_CONTROLLER_P = 1;
-        public static final double Y_CONTROLLER_P = 1;
-        public static final double THETA_CONTROLLER_P = 1;
+        public static final double X_CONTROLLER_P = 0.05;
+        public static final double Y_CONTROLLER_P = 0.02;
+        public static final double THETA_CONTROLLER_P = 0.02;
+
+        public static final double X_CONTROLLER_I = 0;
+        public static final double Y_CONTROLLER_I = 0;
+        public static final double THETA_CONTROLLER_I = 0;
+
+        public static final double X_CONTROLLER_D = 50;
+        public static final double Y_CONTROLLER_D = 50;
+        public static final double THETA_CONTROLLER_D = 50;
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
