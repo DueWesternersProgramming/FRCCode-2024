@@ -29,7 +29,7 @@ public class SnapToHeadingCommand extends Command {
             
             rotPIDController.setTolerance(2);
             //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, 0, -xPower*0.15, false, true);
+            drive.drive(0, 0, -xPower*0.1, false, true);
         }
 
     @Override
