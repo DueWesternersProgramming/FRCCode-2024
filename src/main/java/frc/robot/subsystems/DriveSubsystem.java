@@ -18,6 +18,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -58,6 +61,12 @@ public class DriveSubsystem extends SubsystemBase {
     private SwerveDrivePoseEstimator  m_odometry;
 
     Field2d field = new Field2d();
+
+    Pose2d pose = new Pose2d();
+    Pose2d pose2 = new Pose2d();
+    
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
+    StructArrayPublisher<Pose2d> arrayPublisher = NetworkTableInstance.getDefault().getStructArrayTopic("MyPoseArray", Pose2d.struct).publish();
 
     /** Creates a new Drivetrain. */
     public DriveSubsystem() {
@@ -175,7 +184,10 @@ public class DriveSubsystem extends SubsystemBase {
                     m_frontRight.getTurningAbsoluteEncoder().getPosition(),
                     m_rearLeft.getTurningAbsoluteEncoder().getPosition(),
                     m_rearRight.getTurningAbsoluteEncoder().getPosition()
-            });
+            }); 
+
+        
+            
 
             SmartDashboard.putNumber("LEFT", m_rearRight.getTurningAbsoluteEncoder().getPosition());
             
@@ -191,6 +203,11 @@ public class DriveSubsystem extends SubsystemBase {
                             m_rearLeft.getPosition(),
                             m_rearRight.getPosition()
                     });
+
+                    publisher.set(pose);
+                    arrayPublisher.set(new Pose2d[] {pose, pose2});
+
+            
 
         }
     }
