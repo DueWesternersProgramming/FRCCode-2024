@@ -29,6 +29,7 @@ import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.camera.AutoAimCommand;
 import frc.robot.commands.climber.ClimberCommand;
+import frc.robot.commands.auto.TransitShootCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -52,7 +53,7 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-
+    public final TransitShootCommand transitShootCommand = new TransitShootCommand(shooterSubsystem, transitSubsystem);
     private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.OPERATOR_JOYSTICK);
 
@@ -102,7 +103,10 @@ public class RobotContainer {
         
         new JoystickButton(operatorJoystick, 2).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
 
-        new JoystickButton(operatorJoystick, 1).onTrue(new StartTransit(transitSubsystem)).onFalse(new StopTransit(transitSubsystem));
+        new JoystickButton(operatorJoystick, 1).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
+
+        
+        //new JoystickButton(operatorJoystick, 4).onTrue();
 
         //new POVButton(driveJoystick, 0).whileTrue();
     }

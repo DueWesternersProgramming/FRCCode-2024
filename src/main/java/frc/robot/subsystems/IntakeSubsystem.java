@@ -14,8 +14,6 @@ import frc.robot.RobotConstants.SubsystemEnabledConstants;
 public class IntakeSubsystem extends SubsystemBase{
     
     CANSparkMax intakeMotor;
-    CANSparkMax intakeDeploymentMotor;
-    RelativeEncoder intakeDeploymentEncoder;
     RelativeEncoder intakeEncoder;
 
     public IntakeSubsystem(){
@@ -24,11 +22,7 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeMotor.setIdleMode(IdleMode.kBrake);
             intakeEncoder = intakeMotor.getEncoder();
             intakeMotor.burnFlash();
-            intakeDeploymentMotor = new CANSparkMax(PortConstants.CAN.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-            intakeDeploymentEncoder = intakeDeploymentMotor.getEncoder();
-            intakeDeploymentMotor.burnFlash();
             resetIntakeEncoder();
-            //resetIntakeDeploymentEncoder();
         }
     }
 
@@ -58,24 +52,9 @@ public class IntakeSubsystem extends SubsystemBase{
         return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeEncoder.getPosition() : 0;
     }
 
-    public double getIntakeDeploymentEncoderPosition() {
-        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeDeploymentEncoder.getPosition() : 0;
-    }
-
     public void resetIntakeEncoder() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             intakeEncoder.setPosition(0.0);
-        }
-    }
-
-    public void resetIntakeDeploymentEncoder() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
-            intakeDeploymentEncoder.setPosition(0.0);
-        }
-    }
-    public void setIntakeDeploymentMotorSpeed(double speed) {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
-            intakeDeploymentMotor.set(speed);
         }
     }
 
@@ -83,7 +62,6 @@ public class IntakeSubsystem extends SubsystemBase{
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
-            SmartDashboard.putNumber("Intake position", intakeDeploymentEncoder.getPosition());
         }
     }
 }
