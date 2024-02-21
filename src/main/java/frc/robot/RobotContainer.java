@@ -101,9 +101,9 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem))).onFalse(new StopIntake(intakeSubsystem));
         
         
-        new JoystickButton(operatorJoystick, 2).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
+        new JoystickButton(operatorJoystick, 1).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
 
-        new JoystickButton(operatorJoystick, 1).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
+        new JoystickButton(operatorJoystick, 2).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
 
         
         //new JoystickButton(operatorJoystick, 4).onTrue();

@@ -145,7 +145,7 @@ public final class RobotConstants {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
             public static final int DRIVE_JOYSTICK = 0;
             public static final int PANEL = 1;
-            public static final int OPERATOR_JOYSTICK = 2;
+            public static final int OPERATOR_JOYSTICK = 1;
         }
     }
 
