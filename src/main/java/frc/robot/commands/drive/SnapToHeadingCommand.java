@@ -25,11 +25,11 @@ public class SnapToHeadingCommand extends Command {
     @Override
     public void execute() {
         
-            double xPower = rotPIDController.calculate(drive.getHeadingDegrees(), m_angle);
+            double rotPower = rotPIDController.calculate(drive.getHeadingDegrees(), m_angle);
             
             rotPIDController.setTolerance(2);
             //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, 0, -xPower*0.1, false, true);
+            drive.drive(0, 0, -rotPower*0.1, false, true);
         }
 
     @Override
