@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.TwistCommand;
@@ -34,9 +36,6 @@ import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -64,34 +63,48 @@ public class RobotContainer {
     private final Field2d field = new Field2d();
 
     public RobotContainer() {
-        System.out.println("HI");
         driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
-        shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
+        //shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
         
+        createNamedCommands();
+
         configureButtonBindings();
-        //AutoBuilder.buildAuto("lineAuto");
 
         m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
         Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
         Shuffleboard.getTab("Power").add(PDP);
     }
 
-    private void configureButtonBindings(){
-        System.out.println("HI2");
-        new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
-        new JoystickButton(driveJoystick,11).whileTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, 3).whileTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
+    private void createNamedCommands() {
+        NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem));
+        NamedCommands.registerCommand("StopShooter", new StopShooter(shooterSubsystem));
+        NamedCommands.registerCommand("StartIntake", new StartIntake(intakeSubsystem));
+        NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
+        NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
+        NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
+        NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(driveSubsystem, visionSubsystem));
         
-        new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem)));
-        new JoystickButton(operatorJoystick, 1).onTrue((new StopIntake(intakeSubsystem)));
-        
-        new JoystickButton(operatorJoystick, 2).whileTrue((new StartShooter(shooterSubsystem))).whileFalse(new StopShooter(shooterSubsystem));
-        //new JoystickButton(operatorJoystick, 1).onTrue((new StopShooter(shooterSubsystem)));
+    }
 
-        new JoystickButton(operatorJoystick, 4).onTrue((new StartTransit(transitSubsystem)));
-        new JoystickButton(operatorJoystick, 5).onTrue((new StopTransit(transitSubsystem)));
+    private void configureButtonBindings(){
+        new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
+        new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
+        new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
+        new JoystickButton(driveJoystick, 7).onTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
+        
+ 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem))).onFalse(new StopIntake(intakeSubsystem));
+        
+        
+        new JoystickButton(operatorJoystick, 2).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
+
+        new JoystickButton(operatorJoystick, 1).onTrue(new StartTransit(transitSubsystem)).onFalse(new StopTransit(transitSubsystem));
+
+        //new POVButton(driveJoystick, 0).whileTrue();
     }
 
     public Command getAutonomousCommand() {
@@ -106,25 +119,4 @@ public class RobotContainer {
         public static boolean twistable = false;
         public static boolean xLocked = false;
     }
-
-
-    //     public TrajectoryConfig createTrajectoryConfig() {
-    //     TrajectoryConfig config = new TrajectoryConfig(
-    //             RobotConstants.AutonomousConstants.MAX_SPEED_METERS_PER_SECOND,
-    //             RobotConstants.AutonomousConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-    //             .setKinematics(DrivetrainConstants.DRIVE_KINEMATICS);
-
-    
-    //     return config;
-    // }
-
-    // public Trajectory createExampleTrajectory(TrajectoryConfig config) {
-    //     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-    //             new Pose2d(0, 0, new Rotation2d(0)),
-    //             List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    //             new Pose2d(3, 0, new Rotation2d(0)),
-    //             config);
-
-    //     return exampleTrajectory;
-    // }
 }

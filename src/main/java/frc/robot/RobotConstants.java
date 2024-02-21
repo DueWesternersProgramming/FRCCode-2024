@@ -202,7 +202,8 @@ public final class RobotConstants {
     // There is a good chance this will have to be changed
     
     public static final class ShooterConstants {
-        public static final double SHOOTER_MOTOR_SPEED = 1;
+        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 10.0;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 5.0;
     }
 
     public static final class TransitConstants {

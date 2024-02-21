@@ -3,43 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.25,
+        "x": 2.5,
         "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.539640804758423,
+        "x": 2.75,
         "y": 5.5
       },
       "isLocked": false,
-      "linkedName": "middleAutoStarting"
+      "linkedName": "middleAutoWaypoint1"
     },
     {
       "anchor": {
-        "x": 2.5,
+        "x": 1.25,
         "y": 5.5
       },
       "prevControl": {
-        "x": 2.032166324734505,
+        "x": 1.0,
         "y": 5.5
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "middleAutoWaypoint1"
+      "linkedName": "middleAutoStarting"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 0.75,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -20,10 +20,12 @@ public class TransitSubsystem extends SubsystemBase{
         if (SubsystemEnabledConstants.TRANSIT_SUBSYSTEM_ENABLED){
             transitMotor1 = new CANSparkMax(PortConstants.CAN.TRANSIT_MOTOR_PORT_1, MotorType.kBrushless);
             transitMotor2 = new CANSparkMax(PortConstants.CAN.TRANSIT_MOTOR_PORT_2, MotorType.kBrushless);
-            transitMotor1.setIdleMode(IdleMode.kCoast);
-            transitMotor2.setIdleMode(IdleMode.kCoast);
+            transitMotor1.setIdleMode(IdleMode.kBrake);
+            transitMotor2.setIdleMode(IdleMode.kBrake);
             transitEncoder1 = transitMotor1.getEncoder();
             transitEncoder2 = transitMotor2.getEncoder();
+            transitMotor1.burnFlash();
+            transitMotor2.burnFlash();
             resetEncoder();
         }
     }

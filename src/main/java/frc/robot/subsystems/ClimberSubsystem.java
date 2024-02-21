@@ -24,6 +24,8 @@ public class ClimberSubsystem extends SubsystemBase{
             climberMotor2 = new CANSparkMax(PortConstants.CAN.RIGHT_CLIMBER_PORT, MotorType.kBrushless);
             climberMotor1.setIdleMode(IdleMode.kBrake);
             climberMotor2.setIdleMode(IdleMode.kBrake);
+            climberMotor1.burnFlash();
+            climberMotor2.burnFlash();
             climber1RelativeEncoder = climberMotor1.getEncoder();
             climber2RelativeEncoder = climberMotor2.getEncoder();
             resetEncoders();
