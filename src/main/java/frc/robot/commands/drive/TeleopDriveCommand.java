@@ -9,11 +9,11 @@ import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveCommand extends Command {
+public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
     private final Joystick joystick;
 
-    public DriveCommand(DriveSubsystem drive, Joystick joystick) {
+    public TeleopDriveCommand(DriveSubsystem drive, Joystick joystick) {
         this.drive = drive;
         this.joystick = joystick;
         addRequirements(drive);

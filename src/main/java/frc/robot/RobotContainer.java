@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.drive.DriveCommand;
+import frc.robot.commands.drive.TeleopDriveCommand;
 import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.SnapToHeadingCommand;
 import frc.robot.commands.drive.TwistCommand;
@@ -65,7 +65,7 @@ public class RobotContainer {
     private final Field2d field = new Field2d();
 
     public RobotContainer() {
-        driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem, driveJoystick));
+        driveSubsystem.setDefaultCommand(new TeleopDriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
         //shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
         
@@ -111,6 +111,11 @@ public class RobotContainer {
         new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
         new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
         new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
+
+        // new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
+        // new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
+        // new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
+        // new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
     }
 
     public Command getAutonomousCommand() {
