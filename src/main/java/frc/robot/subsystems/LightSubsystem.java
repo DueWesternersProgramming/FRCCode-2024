@@ -25,8 +25,8 @@ public class LightSubsystem extends SubsystemBase {
                 candleConfig.stripType = LEDStripType.RGB;
                 candleConfig.statusLedOffWhenActive = true;
                 candleConfig.disableWhenLOS = false;
-                candleConfig.v5Enabled = true;
-                candleConfig.vBatOutputMode = VBatOutputMode.On;
+                candleConfig.v5Enabled = false;
+                candleConfig.vBatOutputMode = VBatOutputMode.Off;
                 candleConfig.brightnessScalar = LightConstants.kLightBrightness;
                 candle.configAllSettings(candleConfig);
             }

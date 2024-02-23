@@ -23,7 +23,7 @@ import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
-import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.light.LEDPit;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
@@ -119,7 +119,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return m_autoPositionChooser.getSelected();
+        return new LEDPit(lightSubsystem);
+        //return m_autoPositionChooser.getSelected();
     }
 
     public Field2d getField() {
