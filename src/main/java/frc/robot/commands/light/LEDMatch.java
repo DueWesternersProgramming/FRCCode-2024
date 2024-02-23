@@ -5,22 +5,26 @@
 package frc.robot.commands.light;
 
 import frc.robot.subsystems.LightSubsystem;
+
+import com.ctre.phoenix.led.ColorFlowAnimation;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class LEDMatch extends Command {
   public final LightSubsystem m_lightSubsystem;
-  private int m_itemRequest = 0;
+  private int m_mode = 0;
 
   /**
    * Creates a new TankDrive command.
    *
    * @param lightSubsystem The subsystem used by this command.
-   * @param itemRequest 0 = nothing (red), 1 = cone (white), 2 = cube (blue)
+   * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
    */
-  public LEDMatch(LightSubsystem lightSubsystem, int itemRequest) {
+  public LEDMatch(LightSubsystem lightSubsystem, int mode) {
     m_lightSubsystem = lightSubsystem; 
-    m_itemRequest = itemRequest;
+    m_mode = mode;
     addRequirements(lightSubsystem);
   }
 
@@ -29,15 +33,20 @@ public class LEDMatch extends Command {
   public void initialize() {
     m_lightSubsystem.stopAnimation(0);
     m_lightSubsystem.stopAnimation(1);
-    m_lightSubsystem.stopAnimation(2);
-    if (m_itemRequest == 0) {
-      m_lightSubsystem.setColor(255, 0, 0);
-    }
-    else if (m_itemRequest == 1){
-      m_lightSubsystem.setColor(255, 230, 0);
-    }
-    else if (m_itemRequest == 2) {
-      m_lightSubsystem.setColor(150, 27, 191);
+    switch (m_mode){
+      case 0:
+        m_lightSubsystem.setColor(255, 0, 0);
+        break;
+      case 1:
+        m_lightSubsystem.setColor(0, 255, 0);
+        break;
+      case 2:
+        m_lightSubsystem.setAnimation(new ColorFlowAnimation(0, 0, 0, 255, 1, 300, Direction.Forward, 8), 0);
+        //m_lightSubsystem.setAnimation(new LarsonAnimation(0, 0, 220, 0, 0.75, 300, BounceMode.Center, 7, 8), 1);
+        break;
+      case 3:
+        m_lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 255, 1, 300, Direction.Forward, 8), 0);
+        break;
     }
   }
     

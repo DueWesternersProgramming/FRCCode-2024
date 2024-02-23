@@ -24,6 +24,7 @@ public class ShooterSubsystem extends SubsystemBase{
             shooterMotor2.setIdleMode(IdleMode.kBrake);
             shooterEncoder1 = shooterMotor1.getEncoder();
             shooterEncoder2 = shooterMotor2.getEncoder();
+            shooterMotor1.setInverted(true);
             shooterMotor1.burnFlash();
             shooterMotor2.burnFlash();
             resetEncoder();
@@ -40,14 +41,14 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public void shooterOn(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            shooterMotor1.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
             shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
+            shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
         }
     }
 
     public void setShooterSpeed(double speed){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            shooterMotor1.set(-speed);
+            shooterMotor1.set(speed);
             shooterMotor2.set(speed);
         }
     }
@@ -55,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase{
     public void shooteroff(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             shooterMotor1.setVoltage(0.0);
-            shooterMotor1.setVoltage(0.0);
+            shooterMotor2.setVoltage(0.0);
         }
     }
 

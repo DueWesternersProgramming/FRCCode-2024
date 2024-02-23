@@ -19,7 +19,6 @@ public class TransitShootCommand extends SequentialCommandGroup{
             new WaitCommand(2),
             new StopShooter(shooter_Subsystem),
             new StopTransit(transit_Subsystem)
-
         );
     }
 }

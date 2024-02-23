@@ -23,7 +23,6 @@ import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
-import frc.robot.commands.light.LEDPit;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
@@ -67,7 +66,6 @@ public class RobotContainer {
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new TeleopDriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
-        //shooterSubsystem.setDefaultCommand(new ShooterCommand(shooterSubsystem, operatorJoystick));
         
         createNamedCommands();
 
@@ -81,6 +79,7 @@ public class RobotContainer {
     private void createNamedCommands() {
         NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem));
         NamedCommands.registerCommand("StopShooter", new StopShooter(shooterSubsystem));
+        NamedCommands.registerCommand("AutoShooter", new TransitShootCommand(shooterSubsystem, transitSubsystem));
         NamedCommands.registerCommand("StartIntake", new StartIntake(intakeSubsystem));
         NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
@@ -96,7 +95,7 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 7).onTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
         
  
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////     Up = DriveJoystick, Down = OperatorJoystick     /////////////////////////////////////////
 
 
         new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem))).onFalse(new StopIntake(intakeSubsystem));
@@ -104,23 +103,18 @@ public class RobotContainer {
         
         new JoystickButton(operatorJoystick, 1).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
 
-        new JoystickButton(operatorJoystick, 2).whileTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
+        new JoystickButton(operatorJoystick, 2).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
 
 
         new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
         new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
         new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
         new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
-
-        // new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
-        // new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
-        // new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
-        // new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
     }
 
     public Command getAutonomousCommand() {
-        return new LEDPit(lightSubsystem);
-        //return m_autoPositionChooser.getSelected();
+        //return new LEDMatch(lightSubsystem, 2);
+        return m_autoPositionChooser.getSelected();
     }
 
     public Field2d getField() {

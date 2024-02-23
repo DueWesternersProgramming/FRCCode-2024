@@ -201,10 +201,8 @@ public final class RobotConstants {
     }
 
     public static final class IntakeConstants {
-        
-        public static final double INTAKE_MOTOR_SPEED = 0.25;
+        public static final double INTAKE_MOTOR_SPEED = 0.35;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
-
     }
 
     // There is a good chance this will have to be changed
@@ -224,7 +222,6 @@ public final class RobotConstants {
       }
     
     public static final class ClimberConstants {
-        
         public static final double CLIMBER_MOTOR_SPEED = 0.2;
         public static final double CLIMBER_DOWN_POSITION = 0;
         public static final double CLIMBER_UP_POSITION = 100;
