@@ -37,6 +37,7 @@ import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.commands.auto.IntakeTransitCommand;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -98,12 +99,13 @@ public class RobotContainer {
         ///////////////////     Up = DriveJoystick, Down = OperatorJoystick     /////////////////////////////////////////
 
 
-        new JoystickButton(operatorJoystick, 3).onTrue((new StartIntake(intakeSubsystem))).onFalse(new StopIntake(intakeSubsystem));
-        
-        
-        new JoystickButton(operatorJoystick, 1).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
+        new JoystickButton(operatorJoystick, 3).onTrue((new IntakeTransitCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new StopIntake(intakeSubsystem)).onFalse(new StopTransit(transitSubsystem));
+        //new JoystickButton(operatorJoystick, 2).onTrue((new StartTransit(transitSubsystem))).onFalse(new StopTransit(transitSubsystem));
 
-        new JoystickButton(operatorJoystick, 2).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
+        
+        //new JoystickButton(operatorJoystick, 1).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
+
+        new JoystickButton(operatorJoystick, 1).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
 
 
         new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));

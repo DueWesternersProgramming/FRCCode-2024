@@ -201,19 +201,19 @@ public final class RobotConstants {
     }
 
     public static final class IntakeConstants {
-        public static final double INTAKE_MOTOR_SPEED = 0.35;
+        public static final double INTAKE_MOTOR_SPEED = 0.5;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
     }
 
     // There is a good chance this will have to be changed
     
     public static final class ShooterConstants {
-        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 10.0;
+        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
         public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 5.0;
     }
 
     public static final class TransitConstants {
-        public static final double TRANSIT_MOTOR_SPEED = 0.2;
+        public static final double TRANSIT_MOTOR_SPEED = 0.4;
     }
 
     public static class LightConstants {

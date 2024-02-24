@@ -8,11 +8,15 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
+import frc.robot.commands.transit.ReverseTransit;
 
 public class TransitShootCommand extends SequentialCommandGroup{
     
     public TransitShootCommand(ShooterSubsystem shooter_Subsystem, TransitSubsystem transit_Subsystem) {
         addCommands(
+            new ReverseTransit(transit_Subsystem),
+            new WaitCommand(0.25),
+            new StopTransit(transit_Subsystem),
             new StartShooter(shooter_Subsystem),
             new WaitCommand(1),
             new StartTransit(transit_Subsystem),
