@@ -39,10 +39,19 @@ public class ShooterSubsystem extends SubsystemBase{
         return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? shooterMotor2.get(): 0;
     }
 
-    public void shooterOn(){
+    /**
+     * @param mode 0 = speaker, 1 = amp
+     */
+    public void shooterOn(int mode){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
-            shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
+            if (mode == 0){
+                shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
+                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
+            }
+            else if (mode == 1){
+                shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
+                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
+            }
         }
     }
 

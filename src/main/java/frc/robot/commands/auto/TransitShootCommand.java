@@ -12,12 +12,12 @@ import frc.robot.commands.transit.ReverseTransit;
 
 public class TransitShootCommand extends SequentialCommandGroup{
     
-    public TransitShootCommand(ShooterSubsystem shooter_Subsystem, TransitSubsystem transit_Subsystem) {
+    public TransitShootCommand(ShooterSubsystem shooter_Subsystem, TransitSubsystem transit_Subsystem, int mode) {
         addCommands(
             new ReverseTransit(transit_Subsystem),
             new WaitCommand(0.25),
             new StopTransit(transit_Subsystem),
-            new StartShooter(shooter_Subsystem),
+            new StartShooter(shooter_Subsystem, mode),
             new WaitCommand(1),
             new StartTransit(transit_Subsystem),
             new WaitCommand(2),

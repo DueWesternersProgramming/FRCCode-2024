@@ -5,15 +5,17 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class StartShooter extends Command {
     private final ShooterSubsystem shooter;
+    private final int mode;
     
-     public StartShooter(ShooterSubsystem shooter) {
-        this.shooter = shooter ;
+     public StartShooter(ShooterSubsystem shooter, int mode) {
+        this.shooter = shooter;
+        this.mode = mode;
         addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
-        shooter.shooterOn();
+        shooter.shooterOn(mode);
     }
     
     @Override

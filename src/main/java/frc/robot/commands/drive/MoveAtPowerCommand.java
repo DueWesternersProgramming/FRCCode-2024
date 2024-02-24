@@ -1,8 +1,6 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotConstants;
-import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;

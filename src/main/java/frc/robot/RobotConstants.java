@@ -21,9 +21,9 @@ public final class RobotConstants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI; // radians per second
 
-        public static final double DIRECTION_SLEW_RATE = 1.2; // radians per second
-        public static final double MAGNITUDE_SLEW_RATE = 1.8; // 2.0; //1.8; // percent per second (1 = 100%)
-        public static final double ROTATIONAL_SLEW_RATE = 2.0; // 20.0; //2.0; // percent per second (1 = 100%)
+        public static final double DIRECTION_SLEW_RATE = 25;//1.2; // radians per second
+        public static final double MAGNITUDE_SLEW_RATE = 25;//1.8; // 2.0; //1.8; // percent per second (1 = 100%)
+        public static final double ROTATIONAL_SLEW_RATE = 5;//2.0; // 20.0; //2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
         public static final double TRACK_WIDTH_METERS = Units.inchesToMeters(25);
@@ -201,22 +201,20 @@ public final class RobotConstants {
     }
 
     public static final class IntakeConstants {
-        public static final double INTAKE_MOTOR_SPEED = 0.5;
+        public static final double INTAKE_MOTOR_SPEED = 0.6;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
     }
-
-    // There is a good chance this will have to be changed
     
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
-        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 5.0;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 8.5;
     }
 
     public static final class TransitConstants {
         public static final double TRANSIT_MOTOR_SPEED = 0.4;
     }
 
-    public static class LightConstants {
+    public static final class LightConstants {
         public static final int kLightCount = 8;
         public static final double kLightBrightness = 0.5;
       }

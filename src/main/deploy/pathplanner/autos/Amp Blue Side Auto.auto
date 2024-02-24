@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.25,
-      "y": 5.5
+      "x": 0.6,
+      "y": 4.5
     },
-    "rotation": 180.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -26,38 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleTrajectory1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.1
+            "pathName": "Amp Blue Side trajectory 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleTrajectory2"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopTransit"
-                }
-              }
-            ]
+            "pathName": "Amp Blue Side trajectory 2"
           }
         },
         {

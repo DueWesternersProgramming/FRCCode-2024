@@ -21,8 +21,10 @@ import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.SnapToHeadingCommand;
 import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
+import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.light.LEDMatch;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
@@ -54,7 +56,7 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-    public final TransitShootCommand transitShootCommand = new TransitShootCommand(shooterSubsystem, transitSubsystem);
+    public final TransitShootCommand transitShootCommand = new TransitShootCommand(shooterSubsystem, transitSubsystem, 0);
     private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.OPERATOR_JOYSTICK);
 
@@ -78,40 +80,43 @@ public class RobotContainer {
     }
 
     private void createNamedCommands() {
-        NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem));
+        NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem, 0));
         NamedCommands.registerCommand("StopShooter", new StopShooter(shooterSubsystem));
-        NamedCommands.registerCommand("AutoShooter", new TransitShootCommand(shooterSubsystem, transitSubsystem));
+        NamedCommands.registerCommand("AutoShooter", new TransitShootCommand(shooterSubsystem, transitSubsystem, 0));
         NamedCommands.registerCommand("StartIntake", new StartIntake(intakeSubsystem));
         NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
         NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
+        NamedCommands.registerCommand("IntakeTransitCommand", new IntakeTransitCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(driveSubsystem, visionSubsystem));
-        
+        NamedCommands.registerCommand("IntakeTransit", new IntakeTransitCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        NamedCommands.registerCommand("TransitShootSpeaker", new TransitShootCommand(shooterSubsystem, transitSubsystem, 0));
+        NamedCommands.registerCommand("TransitShootAmp", new TransitShootCommand(shooterSubsystem, transitSubsystem, 1));
     }
 
     private void configureButtonBindings(){
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 7).onTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
-        
+        new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
  
-        ///////////////////     Up = DriveJoystick, Down = OperatorJoystick     /////////////////////////////////////////
-
+        ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
 
         new JoystickButton(operatorJoystick, 3).onTrue((new IntakeTransitCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new StopIntake(intakeSubsystem)).onFalse(new StopTransit(transitSubsystem));
-        //new JoystickButton(operatorJoystick, 2).onTrue((new StartTransit(transitSubsystem))).onFalse(new StopTransit(transitSubsystem));
-
-        
-        //new JoystickButton(operatorJoystick, 1).onTrue((new StartShooter(shooterSubsystem))).onFalse(new StopShooter(shooterSubsystem));
-
-        new JoystickButton(operatorJoystick, 1).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem));
-
+        new JoystickButton(operatorJoystick, 8).onTrue(new ReverseIntake(intakeSubsystem)).onFalse(new StopIntake(intakeSubsystem));
+        new JoystickButton(operatorJoystick, 1).onTrue(new TransitShootCommand(shooterSubsystem,transitSubsystem, 0)); // SPEAKER
+        new JoystickButton(operatorJoystick, 2).onTrue(new TransitShootCommand(shooterSubsystem, transitSubsystem, 1)); // AMP
 
         new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
         new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
         new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
         new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
+    }
+    /**
+    * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
+    */
+    public void startLEDS(int mode){
+        new LEDMatch(lightSubsystem, mode).schedule();
     }
 
     public Command getAutonomousCommand() {
