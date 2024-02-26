@@ -8,9 +8,9 @@ import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.shooter.StopShooter;
 
-public class IntakeTransitCommand extends SequentialCommandGroup{
+public class IntakeTransitAutoCommand extends SequentialCommandGroup{
     
-    public IntakeTransitCommand(ShooterSubsystem shooter_Subsystem, IntakeSubsystem intake_Subsystem, TransitSubsystem transit_Subsystem) {
+    public IntakeTransitAutoCommand(ShooterSubsystem shooter_Subsystem, IntakeSubsystem intake_Subsystem, TransitSubsystem transit_Subsystem) {
         addCommands(
             new StopShooter(shooter_Subsystem),
             new StartIntake(intake_Subsystem),

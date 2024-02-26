@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.6,
-      "y": 4.5
-    },
-    "rotation": 120.0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -26,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Blue Side trajectory 1"
+            "pathName": "Non-Amp Blue Side trajectory 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Blue Side trajectory 2"
+            "pathName": "Non Amp Blue Side trajectory 2"
           }
         },
         {
