@@ -40,6 +40,24 @@
           "data": {
             "name": "TransitShootSpeaker"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Non-Amp Blue Side trajectory 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Non Amp Blue Side trajectory 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
         }
       ]
     }
