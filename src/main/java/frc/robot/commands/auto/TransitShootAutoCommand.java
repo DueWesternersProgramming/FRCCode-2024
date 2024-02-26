@@ -18,9 +18,9 @@ public class TransitShootAutoCommand extends SequentialCommandGroup{
             new WaitCommand(0.25),
             new StopTransit(transit_Subsystem),
             new StartShooter(shooter_Subsystem, mode),
-            new WaitCommand(1),
+            new WaitCommand(0.5),
             new StartTransit(transit_Subsystem),
-            new WaitCommand(2),
+            new WaitCommand(1),
             new StopShooter(shooter_Subsystem),
             new StopTransit(transit_Subsystem)
         );
