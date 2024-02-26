@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.6
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TransitShootAmp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
