@@ -29,7 +29,7 @@ import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
-import frc.robot.commands.camera.AutoAimCommand;
+import frc.robot.commands.camera.AutoAimNoteCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.commands.auto.TransitShootAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -40,7 +40,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
-//import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -69,7 +69,7 @@ public class RobotContainer {
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new TeleopDriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
-        //CameraServer.startAutomaticCapture();
+        CameraServer.startAutomaticCapture();
         createNamedCommands();
 
         configureButtonBindings();
@@ -89,7 +89,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
         NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
         NamedCommands.registerCommand("IntakeTransitAutoCommand", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(driveSubsystem, visionSubsystem));
+        NamedCommands.registerCommand("AutoAimCommand", new AutoAimNoteCommand(driveSubsystem, visionSubsystem));
         NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         NamedCommands.registerCommand("TransitShootSpeaker", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 0));
         NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 1));
@@ -99,7 +99,7 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
+        new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimNoteCommand(driveSubsystem, visionSubsystem));
  
         ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
 

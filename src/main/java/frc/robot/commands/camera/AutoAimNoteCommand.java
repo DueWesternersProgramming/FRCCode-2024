@@ -6,12 +6,12 @@ import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class AutoAimCommand extends Command {
+public class AutoAimNoteCommand extends Command {
     private final DriveSubsystem drive;
     private final VisionSubsystem visionSubsystem;
     PIDController xPIDController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
     PIDController yPidController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
-    public AutoAimCommand(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
+    public AutoAimNoteCommand(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
         this.drive = drive;
         this.visionSubsystem = visionSubsystem;
         addRequirements(drive,visionSubsystem);
