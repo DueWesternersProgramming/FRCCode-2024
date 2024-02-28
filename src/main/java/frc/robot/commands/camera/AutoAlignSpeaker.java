@@ -1,0 +1,72 @@
+package frc.robot.commands.camera;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.RobotConstants.DrivetrainConstants;
+import frc.robot.RobotConstants.VisionConstants;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+
+import java.util.Optional;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+
+public class AutoAlignSpeaker extends Command {
+    private final DriveSubsystem drive;
+    private final VisionSubsystem visionSubsystem;
+    PathPlannerPath path;
+    Pose2d targetPose;
+    PIDController xPIDController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
+    PIDController yPidController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
+    public AutoAlignSpeaker(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
+        this.drive = drive;
+        this.visionSubsystem = visionSubsystem;
+        addRequirements(drive,visionSubsystem);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        
+    }
+
+    @Override
+    public void execute() {
+        
+    }
+
+    @Override
+    public void initialize() {
+
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+                //path = PathPlannerPath.fromPathFile("TODO");
+            }
+        
+            if (ally.get() == Alliance.Blue) {
+                targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+                //path = PathPlannerPath.fromPathFile("Align speaker blue");
+            }
+        }
+        
+        PathConstraints constraints = new PathConstraints(3.0, 4.0,Units.degreesToRadians(540), Units.degreesToRadians(720));
+            //     ?????? ^
+        
+        Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(path,constraints,3.0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+}

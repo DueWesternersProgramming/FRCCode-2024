@@ -114,6 +114,8 @@ public class DriveSubsystem extends SubsystemBase {
             Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
             resetOdometry(initialPose);
 
+
+            //Configure
             AutoBuilder.configureHolonomic(
                     m_odometry::getEstimatedPosition, // Robot pose supplier
                     this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
