@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,9 +30,8 @@ public class VisionSubsystem extends SubsystemBase{
         SetActivePipeline(0);
     }
 
-    public void getBotPoseFromAprilTag(){
-        System.out.println(cameraTableEntry.getEntry("botpose"));
-
+    public double[] getBotPoseFromAprilTag(){
+        return (cameraTableEntry.getEntry("robotpose").getDoubleArray(new double[6]));
     }
 
     public boolean HasValidTarget(){
@@ -88,7 +89,7 @@ public class VisionSubsystem extends SubsystemBase{
     }
 
     public boolean hasValidAprilTag(){
-        double result = cameraTableEntry.getEntry("getpipe").getDouble(-1);
+        double result = getTargetID();
         
         if (result != -1){
             return true;
@@ -99,12 +100,13 @@ public class VisionSubsystem extends SubsystemBase{
     }
     public double getTargetID(){
         try{
-            return cameraTableEntry.getEntry("getpipe").getDouble(-1);
+            return cameraTableEntry.getEntry("tid").getDouble(-1);
         }
         catch(Exception e){
             return -1;
         }
     }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("tx", cameraTableEntry.getEntry("tx").getDouble(0));
