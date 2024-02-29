@@ -45,13 +45,13 @@ public class AutoAlignSpeaker extends Command {
         
         xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
         
-        xPIDController.setTolerance(2);
+        
 
         if ((xPIDController.atSetpoint()) == false) {
             drive.drive(xPower, 0, 0, false, true);
         }
         else{
-            drive.drive(0,0,0,false,true);
+            is_finished = true;
         }
     }
 
@@ -59,7 +59,7 @@ public class AutoAlignSpeaker extends Command {
     public void initialize() {
         visionSubsystem.SetActivePipeline(1);
 
-
+        xPIDController.setTolerance(2);
 
         // Optional<Alliance> ally = DriverStation.getAlliance();
         
@@ -83,6 +83,6 @@ public class AutoAlignSpeaker extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return is_finished;
     }
 }
