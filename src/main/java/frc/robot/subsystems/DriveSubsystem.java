@@ -154,8 +154,11 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
+
             field.setRobotPose(m_odometry.getEstimatedPosition());
+                                                                                    //Odometry stuff
             SmartDashboard.putData("Odometry Pose Field", field);
+
             SmartDashboard.putNumberArray("modules pose angles", new double[] {
                     m_frontLeft.getPosition().angle.getDegrees(),
                     m_frontRight.getPosition().angle.getDegrees(),

@@ -110,8 +110,8 @@ public class RobotContainer {
 
         new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
         new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
-        new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
-        new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
+        new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 179));
+        new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, -90));
     }
     /**
     * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
