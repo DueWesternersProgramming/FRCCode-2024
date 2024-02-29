@@ -34,6 +34,8 @@ public class AutoAimNoteCommand extends Command {
 
     @Override
     public void initialize() {   
+        visionSubsystem.SetActivePipeline(0);
+        
     }
 
     @Override
