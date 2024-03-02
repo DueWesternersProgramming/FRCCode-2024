@@ -21,7 +21,6 @@ import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.SnapToHeadingCommand;
 import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
-import frc.robot.commands.intake.ReverseIntake;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDMatch;
@@ -40,6 +39,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
+import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
+import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 //import edu.wpi.first.cameraserver.CameraServer;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -100,18 +101,18 @@ public class RobotContainer {
         new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(driveSubsystem, visionSubsystem));
- 
-        ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
-
-        new JoystickButton(operatorJoystick, 3).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new StopIntake(intakeSubsystem)).onFalse(new StopTransit(transitSubsystem));
-        new JoystickButton(operatorJoystick, 8).onTrue(new ReverseIntake(intakeSubsystem)).onFalse(new StopIntake(intakeSubsystem));
-        new JoystickButton(operatorJoystick, 1).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, 0)); // SPEAKER
-        new JoystickButton(operatorJoystick, 2).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 1)); // AMP
 
         new POVButton(driveJoystick, 0).whileTrue(new SnapToHeadingCommand(driveSubsystem, 0));
         new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
         new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
         new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
+ 
+        ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
+
+        new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        new JoystickButton(operatorJoystick, 7).onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem)).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, 0)); // SPEAKER
+        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 1)); // AMP
     }
     /**
     * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
