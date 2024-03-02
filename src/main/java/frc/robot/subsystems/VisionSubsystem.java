@@ -31,7 +31,8 @@ public class VisionSubsystem extends SubsystemBase{
     }
 
     public double[] getBotPoseFromAprilTag(){
-        return (cameraTableEntry.getEntry("robotpose").getDoubleArray(new double[6]));
+        //Pose2d pose = new Pose2d();
+        return cameraTableEntry.getEntry("robotpose").getDoubleArray(new double[6]);
     }
 
     public boolean HasValidTarget(){
