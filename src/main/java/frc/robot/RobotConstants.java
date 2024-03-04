@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -13,14 +14,16 @@ public final class RobotConstants {
         public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
         public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
     
+        public static final double DRIVE_BASE_RADIUS_METERS = 0.52705;   
+
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
         public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI; // radians per second
 
-        public static final double DIRECTION_SLEW_RATE = 1.2; // radians per second
-        public static final double MAGNITUDE_SLEW_RATE = 1.8; // 2.0; //1.8; // percent per second (1 = 100%)
-        public static final double ROTATIONAL_SLEW_RATE = 2.0; // 20.0; //2.0; // percent per second (1 = 100%)
+        public static final double DIRECTION_SLEW_RATE = 25;//1.2; // radians per second
+        public static final double MAGNITUDE_SLEW_RATE = 25;//1.8; // 2.0; //1.8; // percent per second (1 = 100%)
+        public static final double ROTATIONAL_SLEW_RATE = 5;//2.0; // 20.0; //2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
         public static final double TRACK_WIDTH_METERS = Units.inchesToMeters(25);
@@ -41,13 +44,18 @@ public final class RobotConstants {
     }
 
     public static final class SwerveModuleConstants {
+
+        public static final double TRANSLATION_P = 1.0;
+        public static final double ROT_MOTION_P = 0.0;
+
+        public static final double TRANSLATION_I = 0.0;
+        public static final double ROT_MOTION_I = 0.0;
+
+        public static final double TRANSLATION_D = 0.0;
+        public static final double ROT_MOTION_D = 0.0;
+
         public static final double FREE_SPEED_RPM = 5676;
 
-        // The MAXSwerve module can be configured with one of three pinion gears: 12T,
-        // 13T, or 14T.
-        // This changes the drive speed of the module (a pinion gear with more teeth
-        // will result in a
-        // robot that drives faster).
         public static final int kDrivingMotorPinionTeeth = 14;
 
         // Invert the turning encoder, since the output shaft rotates in the opposite
@@ -118,12 +126,26 @@ public final class RobotConstants {
             public static final int FRONT_RIGHT_STEERING = 2;
             public static final int REAR_LEFT_STEERING = 3;
             public static final int REAR_RIGHT_STEERING = 4;
+
+            public static final int INTAKE_MOTOR_PORT = 20;
+
+            public static final int kLightPort = 25;
+
+            public static final int SHOOTER_MOTOR_PORT_1 = 21;
+            public static final int SHOOTER_MOTOR_PORT_2 = 22;
+
+            public static final int TRANSIT_MOTOR_PORT_1 = 23;
+            public static final int TRANSIT_MOTOR_PORT_2 = 24;
+
+            public static final int LEFT_CLIMBER_PORT = 26;
+            public static final int RIGHT_CLIMBER_PORT = 27;
         }
 
         public static class CONTROLLER {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
-            public static final int JOYSTICK = 0;
+            public static final int DRIVE_JOYSTICK = 0;
             public static final int PANEL = 1;
+            public static final int OPERATOR_JOYSTICK = 1;
         }
     }
 
@@ -142,9 +164,17 @@ public final class RobotConstants {
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
         public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
 
-        public static final double X_CONTROLLER_P = 1;
-        public static final double Y_CONTROLLER_P = 1;
-        public static final double THETA_CONTROLLER_P = 1;
+        public static final double X_CONTROLLER_P = 0.05;
+        public static final double Y_CONTROLLER_P = 0.02;
+        public static final double THETA_CONTROLLER_P = 0.02;
+
+        public static final double X_CONTROLLER_I = 0;
+        public static final double Y_CONTROLLER_I = 0;
+        public static final double THETA_CONTROLLER_I = 0;
+
+        public static final double X_CONTROLLER_D = 50;
+        public static final double Y_CONTROLLER_D = 50;
+        public static final double THETA_CONTROLLER_D = 50;
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
@@ -154,13 +184,53 @@ public final class RobotConstants {
         public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
     }
 
+    public static final class VisionConstants {
+        public static final String PHOTON_CAMERA_NAME = "photonvision";
+        public static final double AUTO_ALIGN_P = 0.05;
+        public static final double AUTO_ALIGN_I = 0;
+        public static final double AUTO_ALIGN_D = 55;
+    }
+
     public static final class TeleopConstants {
         public static final double MAX_SPEED_PERCENT = 1;
+        public static final int DRIVE_COMMAND_X_AXIS = 0;
+        public static final int DRIVE_COMMAND_Y_AXIS = 1;
+        public static final int DRIVE_COMMAND_ROT_AXIS = 2;
+        public static final int SHOOTER_COMMAND_AXIS = 3;
+        public static final int CLIMBER_COMMAND_AXIS = 2;
     }
 
     public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_PORT = 20;
-        public static final double INTAKE_MOTOR_SPEED = 0.5;
+        public static final double INTAKE_MOTOR_SPEED = 0.6;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.25;
+    }
+    
+    public static final class ShooterConstants {
+        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 8.5;
+    }
+
+    public static final class TransitConstants {
+        public static final double TRANSIT_MOTOR_SPEED = 0.4;
+    }
+
+    public static final class LightConstants {
+        public static final int kLightCount = 8;
+        public static final double kLightBrightness = 0.5;
+      }
+    
+    public static final class ClimberConstants {
+        public static final double CLIMBER_MOTOR_SPEED = 0.2;
+        public static final double CLIMBER_DOWN_POSITION = 0;
+        public static final double CLIMBER_UP_POSITION = 100;
+    }
+
+    public static final class SubsystemEnabledConstants {
+        public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
+        public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
+        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
+        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
+        public static final boolean LIGHT_SUBSYSTEM_ENABLED = true;
     }
 }

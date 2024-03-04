@@ -8,47 +8,38 @@ import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import static edu.wpi.first.units.MutableMeasure.mutable;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Volts;
-
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Distance;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.RobotConstants.SwerveModuleConstants;
 import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.swerve.SwerveModule;
 import frc.robot.swerve.SwerveUtils;
-
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
  * function of the drivetrain.
  */
 public class DriveSubsystem extends SubsystemBase {
-    private static final boolean ENABLED = true;
-
     private SwerveModule m_frontLeft;
     private SwerveModule m_frontRight;
     private SwerveModule m_rearLeft;
@@ -64,38 +55,42 @@ public class DriveSubsystem extends SubsystemBase {
     private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DrivetrainConstants.ROTATIONAL_SLEW_RATE);
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-    private SwerveDriveOdometry m_odometry;
+    private SwerveDrivePoseEstimator  m_odometry;
 
     Field2d field = new Field2d();
 
     /** Creates a new Drivetrain. */
     public DriveSubsystem() {
-        if (ENABLED) {
-        m_frontLeft = new SwerveModule(
-                RobotConstants.PortConstants.CAN.FRONT_LEFT_DRIVING,
-                RobotConstants.PortConstants.CAN.FRONT_LEFT_TURNING,
-                RobotConstants.PortConstants.CAN.FRONT_LEFT_STEERING, false);
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
+            m_frontLeft = new SwerveModule(
+                    RobotConstants.PortConstants.CAN.FRONT_LEFT_DRIVING,
+                    RobotConstants.PortConstants.CAN.FRONT_LEFT_TURNING,
+                    RobotConstants.PortConstants.CAN.FRONT_LEFT_STEERING, false);
 
-        m_frontRight = new SwerveModule(
-                RobotConstants.PortConstants.CAN.FRONT_RIGHT_DRIVING,
-                RobotConstants.PortConstants.CAN.FRONT_RIGHT_TURNING,
-                RobotConstants.PortConstants.CAN.FRONT_RIGHT_STEERING, false);
+            m_frontRight = new SwerveModule(
+                    RobotConstants.PortConstants.CAN.FRONT_RIGHT_DRIVING,
+                    RobotConstants.PortConstants.CAN.FRONT_RIGHT_TURNING,
+                    RobotConstants.PortConstants.CAN.FRONT_RIGHT_STEERING, false);
 
-        m_rearLeft = new SwerveModule(
-                RobotConstants.PortConstants.CAN.REAR_LEFT_DRIVING,
-                RobotConstants.PortConstants.CAN.REAR_LEFT_TURNING,
-                RobotConstants.PortConstants.CAN.REAR_LEFT_STEERING, false);
+            m_rearLeft = new SwerveModule(
+                    RobotConstants.PortConstants.CAN.REAR_LEFT_DRIVING,
+                    RobotConstants.PortConstants.CAN.REAR_LEFT_TURNING,
+                    RobotConstants.PortConstants.CAN.REAR_LEFT_STEERING, false);
 
-        m_rearRight = new SwerveModule(
-                RobotConstants.PortConstants.CAN.REAR_RIGHT_DRIVING,
-                RobotConstants.PortConstants.CAN.REAR_RIGHT_TURNING,
-                RobotConstants.PortConstants.CAN.REAR_RIGHT_STEERING, false);
+            m_rearRight = new SwerveModule(
+                    RobotConstants.PortConstants.CAN.REAR_RIGHT_DRIVING,
+                    RobotConstants.PortConstants.CAN.REAR_RIGHT_TURNING,
+                    RobotConstants.PortConstants.CAN.REAR_RIGHT_STEERING, false);
 
-        m_gyro = new AHRS(Port.kMXP);
-        m_gyro.reset();
-        m_gyro.zeroYaw();
+            m_gyro = new AHRS(Port.kMXP);
+            m_gyro.reset();
+            m_gyro.zeroYaw();
 
-        m_odometry = new SwerveDriveOdometry(
+            Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES / 2),
+                    Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid field
+            Rotation2d initialRotation = Rotation2d.fromDegrees(180);
+
+            m_odometry = new SwerveDrivePoseEstimator(
                 DrivetrainConstants.DRIVE_KINEMATICS,
                 Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * m_gyro.getAngle()),
                 new SwerveModulePosition[] {
@@ -103,106 +98,62 @@ public class DriveSubsystem extends SubsystemBase {
                         m_frontRight.getPosition(),
                         m_rearLeft.getPosition(),
                         m_rearRight.getPosition()
-                    });
-        
-        m_frontLeft.calibrateVirtualPosition(DrivetrainConstants.FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
-        m_frontRight.calibrateVirtualPosition(DrivetrainConstants.FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
-        m_rearLeft.calibrateVirtualPosition(DrivetrainConstants.REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
-        m_rearRight.calibrateVirtualPosition(DrivetrainConstants.REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
+                    }, new Pose2d(initialTranslation, initialRotation));
+            
+            m_frontLeft.calibrateVirtualPosition(DrivetrainConstants.FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
+            m_frontRight.calibrateVirtualPosition(DrivetrainConstants.FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
+            m_rearLeft.calibrateVirtualPosition(DrivetrainConstants.REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
+            m_rearRight.calibrateVirtualPosition(DrivetrainConstants.REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
 
-        resetEncoders();
+            resetEncoders();
 
-        calculateHeading();
-        zeroHeading();
+            calculateHeading();
+            zeroHeading();
 
-        Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES / 2),
-                Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid field
-        Rotation2d initialRotation = Rotation2d.fromDegrees(180);
-        m_gyro.setAngleAdjustment(0);
-        Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
-        resetOdometry(initialPose);
+            m_gyro.setAngleAdjustment(0);
+            Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
+            resetOdometry(initialPose);
+
+            AutoBuilder.configureHolonomic(
+                    m_odometry::getEstimatedPosition, // Robot pose supplier
+                    this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+                    this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                    this::pathFollowDrive,
+                    new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                            new PIDConstants(SwerveModuleConstants.TRANSLATION_P, SwerveModuleConstants.TRANSLATION_I, SwerveModuleConstants.TRANSLATION_D), // Translation PID constants
+                            new PIDConstants(SwerveModuleConstants.ROT_MOTION_P, SwerveModuleConstants.ROT_MOTION_I, SwerveModuleConstants.ROT_MOTION_D), // Rotation PID constants
+                            RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
+                            RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
+                            new ReplanningConfig() // Default path replanning config. See the API for the options here
+                    ),
+                    () -> {
+                        // Boolean supplier that controls when the path will be mirrored for the red alliance
+                        // This will flip the path being followed to the red side of the field.
+                        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                        var alliance = DriverStation.getAlliance();
+                        if (alliance.isPresent()) {
+                            return alliance.get() == DriverStation.Alliance.Red;
+                        }
+                        return false;
+                    },
+                    this // Reference to this subsystem to set requirements
+                );
         }
     }
-
-
-    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
-    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
-    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
-    private final MutableMeasure<Distance> m_distance = mutable(Meters.of(0));
-    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
-    private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
-      private final SysIdRoutine m_sysIdRoutine =
-      new SysIdRoutine(
-          // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
-          new SysIdRoutine.Config(),
-          new SysIdRoutine.Mechanism(
-              // Tell SysId how to plumb the driving voltage to the motors.
-              (Measure<Voltage> volts) -> {
-                m_frontRight.m_drivingSparkMax.setVoltage(volts.in(Volts));
-                m_frontLeft.m_drivingSparkMax.setVoltage(volts.in(Volts));
-                m_rearRight.m_drivingSparkMax.setVoltage(volts.in(Volts));
-                m_rearLeft.m_drivingSparkMax.setVoltage(volts.in(Volts));
-              },
-              // Tell SysId how to record a frame of data for each motor on the mechanism being
-              // characterized.
-              log -> {
-                // Record a frame for the left motors.  Since these share an encoder, we consider
-                // the entire group to be one motor.
-                log.motor("front-right")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            m_frontRight.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(m_frontRight.m_drivingEncoder.getPosition(), Meters))
-                    .linearVelocity(
-                        m_velocity.mut_replace(m_frontRight.m_drivingEncoder.getVelocity(), MetersPerSecond));
-                // Record a frame for the right motors.  Since these share an encoder, we consider
-                // the entire group to be one motor.
-                log.motor("front-left")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            m_frontLeft.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(m_frontLeft.m_drivingEncoder.getPosition(), Meters))
-                    .linearVelocity(
-                        m_velocity.mut_replace(m_frontLeft.m_drivingEncoder.getVelocity(), MetersPerSecond));
-
-                log.motor("back-right")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            m_rearRight.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(m_rearRight.m_drivingEncoder.getPosition(), Meters))
-                    .linearVelocity(
-                        m_velocity.mut_replace(m_rearRight.m_drivingEncoder.getVelocity(), MetersPerSecond));
-
-                log.motor("back-left")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            m_rearLeft.m_drivingSparkMax.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(m_rearLeft.m_drivingEncoder.getPosition(), Meters))
-                    .linearVelocity(
-                        m_velocity.mut_replace(m_rearLeft.m_drivingEncoder.getVelocity(), MetersPerSecond));
-              },
-              // Tell SysId to make generated commands require this subsystem, suffix test state in
-              // WPILog with this subsystem's name ("drive")
-              this));
-    
-    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return m_sysIdRoutine.quasistatic(direction);
-  }
-
-  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-        return m_sysIdRoutine.dynamic(direction);
-  }
 
     private double getGyroAngle() {
         return m_gyro.getAngle();
     }
+    public double getHeadingDegrees() {
+        return m_gyro.getRotation2d().getDegrees();
+      }
 
     @Override
     public void periodic() {
-        if (ENABLED) {
-            field.setRobotPose(m_odometry.getPoseMeters());
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
+            field.setRobotPose(m_odometry.getEstimatedPosition());
             SmartDashboard.putData("Odometry Pose Field", field);
-
             SmartDashboard.putNumberArray("modules pose angles", new double[] {
                     m_frontLeft.getPosition().angle.getDegrees(),
                     m_frontRight.getPosition().angle.getDegrees(),
@@ -243,6 +194,7 @@ public class DriveSubsystem extends SubsystemBase {
                             m_rearLeft.getPosition(),
                             m_rearRight.getPosition()
                     });
+            
 
         }
     }
@@ -253,7 +205,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The pose.
      */
     public Optional<Pose2d> getPose() {
-        return ENABLED ? Optional.of(m_odometry.getPoseMeters()) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_odometry.getEstimatedPosition()) : Optional.empty();
     }
 
     /**
@@ -262,7 +214,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param pose The pose to which to set the odometry.
      */
     public void resetOdometry(Pose2d pose) {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_odometry.resetPosition(
                     Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * m_gyro.getAngle()),
                     new SwerveModulePosition[] {
@@ -286,7 +238,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             double xSpeedCommanded;
             double ySpeedCommanded;
 
@@ -365,7 +317,7 @@ public class DriveSubsystem extends SubsystemBase {
      * Sets the wheels into an X formation to prevent movement.
      */
     public void setX() {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_frontLeft.setDesiredState(new SwerveModuleState(0,
                     Rotation2d.fromDegrees(45)));
             m_frontRight.setDesiredState(new SwerveModuleState(0,
@@ -383,7 +335,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param desiredStates The desired SwerveModule states.
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             SwerveDriveKinematics.desaturateWheelSpeeds(
                     desiredStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
 
@@ -399,7 +351,7 @@ public class DriveSubsystem extends SubsystemBase {
      * turn encoders using the absolute encoders.
      */
     public void resetEncoders() {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_frontLeft.resetEncoders();
             m_rearLeft.resetEncoders();
             m_frontRight.resetEncoders();
@@ -409,7 +361,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /** Zeroes the heading of the robot. */
     public void zeroHeading() {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_gyro.reset();
             m_gyro.setAngleAdjustment(180);
             Pose2d pose = getPose().get();
@@ -420,11 +372,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     /** Calibrates the gyro. */
     public void calculateHeading() {
-        if (ENABLED) {
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_gyro.reset();
-            while (m_gyro.isCalibrating()) {
-                ;
-            }
         }
     }
 
@@ -434,9 +383,10 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public Optional<Double> getHeading() {
-        return ENABLED ? Optional.of(Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()).getDegrees())
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()).getDegrees())
                 : Optional.empty();
     }
+    
 
     /**
      * Returns the turn rate of the robot.
@@ -444,32 +394,40 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public Optional<Double> getTurnRate() {
-        return ENABLED ? Optional.of(m_gyro.getRate() * (DrivetrainConstants.GYRO_ORIENTATION))
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_gyro.getRate() * (DrivetrainConstants.GYRO_ORIENTATION))
                 : Optional.empty();
+        
     }
 
     public Optional<SwerveModule> getFrontLeftModule() {
-        return ENABLED ? Optional.of(m_frontLeft) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_frontLeft) : Optional.empty();
     }
 
     public Optional<SwerveModule> getFrontRightModule() {
-        return ENABLED ? Optional.of(m_frontRight) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_frontRight) : Optional.empty();
     }
 
     public Optional<SwerveModule> getRearLeftModule() {
-        return ENABLED ? Optional.of(m_rearLeft) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_rearLeft) : Optional.empty();
     }
 
     public Optional<SwerveModule> getRearRightModule() {
-        return ENABLED ? Optional.of(m_rearRight) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_rearRight) : Optional.empty();
     }
 
     public Optional<AHRS> getImu() {
-        return ENABLED ? Optional.of(m_gyro) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_gyro) : Optional.empty();
+    }
+    
+    private void pathFollowDrive(ChassisSpeeds speeds) {
+        SwerveModuleState[] swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
+        
+        setModuleStates(swerveModuleStates);
     }
 
-    public boolean isEnabled() {
-        return ENABLED;
+    private ChassisSpeeds getChassisSpeeds() {
+        double radiansPerSecond = Units.degreesToRadians(m_gyro.getRate());
+        return ChassisSpeeds.fromFieldRelativeSpeeds(m_gyro.getVelocityX(), m_gyro.getVelocityY(), radiansPerSecond, m_gyro.getRotation2d());
     }
-
 }
+

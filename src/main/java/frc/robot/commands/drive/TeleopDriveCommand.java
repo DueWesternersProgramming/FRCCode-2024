@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
@@ -9,11 +9,11 @@ import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveCommand extends Command {
+public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
     private final Joystick joystick;
 
-    public DriveCommand(DriveSubsystem drive, Joystick joystick) {
+    public TeleopDriveCommand(DriveSubsystem drive, Joystick joystick) {
         this.drive = drive;
         this.joystick = joystick;
         addRequirements(drive);
@@ -26,9 +26,9 @@ public class DriveCommand extends Command {
 
     @Override
     public void execute() {
-        double xRaw = joystick.getRawAxis(0);
-        double yRaw = joystick.getRawAxis(1);
-        double rotRaw = -joystick.getRawAxis(2);
+        double xRaw = joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS);
+        double yRaw = joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS);
+        double rotRaw = -joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS);
 
         double xConstrained = MathUtil.applyDeadband(MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
                 RobotConstants.PortConstants.CONTROLLER.JOYSTICK_AXIS_THRESHOLD);
