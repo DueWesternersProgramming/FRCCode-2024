@@ -9,7 +9,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class SnapToHeadingCommand extends Command {
     private final DriveSubsystem drive;
     private double m_angle;
-    private PIDController rotPIDController = new PIDController(AutonomousConstants.THETA_CONTROLLER_P, AutonomousConstants.THETA_CONTROLLER_I, AutonomousConstants.THETA_CONTROLLER_D);
+    private PIDController rotPIDController = new PIDController(0.05,0,0);
     
     public SnapToHeadingCommand(DriveSubsystem drive, double angle) {
         this.drive = drive;
@@ -26,10 +26,9 @@ public class SnapToHeadingCommand extends Command {
     public void execute() {
         
             double rotPower = rotPIDController.calculate(drive.getHeadingDegrees(), m_angle);
-            
+            System.out.println(drive.getHeadingDegrees());
             rotPIDController.setTolerance(2);
-            //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, 0, -rotPower*0.1, true, true);
+            //drive.drive(0, 0, -rotPower, false, true);
         }
 
     @Override
