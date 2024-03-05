@@ -27,11 +27,10 @@ public class AutoAlignSpeaker extends Command {
     double xPower;
     boolean is_finished = false;
     PIDController xPIDController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
-    PIDController yPidController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
+
     public AutoAlignSpeaker(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
         this.drive = drive;
         this.visionSubsystem = visionSubsystem;
-        xPIDController.setTolerance(3);
         addRequirements(drive,visionSubsystem);
     }
 
@@ -43,44 +42,45 @@ public class AutoAlignSpeaker extends Command {
     @Override
     public void execute() {
         
-        // xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
-
-        // if ((xPIDController.atSetpoint()) == false) {
-        //     drive.drive(xPower, 0, 0, false, true);
-        // }
-        // else{
-        //     is_finished = true;
-        // }
+        xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
+        if (visionSubsystem.hasValidAprilTag()){
+            if ((xPIDController.atSetpoint()) == false) {
+                drive.drive(xPower, 0, 0, false, true);
+            }
+            else{
+                is_finished = true;
+            }
+    }
 
     }
 
     @Override
     public void initialize() {
-        // visionSubsystem.SetActivePipeline(1);
+        visionSubsystem.SetActivePipeline(1);
 
-        // xPIDController.setTolerance(2);
+        xPIDController.setTolerance(2);
 
-        Optional<Alliance> ally = DriverStation.getAlliance();
+        // Optional<Alliance> ally = DriverStation.getAlliance();
         
-        if (ally.isPresent()) {
-            if (ally.get() == Alliance.Red) {
-                targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+        // if (ally.isPresent()) {
+        //     if (ally.get() == Alliance.Red) {
+        //         targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
             
-            }
+        //     }
         
-            if (ally.get() == Alliance.Blue) {
-                targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
+        //     if (ally.get() == Alliance.Blue) {
+        //         targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
                 
-            }
+        //     }
 
-            PathConstraints constraints = new PathConstraints(1.0, 4.0,Units.degreesToRadians(540), Units.degreesToRadians(720));
+        //     PathConstraints constraints = new PathConstraints(1.0, 4.0,Units.degreesToRadians(540), Units.degreesToRadians(720));
         
-            Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(path,constraints,3.0);
-            CommandScheduler.getInstance().schedule(pathfindingCommand);
-        }
-        else{
-            DriverStation.reportWarning("Red/Blue Alliance is not avalible",false);
-        }
+        //     Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(path,constraints,3.0);
+        //     CommandScheduler.getInstance().schedule(pathfindingCommand);
+        // }
+        // else{
+        //     DriverStation.reportWarning("Red/Blue Alliance is not avalible",false);
+        // }
         
         
     }

@@ -30,6 +30,7 @@ import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.camera.AutoAimNoteCommand;
+import frc.robot.commands.camera.AutoAlignSpeaker;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.commands.auto.TransitShootAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -100,7 +101,7 @@ public class RobotContainer {
         new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimNoteCommand(driveSubsystem, visionSubsystem));
- 
+        new JoystickButton(driveJoystick, 8).whileTrue(new AutoAlignSpeaker(driveSubsystem, visionSubsystem));
         ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
 
         new JoystickButton(operatorJoystick, 3).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new StopIntake(intakeSubsystem)).onFalse(new StopTransit(transitSubsystem));

@@ -10,7 +10,7 @@ public class AutoAimNoteCommand extends Command {
     private final DriveSubsystem drive;
     private final VisionSubsystem visionSubsystem;
     PIDController xPIDController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
-    PIDController yPidController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
+    //PIDController rotPIDController = new PIDController(VisionConstants.AUTO_ALIGN_P, VisionConstants.AUTO_ALIGN_I, VisionConstants.AUTO_ALIGN_D);
     public AutoAimNoteCommand(DriveSubsystem drive, VisionSubsystem visionSubsystem) {
         this.drive = drive;
         this.visionSubsystem = visionSubsystem;
@@ -26,15 +26,18 @@ public class AutoAimNoteCommand extends Command {
     public void execute() {
         if (visionSubsystem.HasValidTarget()){
             double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
-            xPIDController.setTolerance(2);
             //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, 0, -xPower*0.15, false, true);
+            if (xPIDController.atSetpoint() == false){
+                drive.drive(0, 0, -xPower*0.15, false, true);
+            }
+            
         }
     }
 
     @Override
     public void initialize() {   
         visionSubsystem.SetActivePipeline(0);
+        xPIDController.setTolerance(2);
         
     }
 
