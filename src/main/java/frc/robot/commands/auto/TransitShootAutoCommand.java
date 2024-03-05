@@ -17,11 +17,13 @@ public class TransitShootAutoCommand extends SequentialCommandGroup{
     
     public TransitShootAutoCommand(ShooterSubsystem shooter_Subsystem, TransitSubsystem transit_Subsystem, IntakeSubsystem intake_Subsystem, int mode) {
         addCommands(
+            
             new ReverseTransit(transit_Subsystem),
             new WaitCommand(0.25),
             new StopTransit(transit_Subsystem),
             new StartShooter(shooter_Subsystem, mode),
             new WaitCommand(0.5),
+            new StartIntake(intake_Subsystem),
             new StartTransit(transit_Subsystem),
             new StartIntake(intake_Subsystem),
             new WaitCommand(1),
