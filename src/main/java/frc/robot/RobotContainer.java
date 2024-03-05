@@ -57,7 +57,7 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-    public final TransitShootAutoCommand transitShootCommand = new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 0);
+    public final TransitShootAutoCommand transitShootCommand = new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, 0);
     private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.CONTROLLER.OPERATOR_JOYSTICK);
 
@@ -84,7 +84,7 @@ public class RobotContainer {
     private void createNamedCommands() {
         NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem, 0));
         NamedCommands.registerCommand("StopShooter", new StopShooter(shooterSubsystem));
-        NamedCommands.registerCommand("AutoShooter", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 0));
+        NamedCommands.registerCommand("AutoShooter", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, 0));
         NamedCommands.registerCommand("StartIntake", new StartIntake(intakeSubsystem));
         NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
@@ -92,8 +92,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeTransitAutoCommand", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(driveSubsystem, visionSubsystem));
         NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        NamedCommands.registerCommand("TransitShootSpeaker", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 0));
-        NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 1));
+        NamedCommands.registerCommand("TransitShootSpeaker", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, 0));
+        NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, 1));
     }
 
     private void configureButtonBindings(){
@@ -111,8 +111,8 @@ public class RobotContainer {
 
         new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         new JoystickButton(operatorJoystick, 7).onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem)).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, 0)); // SPEAKER
-        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, 1)); // AMP
+        new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, 0)); // SPEAKER
+        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, 1)); // AMP
     }
     /**
     * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)

@@ -186,7 +186,7 @@ public final class RobotConstants {
 
     public static final class VisionConstants {
         public static final String PHOTON_CAMERA_NAME = "photonvision";
-        public static final double AUTO_ALIGN_P = 0.05;
+        public static final double AUTO_ALIGN_P = 0.005;
         public static final double AUTO_ALIGN_I = 0;
         public static final double AUTO_ALIGN_D = 55;
     }
@@ -207,7 +207,7 @@ public final class RobotConstants {
     
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
-        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 8.5;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 4;
     }
 
     public static final class TransitConstants {
