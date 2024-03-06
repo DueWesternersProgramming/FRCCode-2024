@@ -197,7 +197,7 @@ public final class RobotConstants {
         public static final int DRIVE_COMMAND_Y_AXIS = 1;
         public static final int DRIVE_COMMAND_ROT_AXIS = 2;
         public static final int SHOOTER_COMMAND_AXIS = 3;
-        public static final int CLIMBER_COMMAND_AXIS = 2;
+        public static final int CLIMBER_COMMAND_AXIS = 1;
     }
 
     public static final class IntakeConstants {
@@ -207,7 +207,7 @@ public final class RobotConstants {
     
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
-        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 4;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 4.0;
     }
 
     public static final class TransitConstants {
@@ -227,7 +227,7 @@ public final class RobotConstants {
 
     public static final class SubsystemEnabledConstants {
         public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
-        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
         public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
         public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
         public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;

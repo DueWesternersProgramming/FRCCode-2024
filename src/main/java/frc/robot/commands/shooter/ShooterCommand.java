@@ -7,11 +7,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterCommand extends Command {
     private final ShooterSubsystem shooter;
-    private final Joystick operatorJoystick;
+    private final Joystick joystick;
     
-     public ShooterCommand(ShooterSubsystem shooter, Joystick operatorJoystick) {
+     public ShooterCommand(ShooterSubsystem shooter, Joystick joystick) {
         this.shooter = shooter;
-        this.operatorJoystick = operatorJoystick;
+        this.joystick = joystick;
         addRequirements(shooter);
     }
 
@@ -22,7 +22,7 @@ public class ShooterCommand extends Command {
     
     @Override
     public void execute() {
-        shooter.setShooterSpeed(operatorJoystick.getRawAxis(TeleopConstants.SHOOTER_COMMAND_AXIS));
+        shooter.setShooterSpeed(joystick.getRawAxis(TeleopConstants.SHOOTER_COMMAND_AXIS));
     }
     
     @Override

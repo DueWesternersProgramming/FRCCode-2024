@@ -2,7 +2,6 @@ package frc.robot.commands.drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants.DrivetrainConstants;
-import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -25,8 +24,8 @@ public class SnapToHeadingCommand extends Command {
     @Override
     public void execute() {
         
-            double rotPower = rotPIDController.calculate(drive.getHeadingDegrees(), m_angle);
-            System.out.println(drive.getHeadingDegrees());
+            double rotPower = rotPIDController.calculate(drive.getHeading().get(), m_angle);
+            //System.out.println(drive.getHeading());
             rotPIDController.setTolerance(2);
             //drive.drive(0, 0, -rotPower, false, true);
         }

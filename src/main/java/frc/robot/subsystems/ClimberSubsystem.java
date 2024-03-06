@@ -24,6 +24,7 @@ public class ClimberSubsystem extends SubsystemBase{
             climberMotor2 = new CANSparkMax(PortConstants.CAN.RIGHT_CLIMBER_PORT, MotorType.kBrushless);
             climberMotor1.setIdleMode(IdleMode.kBrake);
             climberMotor2.setIdleMode(IdleMode.kBrake);
+            climberMotor1.setInverted(true);
             climberMotor1.burnFlash();
             climberMotor2.burnFlash();
             climber1RelativeEncoder = climberMotor1.getEncoder();
@@ -38,8 +39,18 @@ public class ClimberSubsystem extends SubsystemBase{
 
     public void setSpeed(double speed) {
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
-            climberMotor1.set(speed);
-            climberMotor2.set(speed);
+            if (getEncoder1Position() > 0 && speed > 0){
+                climberMotor1.set(0);
+            }
+            else {
+                climberMotor1.set(speed);
+            }
+            if (getEncoder2Position() > 0 && speed > 0){
+                climberMotor2.set(0);
+            }
+            else {
+                climberMotor2.set(speed);
+            }
         }
     }
 
@@ -62,6 +73,8 @@ public class ClimberSubsystem extends SubsystemBase{
     public void periodic() {
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Climber Speed", getSpeed());
+            SmartDashboard.putNumber("Climber L Position", getEncoder1Position());
+            SmartDashboard.putNumber("Climber R Position", getEncoder2Position());
         }
     }
 }
