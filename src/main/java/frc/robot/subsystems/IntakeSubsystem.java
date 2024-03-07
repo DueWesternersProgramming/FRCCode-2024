@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeMotor = new CANSparkMax(PortConstants.CAN.INTAKE_MOTOR_PORT, MotorType.kBrushless);
             intakeMotor.setIdleMode(IdleMode.kBrake);
             intakeEncoder = intakeMotor.getEncoder();
-            intakeMotor.burnFlash();
+            //intakeMotor.burnFlash();
             resetIntakeEncoder();
         }
     }

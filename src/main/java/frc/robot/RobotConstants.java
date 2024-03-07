@@ -111,6 +111,9 @@ public final class RobotConstants {
 
     public static interface PortConstants {
 
+        public static final int LEFT_SHOOTER_SERVO_PORT = 8;
+        public static final int RIGHT_SHOOTER_SERVO_PORT = 9;
+
         public static class CAN {
             public static final int FRONT_LEFT_DRIVING = 5;
             public static final int REAR_LEFT_DRIVING = 7;
@@ -207,7 +210,11 @@ public final class RobotConstants {
     
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
-        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 4.0;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.5;
+        public static final double SERVO_L_BEGINNING_POSITION = 0.3;
+        public static final double SERVO_R_BEGINNING_POSITION = 0.3;
+        public static final double SERVO_L_SHOOTING_POSITION = -.5;
+        public static final double SERVO_R_SHOOTING_POSITION = -.5;
     }
 
     public static final class TransitConstants {
@@ -216,7 +223,7 @@ public final class RobotConstants {
 
     public static final class LightConstants {
         public static final int kLightCount = 8;
-        public static final double kLightBrightness = 0.5;
+        public static final double kLightBrightness = 0.25;
       }
     
     public static final class ClimberConstants {

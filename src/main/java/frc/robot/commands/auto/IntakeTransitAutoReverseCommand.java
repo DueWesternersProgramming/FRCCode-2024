@@ -6,6 +6,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.commands.intake.ReverseIntake;
+import frc.robot.commands.shooter.ReverseShooter;
 import frc.robot.commands.shooter.StopShooter;
 
 public class IntakeTransitAutoReverseCommand extends SequentialCommandGroup{
@@ -14,7 +15,8 @@ public class IntakeTransitAutoReverseCommand extends SequentialCommandGroup{
         addCommands(
             new StopShooter(shooter_Subsystem),
             new ReverseIntake(intake_Subsystem),
-            new ReverseTransit(transit_Subsystem)
+            new ReverseTransit(transit_Subsystem),
+            new ReverseShooter(shooter_Subsystem)
         );
     }
 }

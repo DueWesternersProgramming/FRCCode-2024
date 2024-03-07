@@ -108,8 +108,8 @@ public class SwerveModule {
 
         // Save the SPARK MAX configurations. If a SPARK MAX browns out during
         // operation, it will maintain the above configurations.
-        m_drivingSparkMax.burnFlash();
-        m_turningSparkMax.burnFlash();
+        //m_drivingSparkMax.burnFlash();
+        //m_turningSparkMax.burnFlash();
 
         m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
         m_drivingEncoder.setPosition(0);

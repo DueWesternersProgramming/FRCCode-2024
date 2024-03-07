@@ -40,10 +40,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
  * function of the drivetrain.
  */
 public class DriveSubsystem extends SubsystemBase {
-    private SwerveModule m_frontLeft;
-    private SwerveModule m_frontRight;
-    private SwerveModule m_rearLeft;
-    private SwerveModule m_rearRight;
+    private SwerveModule m_frontLeft, m_frontRight, m_rearLeft, m_rearRight;
 
     private AHRS m_gyro;
 

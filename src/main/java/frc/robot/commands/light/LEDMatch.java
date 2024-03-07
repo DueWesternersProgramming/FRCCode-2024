@@ -7,7 +7,6 @@ package frc.robot.commands.light;
 import frc.robot.subsystems.LightSubsystem;
 
 import com.ctre.phoenix.led.ColorFlowAnimation;
-import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,11 +41,11 @@ public class LEDMatch extends Command {
         m_lightSubsystem.setColor(0, 255, 0);
         break;
       case 2:
-        m_lightSubsystem.setAnimation(new ColorFlowAnimation(0, 0, 0, 255, 1, 300, Direction.Forward, 8), 0);
-        m_lightSubsystem.setAnimation(new FireAnimation(1, 0, 300, 0.5, 0.5, false, 8), 1);
+        m_lightSubsystem.setAnimation(new ColorFlowAnimation(0, 0, 255, 0, 0.3, 250, Direction.Forward, 8), 0);
+        m_lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 0.3, 250, Direction.Backward, 8), 1);
         break;
       case 3:
-        m_lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 255, 1, 300, Direction.Forward, 8), 0);
+        m_lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 1, 250, Direction.Forward, 8), 0);
         break;
     }
   }

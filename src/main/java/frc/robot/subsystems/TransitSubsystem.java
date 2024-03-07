@@ -11,10 +11,8 @@ import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
 public class TransitSubsystem extends SubsystemBase{
-    CANSparkMax transitMotor1;
-    CANSparkMax transitMotor2;
-    RelativeEncoder transitEncoder1;
-    RelativeEncoder transitEncoder2;
+    CANSparkMax transitMotor1, transitMotor2;
+    RelativeEncoder transitEncoder1, transitEncoder2;
 
     public TransitSubsystem(){
         if (SubsystemEnabledConstants.TRANSIT_SUBSYSTEM_ENABLED){
@@ -24,8 +22,8 @@ public class TransitSubsystem extends SubsystemBase{
             transitMotor2.setIdleMode(IdleMode.kBrake);
             transitEncoder1 = transitMotor1.getEncoder();
             transitEncoder2 = transitMotor2.getEncoder();
-            transitMotor1.burnFlash();
-            transitMotor2.burnFlash();
+            // transitMotor1.burnFlash();
+            // transitMotor2.burnFlash();
             resetEncoder();
         }
     }

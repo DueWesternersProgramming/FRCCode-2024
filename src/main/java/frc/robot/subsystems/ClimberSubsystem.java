@@ -13,10 +13,8 @@ import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
 public class ClimberSubsystem extends SubsystemBase{
     
-    CANSparkMax climberMotor1;
-    CANSparkMax climberMotor2;
-    RelativeEncoder climber1RelativeEncoder;
-    RelativeEncoder climber2RelativeEncoder;
+    CANSparkMax climberMotor1, climberMotor2;
+    RelativeEncoder climber1RelativeEncoder, climber2RelativeEncoder;
 
     public ClimberSubsystem(){
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
@@ -25,8 +23,8 @@ public class ClimberSubsystem extends SubsystemBase{
             climberMotor1.setIdleMode(IdleMode.kBrake);
             climberMotor2.setIdleMode(IdleMode.kBrake);
             climberMotor1.setInverted(true);
-            climberMotor1.burnFlash();
-            climberMotor2.burnFlash();
+            //climberMotor1.burnFlash();
+            //climberMotor2.burnFlash();
             climber1RelativeEncoder = climberMotor1.getEncoder();
             climber2RelativeEncoder = climberMotor2.getEncoder();
             resetEncoders();
