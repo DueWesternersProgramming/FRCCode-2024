@@ -143,7 +143,6 @@ public final class RobotConstants {
             public static final int LEFT_CLIMBER_PORT = 26;
             public static final int RIGHT_CLIMBER_PORT = 27;
         }
-
         public static class CONTROLLER {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
             public static final int DRIVE_JOYSTICK = 0;
@@ -204,7 +203,7 @@ public final class RobotConstants {
     }
 
     public static final class IntakeConstants {
-        public static final double INTAKE_MOTOR_SPEED = 0.75;
+        public static final double INTAKE_MOTOR_SPEED = 0.8;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.40;
     }
     

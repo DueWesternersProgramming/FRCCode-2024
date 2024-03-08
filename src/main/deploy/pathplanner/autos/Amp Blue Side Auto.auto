@@ -24,30 +24,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Side Blue trajectory1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TransitShootAmp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitCommand"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Amp Side Blue trajectory2"
@@ -63,6 +39,18 @@
           "type": "named",
           "data": {
             "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory3"
           }
         }
       ]
