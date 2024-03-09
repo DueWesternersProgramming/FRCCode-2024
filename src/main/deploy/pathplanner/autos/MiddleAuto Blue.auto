@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.25,
+      "x": 1.3479282065452507,
       "y": 5.5
     },
     "rotation": 180.0
@@ -30,6 +30,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "MiddleTrajectory2"
@@ -45,6 +51,24 @@
           "type": "path",
           "data": {
             "pathName": "Middle Trajectory3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory5 (pickup regular)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleTrajectory4"
           }
         },
         {

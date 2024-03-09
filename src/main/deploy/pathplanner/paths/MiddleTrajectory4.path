@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9143338058755885,
-        "y": 5.5
+        "x": 7.6621605095062035,
+        "y": 5.73013567679557
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1643338058755885,
-        "y": 5.5
+        "x": 7.1197850709240615,
+        "y": 7.029575674353249
       },
       "isLocked": false,
-      "linkedName": "middleAutoWaypoint1"
+      "linkedName": null
     },
     {
       "anchor": {
         "x": 1.3479282065452507,
-        "y": 5.5
+        "y": 5.537862667174266
       },
       "prevControl": {
-        "x": 1.0979282065452507,
-        "y": 5.5
+        "x": 0.8974671552553495,
+        "y": 5.959171663624877
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "middleAutoStarting"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 6.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
@@ -40,7 +40,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Middle Auto Blue",
@@ -48,5 +48,5 @@
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
