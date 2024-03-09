@@ -101,6 +101,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         NamedCommands.registerCommand("TransitShootSpeaker", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
         NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1));
+        NamedCommands.registerCommand("setGyroAngle", transitShootCommand);
     }
 
     private void configureButtonBindings(){

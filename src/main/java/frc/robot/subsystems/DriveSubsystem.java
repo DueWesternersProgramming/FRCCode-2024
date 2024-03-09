@@ -20,7 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -82,6 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_gyro = new AHRS(Port.kMXP);
             m_gyro.reset();
             m_gyro.zeroYaw();
+            
 
             Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES / 2),
                     Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid field

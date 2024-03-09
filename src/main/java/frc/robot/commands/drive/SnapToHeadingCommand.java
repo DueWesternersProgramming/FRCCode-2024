@@ -8,7 +8,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class SnapToHeadingCommand extends Command {
     private final DriveSubsystem drive;
     private double m_angle;
-    private PIDController rotPIDController = new PIDController(0.005,0,0);
+    private PIDController rotPIDController = new PIDController(0.009,0,0.25);
     
     public SnapToHeadingCommand(DriveSubsystem drive, double angle) {
         this.drive = drive;

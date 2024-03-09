@@ -37,13 +37,13 @@ public class ClimberSubsystem extends SubsystemBase{
 
     public void setSpeed(double speed) {
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
-            if (getEncoder1Position() > 0 && speed > 0){
+            if ((getEncoder1Position() > 0 && speed > 0) || (speed < 0.1 && speed > -0.1)){
                 climberMotor1.set(0);
             }
             else {
                 climberMotor1.set(speed);
             }
-            if (getEncoder2Position() > 0 && speed > 0){
+            if ((getEncoder2Position() > 0 && speed > 0) || (speed < 0.1 && speed > -0.1)){
                 climberMotor2.set(0);
             }
             else {

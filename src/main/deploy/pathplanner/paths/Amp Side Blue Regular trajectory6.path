@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.616696340281041,
-        "y": 4.484888779753804
+        "x": 0.7626093884666401,
+        "y": 6.595503105536126
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.23873091451082,
-        "y": 3.9779013524728333
+        "x": 1.7626093884666383,
+        "y": 6.595503105536126
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3521533028814288,
-        "y": 4.670134185874073
+        "x": 7.650466355063765,
+        "y": 5.776912294565331
       },
       "prevControl": {
-        "x": 1.6208480559708436,
-        "y": 4.4350717851410435
-      },
-      "nextControl": {
-        "x": 2.406751948895824,
-        "y": 4.68768375065996
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.8981397630253705,
-        "y": 5.372116777487712
-      },
-      "prevControl": {
-        "x": 2.9020396663177555,
-        "y": 4.853429640355424
+        "x": 7.358112494002767,
+        "y": 6.104348618953648
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Non-Amp Side Blue",
+  "folder": "Amp Blue Side",
   "previewStartingState": {
-    "rotation": 120.0,
+    "rotation": -123.38851357611152,
     "velocity": 0
   },
   "useDefaultConstraints": true

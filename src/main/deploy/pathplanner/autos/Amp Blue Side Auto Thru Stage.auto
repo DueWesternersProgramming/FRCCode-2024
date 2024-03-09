@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.6
+      "x": 0.44686721852076183,
+      "y": 6.9822021297804815
     },
-    "rotation": -120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side Blue trajectory1"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -50,7 +56,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side Blue trajectory3"
+            "pathName": "Amp Side Blue trajectory5 (pickup thru stage)"
           }
         }
       ]

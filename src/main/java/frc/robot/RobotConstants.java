@@ -18,7 +18,7 @@ public final class RobotConstants {
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double MAX_SPEED_METERS_PER_SECOND = 4.0; // 4.42; //4.8;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 6.0; // 4.42; //4.8;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI; // radians per second
 
         public static final double DIRECTION_SLEW_RATE = 25;//1.2; // radians per second
@@ -208,7 +208,7 @@ public final class RobotConstants {
     }
     
     public static final class ShooterConstants {
-        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 11.0;
+        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.0;
         public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.5;
         public static final double SERVO_L_BEGINNING_POSITION = 0.3;
         public static final double SERVO_R_BEGINNING_POSITION = 0.3;
@@ -233,7 +233,7 @@ public final class RobotConstants {
 
     public static final class SubsystemEnabledConstants {
         public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
-        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
         public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
         public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
         public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
