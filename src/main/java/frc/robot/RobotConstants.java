@@ -237,6 +237,6 @@ public final class RobotConstants {
         public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
         public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
         public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
-        public static final boolean LIGHT_SUBSYSTEM_ENABLED = true;
+        public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
     }
 }

@@ -18,7 +18,7 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
+        drive.drive(0, 0, 0, true, true);
     }
 
     @Override
