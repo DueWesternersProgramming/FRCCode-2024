@@ -26,12 +26,13 @@ public class SnapToHeadingCommand extends Command {
         
             double rotPower = rotPIDController.calculate(drive.getHeading().get(), m_angle);
             //System.out.println(drive.getHeading());
-            rotPIDController.setTolerance(0.05);
+            
             drive.drive(0, 0, -rotPower, false, true);
         }
 
     @Override
     public void initialize() {   
+        rotPIDController.setTolerance(0.05);
     }
 
     @Override
