@@ -9,8 +9,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-    repositories {
-        maven {
+repositories {
+    maven {
         url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
         credentials {
             username = "Mechanical-Advantage-Bot"
@@ -18,7 +18,7 @@ java {
         }
     }
     mavenLocal()
-    }
+}
     
 configurations.all {
     exclude group: "edu.wpi.first.wpilibj"
@@ -91,6 +91,9 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
 }
 
 test {
