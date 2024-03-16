@@ -152,5 +152,6 @@ public class RobotContainer {
     public final class UserPolicy {
         public static boolean twistable = false;
         public static boolean xLocked = false;
+        public static boolean canAutoAlign = false;
     }
 }

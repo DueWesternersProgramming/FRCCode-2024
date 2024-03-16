@@ -49,8 +49,15 @@ public class TeleopDriveCommand extends Command {
 
         if (UserPolicy.twistable) {
             drive.drive(-ySquared, -xSquared, -rotSquared, DrivetrainConstants.kFieldRelative, true);
-        } else {
-            drive.drive(-ySquared, -xSquared, 0, DrivetrainConstants.kFieldRelative, true);
+        } 
+        
+        else {
+            if (UserPolicy.canAutoAlign){
+                drive.drive(-ySquared, -xSquared, DriveSubsystem.autoAimSpeed, DrivetrainConstants.kFieldRelative, true);
+            }
+            else {
+                drive.drive(-ySquared, -xSquared, 0, DrivetrainConstants.kFieldRelative, true);
+            }
         }
         
     }

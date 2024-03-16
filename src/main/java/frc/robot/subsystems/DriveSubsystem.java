@@ -44,10 +44,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     private AHRS m_gyro;
 
+
     private double m_currentRotation = 0.0;
     private double m_currentTranslationDir = 0.0;
     private double m_currentTranslationMag = 0.0;
-
+    public static double autoAimSpeed;
     private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DrivetrainConstants.MAGNITUDE_SLEW_RATE);
     private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DrivetrainConstants.ROTATIONAL_SLEW_RATE);
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
@@ -145,7 +146,13 @@ public class DriveSubsystem extends SubsystemBase {
     }
     public double getHeadingDegrees() {
         return m_gyro.getRotation2d().getDegrees();
-      }
+    }
+    public void setAutoAimSpeedVal(double val){
+        autoAimSpeed = val;
+    }
+    public double getautoAimSpeedVal(){
+        return autoAimSpeed;
+    }
 
     @Override
     public void periodic() {

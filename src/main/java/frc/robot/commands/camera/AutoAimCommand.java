@@ -2,6 +2,7 @@ package frc.robot.commands.camera;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants.DrivetrainConstants;
+import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -19,8 +20,8 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        
-        drive.drive(0, 0, 0, true, true);
+        UserPolicy.canAutoAlign = false;
+        //drive.drive(0, 0, 0, true, true);
     }
 
     @Override
@@ -28,14 +29,16 @@ public class AutoAimCommand extends Command {
         if (visionSubsystem.HasValidTarget()){
             double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
             xPIDController.setTolerance(0.015);
+            DriveSubsystem.autoAimSpeed = xPower;
+
             //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, 0, -xPower, false, true);
+            //drive.drive(0, 0, -xPower, false, true);
         }
     }
 
     @Override
     public void initialize() {   
-        
+        UserPolicy.canAutoAlign = true;
     }
 
     @Override
