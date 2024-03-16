@@ -19,7 +19,7 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        visionSubsystem.SetLedMode(0);
+        
         drive.drive(0, 0, 0, true, true);
     }
 
@@ -27,7 +27,7 @@ public class AutoAimCommand extends Command {
     public void execute() {
         if (visionSubsystem.HasValidTarget()){
             double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
-            xPIDController.setTolerance(0.02);
+            xPIDController.setTolerance(0.015);
             //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
             drive.drive(0, 0, -xPower, false, true);
         }
@@ -35,7 +35,7 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void initialize() {   
-        visionSubsystem.SetLedMode(1);
+        
     }
 
     @Override
