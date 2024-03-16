@@ -3,6 +3,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class AutoAimCommand extends Command {
@@ -18,6 +19,7 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        visionSubsystem.SetLedMode(0);
         drive.drive(0, 0, 0, true, true);
     }
 
@@ -27,12 +29,13 @@ public class AutoAimCommand extends Command {
             double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
             xPIDController.setTolerance(0.02);
             //double yPower= yPidController.calculate(visionSubsystem.GetTargetVerticalOffset(), 0);
-            drive.drive(0, 0, xPower, false, true);
+            drive.drive(0, 0, -xPower, false, true);
         }
     }
 
     @Override
     public void initialize() {   
+        visionSubsystem.SetLedMode(1);
     }
 
     @Override
