@@ -2,21 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.44686721852076183,
-      "y": 6.9822021297804815
+      "x": 0.6573619984846805,
+      "y": 6.642279723305886
     },
-    "rotation": 180.0
+    "rotation": -120.88082906736133
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Side Blue trajectory1"
-          }
-        },
         {
           "type": "named",
           "data": {
@@ -39,6 +33,12 @@
           "type": "path",
           "data": {
             "pathName": "Amp Side Blue trajectory3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitStopCommand"
           }
         },
         {

@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 8.188397459416,
+        "x": 9.0,
         "y": 4.1046482092964185
       },
       "prevControl": {
-        "x": 7.6883974594160005,
+        "x": 8.5,
         "y": 4.1046482092964185
       },
       "nextControl": null,
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 0.5,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
@@ -40,7 +40,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Amp Blue Side",
