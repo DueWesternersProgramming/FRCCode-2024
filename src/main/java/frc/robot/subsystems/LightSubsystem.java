@@ -20,14 +20,14 @@ public class LightSubsystem extends SubsystemBase {
     public LightSubsystem(){
         if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
             try{
-                candle = new CANdle(PortConstants.CAN.kLightPort);
+                candle = new CANdle(PortConstants.CAN.LIGHT_PORT);
                 candleConfig = new CANdleConfiguration();
                 candleConfig.stripType = LEDStripType.RGB;
                 candleConfig.statusLedOffWhenActive = true;
                 candleConfig.disableWhenLOS = false;
                 candleConfig.v5Enabled = false;
                 candleConfig.vBatOutputMode = VBatOutputMode.Off;
-                candleConfig.brightnessScalar = LightConstants.kLightBrightness;
+                candleConfig.brightnessScalar = LightConstants.LIGHT_BRIGHTNESS;
                 candle.configAllSettings(candleConfig);
             }
             catch (Exception e){

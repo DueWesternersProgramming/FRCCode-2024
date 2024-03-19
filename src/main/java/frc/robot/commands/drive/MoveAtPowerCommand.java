@@ -21,15 +21,15 @@ public class MoveAtPowerCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
+        drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
     }
 
     @Override
     public void execute() {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED){
-            drive.drive(-x, -y, -rot, DrivetrainConstants.kFieldRelative, true);
+            drive.drive(-x, -y, -rot, DrivetrainConstants.FIELD_RELATIVE, true);
         } else {
-            drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
+            drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
         }
     }
 

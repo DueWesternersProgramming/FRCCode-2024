@@ -39,7 +39,7 @@ public final class RobotConstants {
 
         public static final int GYRO_ORIENTATION = -1;
 
-        public static final boolean kFieldRelative = true;
+        public static final boolean FIELD_RELATIVE = true;
     }
 
     public static final class SwerveModuleConstants {
@@ -55,18 +55,18 @@ public final class RobotConstants {
 
         public static final double FREE_SPEED_RPM = 5676;
 
-        public static final int kDrivingMotorPinionTeeth = 14;
+        public static final int DRIVING_MOTOR_PINION_TEETH = 14;
 
         // Invert the turning encoder, since the output shaft rotates in the opposite
         // direction of
         // the steering motor in the MAXSwerve Module.
-        public static final boolean kTurningEncoderInverted = true;
+        public static final boolean TURNING_ENCODER_INVERTED = true;
 
         // Calculations required for driving motor conversion factors and feed forward
         public static final double DRIVING_MOTOR_FREE_SPEED_RPS = FREE_SPEED_RPM / 60;
         public static final double WHEEL_DIAMETER_METERS = 0.1016;
         public static final double WHEEL_CIRCUMFERENCE_METERS = WHEEL_DIAMETER_METERS * Math.PI;
-        public static final double DRIVING_MOTOR_REDUCTION = (45.0 * 17 * 50) / (kDrivingMotorPinionTeeth * 15 * 27);
+        public static final double DRIVING_MOTOR_REDUCTION = (45.0 * 17 * 50) / (DRIVING_MOTOR_PINION_TEETH * 15 * 27);
         public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVING_MOTOR_FREE_SPEED_RPS
                 * WHEEL_CIRCUMFERENCE_METERS) / DRIVING_MOTOR_REDUCTION;
 
@@ -130,7 +130,7 @@ public final class RobotConstants {
 
             public static final int INTAKE_MOTOR_PORT = 20;
 
-            public static final int kLightPort = 25;
+            public static final int LIGHT_PORT = 25;
 
             public static final int SHOOTER_MOTOR_PORT_1 = 21;
             public static final int SHOOTER_MOTOR_PORT_2 = 22;
@@ -141,7 +141,7 @@ public final class RobotConstants {
             public static final int LEFT_CLIMBER_PORT = 26;
             public static final int RIGHT_CLIMBER_PORT = 27;
         }
-        public static class CONTROLLER {
+        public static class Controller {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
             public static final int DRIVE_JOYSTICK = 0;
             public static final int PANEL = 1;
@@ -200,7 +200,7 @@ public final class RobotConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.0;
         public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.25;
         public static final double SERVO_BEGINNING_POSITION = 0.2;
-        public static final double SERVO_SHOOTING_POSITION = 0.8;
+        public static final double SERVO_SHOOTING_POSITION = 0.65;
     }
 
     public static final class TransitConstants {
@@ -208,8 +208,8 @@ public final class RobotConstants {
     }
 
     public static final class LightConstants {
-        public static final int kLightCount = 8;
-        public static final double kLightBrightness = 0.25;
+        public static final int LIGHT_COUNT = 8;
+        public static final double LIGHT_BRIGHTNESS = 0.25;
       }
     
     public static final class ClimberConstants {

@@ -22,7 +22,7 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
+        drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
     }
 
     @Override
@@ -33,12 +33,12 @@ public class TeleopDriveCommand extends Command {
             double rotRaw = -joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS);
 
             double xConstrained = MathUtil.applyDeadband(MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                    RobotConstants.PortConstants.CONTROLLER.JOYSTICK_AXIS_THRESHOLD);
+                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
             double yConstrained = MathUtil.applyDeadband(MathUtil.clamp(yRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                    RobotConstants.PortConstants.CONTROLLER.JOYSTICK_AXIS_THRESHOLD);
+                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
             double rotConstrained = MathUtil.applyDeadband(
                     MathUtil.clamp(rotRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                    RobotConstants.PortConstants.CONTROLLER.JOYSTICK_AXIS_THRESHOLD);
+                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
 
             double xSquared = Math.copySign(xConstrained * xConstrained, xConstrained);
             double ySquared = Math.copySign(yConstrained * yConstrained, yConstrained);
@@ -50,15 +50,15 @@ public class TeleopDriveCommand extends Command {
             }
 
             if (UserPolicy.twistable) {
-                drive.drive(-ySquared, -xSquared, -rotSquared, DrivetrainConstants.kFieldRelative, true);
+                drive.drive(-ySquared, -xSquared, -rotSquared, DrivetrainConstants.FIELD_RELATIVE, true);
             } 
             
             else {
                 if (UserPolicy.canAutoAlign){
-                    drive.drive(-ySquared, -xSquared, DriveSubsystem.autoAimSpeed, DrivetrainConstants.kFieldRelative, true);
+                    drive.drive(-ySquared, -xSquared, DriveSubsystem.autoAimSpeed, DrivetrainConstants.FIELD_RELATIVE, true);
                 }
                 else {
-                    drive.drive(-ySquared, -xSquared, 0, DrivetrainConstants.kFieldRelative, true);
+                    drive.drive(-ySquared, -xSquared, 0, DrivetrainConstants.FIELD_RELATIVE, true);
                 }
             }
         }
@@ -67,7 +67,7 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void initialize() {
-        drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
+        drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
     }
 
     @Override
