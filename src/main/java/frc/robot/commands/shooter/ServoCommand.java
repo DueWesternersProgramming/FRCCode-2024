@@ -16,11 +16,11 @@ public class ServoCommand extends Command {
 
     @Override
     public void initialize() {
-        if (mode == 0) { // speaker
-            shooter.setServoPosition(ShooterConstants.SERVO_L_BEGINNING_POSITION, ShooterConstants.SERVO_R_BEGINNING_POSITION);
+        if (mode == 0) { // down
+            shooter.setServoPosition(ShooterConstants.SERVO_BEGINNING_POSITION);
         }
-        else if (mode == 1) { // amp
-            shooter.setServoPosition(ShooterConstants.SERVO_L_SHOOTING_POSITION, ShooterConstants.SERVO_R_SHOOTING_POSITION);
+        else if (mode == 1) { // up
+            shooter.setServoPosition(ShooterConstants.SERVO_SHOOTING_POSITION);
         }
     }
     

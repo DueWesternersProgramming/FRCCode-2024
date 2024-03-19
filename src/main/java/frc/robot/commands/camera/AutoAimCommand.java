@@ -22,8 +22,8 @@ public class AutoAimCommand extends Command {
 
     @Override
     public void execute() {
-        if (visionSubsystem.HasValidTarget()){
-            double xPower = xPIDController.calculate(visionSubsystem.GetTargetHorizontalOffset(), 0);
+        if (visionSubsystem.hasValidTarget()){
+            double xPower = xPIDController.calculate(visionSubsystem.getTargetHorizontalOffset(), 0);
             xPIDController.setTolerance(0.015);
             DriveSubsystem.autoAimSpeed = xPower;
 

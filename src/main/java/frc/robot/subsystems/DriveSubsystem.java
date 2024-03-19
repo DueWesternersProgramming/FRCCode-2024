@@ -53,7 +53,7 @@ public class DriveSubsystem extends SubsystemBase {
     private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DrivetrainConstants.ROTATIONAL_SLEW_RATE);
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-    private SwerveDrivePoseEstimator  m_odometry;
+    private SwerveDrivePoseEstimator m_odometry;
 
     Field2d field = new Field2d();
 
@@ -264,10 +264,10 @@ public class DriveSubsystem extends SubsystemBase {
 
                 double currentTime = WPIUtilJNI.now() * 1e-6;
                 double elapsedTime = currentTime - m_prevTime;
-                double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
+                double angleDif = SwerveUtils.angleDifference(inputTranslationDir, m_currentTranslationDir);
 
                 if (angleDif < 0.45 * Math.PI) {
-                    m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir,
+                    m_currentTranslationDir = SwerveUtils.stepTowardsCircular(m_currentTranslationDir,
                             inputTranslationDir,
                             directionSlewRate * elapsedTime);
                     m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
@@ -275,11 +275,11 @@ public class DriveSubsystem extends SubsystemBase {
                     if (m_currentTranslationMag > 1e-4) {
                         m_currentTranslationMag = m_magLimiter.calculate(0.0);
                     } else {
-                        m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
+                        m_currentTranslationDir = SwerveUtils.wrapAngle(m_currentTranslationDir + Math.PI);
                         m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
                     }
                 } else {
-                    m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir,
+                    m_currentTranslationDir = SwerveUtils.stepTowardsCircular(m_currentTranslationDir,
                             inputTranslationDir,
                             directionSlewRate * elapsedTime);
                     m_currentTranslationMag = m_magLimiter.calculate(0.0);

@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class RobotConstants {
@@ -111,8 +110,7 @@ public final class RobotConstants {
 
     public static interface PortConstants {
 
-        public static final int LEFT_SHOOTER_SERVO_PORT = 8;
-        public static final int RIGHT_SHOOTER_SERVO_PORT = 9;
+        public static final int SHOOTER_SERVO_PORT = 0;
 
         public static class CAN {
             public static final int FRONT_LEFT_DRIVING = 5;
@@ -161,11 +159,6 @@ public final class RobotConstants {
     }
 
     public static final class AutonomousConstants {
-        public static final double MAX_SPEED_METERS_PER_SECOND = 3.0; // 4.42; //3.0;
-        public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
-        public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = Math.PI;
-        public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
-
         public static final double X_CONTROLLER_P = 0.05;
         public static final double Y_CONTROLLER_P = 0.02;
         public static final double THETA_CONTROLLER_P = 0.02;
@@ -177,10 +170,6 @@ public final class RobotConstants {
         public static final double X_CONTROLLER_D = 50;
         public static final double Y_CONTROLLER_D = 50;
         public static final double THETA_CONTROLLER_D = 50;
-
-        // Constraint for the motion profiled robot angle controller
-        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
-                MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED);
 
         public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
         public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
@@ -209,11 +198,9 @@ public final class RobotConstants {
     
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.0;
-        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.5;
-        public static final double SERVO_L_BEGINNING_POSITION = 0.3;
-        public static final double SERVO_R_BEGINNING_POSITION = 0.3;
-        public static final double SERVO_L_SHOOTING_POSITION = -.5;
-        public static final double SERVO_R_SHOOTING_POSITION = -.5;
+        public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.25;
+        public static final double SERVO_BEGINNING_POSITION = 0.2;
+        public static final double SERVO_SHOOTING_POSITION = 0.8;
     }
 
     public static final class TransitConstants {

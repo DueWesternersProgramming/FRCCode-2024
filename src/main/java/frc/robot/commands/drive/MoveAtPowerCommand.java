@@ -7,11 +7,14 @@ import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
 public class MoveAtPowerCommand extends Command {
     private final DriveSubsystem drive;
-    private double x;
-    private double y;
-    private double rot;
+    private final double x;
+    private final double y;
+    private final double rot;
 
     public MoveAtPowerCommand(DriveSubsystem drive, double x, double y, double rot) {
+        this.x = x;
+        this.y = y;
+        this.rot = rot;
         this.drive = drive;
         addRequirements(drive);
     }
@@ -23,13 +26,11 @@ public class MoveAtPowerCommand extends Command {
 
     @Override
     public void execute() {
-
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED){
-            drive.drive(-x, -y, -rot, false, true);
+            drive.drive(-x, -y, -rot, DrivetrainConstants.kFieldRelative, true);
         } else {
-            drive.drive(0, 0, 0, true, true);
+            drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
         }
-        
     }
 
     @Override
@@ -39,7 +40,7 @@ public class MoveAtPowerCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
 }

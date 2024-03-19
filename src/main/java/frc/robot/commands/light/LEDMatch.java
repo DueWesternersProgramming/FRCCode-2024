@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class LEDMatch extends Command {
-  public final LightSubsystem m_lightSubsystem;
+  public final LightSubsystem lightSubsystem;
   private int m_mode = 0;
 
   /**
@@ -23,7 +23,7 @@ public class LEDMatch extends Command {
    * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
    */
   public LEDMatch(LightSubsystem lightSubsystem, int mode) {
-    m_lightSubsystem = lightSubsystem; 
+    this.lightSubsystem = lightSubsystem; 
     m_mode = mode;
     addRequirements(lightSubsystem);
   }
@@ -31,21 +31,21 @@ public class LEDMatch extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_lightSubsystem.stopAnimation(0);
-    m_lightSubsystem.stopAnimation(1);
+    lightSubsystem.stopAnimation(0);
+    lightSubsystem.stopAnimation(1);
     switch (m_mode){
       case 0:
-        m_lightSubsystem.setColor(255, 0, 0);
+        lightSubsystem.setColor(255, 0, 0);
         break;
       case 1:
-        m_lightSubsystem.setColor(0, 255, 0);
+        lightSubsystem.setColor(0, 255, 0);
         break;
       case 2:
-        m_lightSubsystem.setAnimation(new ColorFlowAnimation(0, 0, 255, 0, 0.3, 308, Direction.Forward, 8), 0);
-        m_lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 0.3, 308, Direction.Backward, 8), 1);
+        lightSubsystem.setAnimation(new ColorFlowAnimation(0, 0, 255, 0, 0.3, 308, Direction.Forward, 8), 0);
+        lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 0.3, 308, Direction.Backward, 8), 1);
         break;
       case 3:
-        m_lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 1, 308, Direction.Forward, 8), 0);
+        lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 1, 308, Direction.Forward, 8), 0);
         break;
     }
   }

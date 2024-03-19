@@ -25,6 +25,7 @@ import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDMatch;
 import frc.robot.commands.light.LEDOff;
+import frc.robot.commands.shooter.ServoCommand;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
@@ -42,6 +43,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
+import frc.robot.commands.auto.RobotSystemsCheckCommand;
 import frc.robot.commands.drive.MoveAtPowerCommand;
 
 /*
@@ -65,23 +67,22 @@ public class RobotContainer {
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
 
-    PowerDistribution PDP;
+    PowerDistribution pdp;
 
     private final Field2d field = new Field2d();
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new TeleopDriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
-        //CameraServer.startAutomaticCapture();
         createNamedCommands();
 
         configureButtonBindings();
 
         try {
-            PDP = new PowerDistribution(16, ModuleType.kRev);
+            pdp = new PowerDistribution(16, ModuleType.kRev);
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
             Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
-            Shuffleboard.getTab("Power").add(PDP);
+            Shuffleboard.getTab("Power").add(pdp);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -123,7 +124,9 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0)); // SPEAKER
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1)); // AMP
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1)); // AMP
-        //new POVButton(operatorJoystick, 0).onTrue(new ServoCommand(shooterSubsystem, 1));
+       
+        new POVButton(operatorJoystick, 0).onTrue(new ServoCommand(shooterSubsystem, 1));
+        new POVButton(operatorJoystick, 180).onTrue(new ServoCommand(shooterSubsystem, 0));
     }
     /**
     * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
@@ -143,6 +146,10 @@ public class RobotContainer {
         else {
             return new GyroReset(driveSubsystem);
         }
+    }
+
+    public Command getTestingCommand(){
+        return new RobotSystemsCheckCommand(driveSubsystem, shooterSubsystem, intakeSubsystem, transitSubsystem);
     }
 
     public Field2d getField() {

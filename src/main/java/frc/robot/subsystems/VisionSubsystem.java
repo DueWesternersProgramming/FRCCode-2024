@@ -13,7 +13,7 @@ public class VisionSubsystem extends SubsystemBase{
 
         try{
             cameraTableEntry = NetworkTableInstance.getDefault().getTable("limelight");
-            IntializeLimelight();
+            intializeLimelight();
         }
         catch (Exception e){
             System.out.println("Vision Error: " + e);
@@ -21,13 +21,13 @@ public class VisionSubsystem extends SubsystemBase{
 
     }
 
-    public void IntializeLimelight() {
-        SetLedMode(0);
-        SetCamMode(0);
-        SetActivePipeline(0);
+    public void intializeLimelight() {
+        setLedMode(0);
+        setCamMode(0);
+        setActivePipeline(0);
     }
 
-    public boolean HasValidTarget(){
+    public boolean hasValidTarget(){
         double tv = cameraTableEntry.getEntry("tv").getDouble(0);
         if(tv == 1){
             return true;
@@ -36,32 +36,32 @@ public class VisionSubsystem extends SubsystemBase{
         return false;
     }
 
-    public double GetTargetHorizontalOffset(){
-        if(HasValidTarget()){
+    public double getTargetHorizontalOffset(){
+        if(hasValidTarget()){
             return cameraTableEntry.getEntry("tx").getDouble(0);
         }
         return Double.NaN;
     }
 
-    public double GetTargetVerticalOffset(){
-        if (HasValidTarget()) {
+    public double getTargetVerticalOffset(){
+        if (hasValidTarget()) {
             return cameraTableEntry.getEntry("ty").getDouble(0);
         }
         return Double.NaN;
     }
 
-    public double GetTargetArea(){
-        if(HasValidTarget()){
+    public double getTargetArea(){
+        if(hasValidTarget()){
             return cameraTableEntry.getEntry("ta").getDouble(0);
         }
         return Double.NaN;
     }
 
-    public double GetCamMode(){
+    public double getCamMode(){
         return cameraTableEntry.getEntry("camMode").getDouble(0);
     }
 
-    public double GetLedMode(){
+    public double getLedMode(){
         return cameraTableEntry.getEntry("ledMode").getDouble(0);
     }
 
@@ -69,15 +69,15 @@ public class VisionSubsystem extends SubsystemBase{
         return cameraTableEntry.getEntry("getpipe").getDouble(0);
     }
 
-    public void SetCamMode(double camMode){
+    public void setCamMode(double camMode){
         cameraTableEntry.getEntry("camMode").setNumber(camMode);
     }
 
-    public void SetLedMode(double ledMode){
+    public void setLedMode(double ledMode){
         cameraTableEntry.getEntry("ledMode").setNumber(ledMode);
     }
 
-    public void SetActivePipeline(int pipeline){
+    public void setActivePipeline(int pipeline){
         cameraTableEntry.getEntry("pipeline").setNumber(pipeline);
     }
 

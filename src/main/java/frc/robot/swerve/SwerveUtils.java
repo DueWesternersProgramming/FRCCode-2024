@@ -12,7 +12,7 @@ public class SwerveUtils {
      * @return The new value for {@code _current} after performing the specified
      *         step towards the specified target.
      */
-    public static double StepTowards(double _current, double _target, double _stepsize) {
+    public static double stepTowards(double _current, double _target, double _stepsize) {
         if (Math.abs(_current - _target) <= _stepsize) {
             return _target;
         } else if (_target < _current) {
@@ -35,9 +35,9 @@ public class SwerveUtils {
      *         specified step towards the specified target.
      *         This value will always lie in the range 0 to 2*PI (exclusive).
      */
-    public static double StepTowardsCircular(double _current, double _target, double _stepsize) {
-        _current = WrapAngle(_current);
-        _target = WrapAngle(_target);
+    public static double stepTowardsCircular(double _current, double _target, double _stepsize) {
+        _current = wrapAngle(_current);
+        _target = wrapAngle(_target);
 
         double stepDirection = Math.signum(_target - _current);
         double difference = Math.abs(_current - _target);
@@ -50,7 +50,7 @@ public class SwerveUtils {
             if (_current + 2 * Math.PI - _target < _stepsize || _target + 2 * Math.PI - _current < _stepsize) {
                 return _target;
             } else {
-                return WrapAngle(_current - stepDirection * _stepsize); // this will handle wrapping gracefully
+                return wrapAngle(_current - stepDirection * _stepsize); // this will handle wrapping gracefully
             }
 
         } else {
@@ -67,7 +67,7 @@ public class SwerveUtils {
      * @return The (unsigned) minimum difference between the two angles (in
      *         radians).
      */
-    public static double AngleDifference(double _angleA, double _angleB) {
+    public static double angleDifference(double _angleA, double _angleB) {
         double difference = Math.abs(_angleA - _angleB);
         return difference > Math.PI ? (2 * Math.PI) - difference : difference;
     }
@@ -79,7 +79,7 @@ public class SwerveUtils {
      *               can lie multiple wraps outside the output range.
      * @return An angle (in radians) from 0 and 2*PI (exclusive).
      */
-    public static double WrapAngle(double _angle) {
+    public static double wrapAngle(double _angle) {
         double twoPi = 2 * Math.PI;
 
         if (_angle == twoPi) { // Handle this case separately to avoid floating point errors with the floor

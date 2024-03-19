@@ -13,12 +13,12 @@ import edu.wpi.first.math.util.Units;
  */
 public class CanCoder
 {
-	private CANcoder _canCoder;
+	private CANcoder canCoder;
 	private boolean inverted;
 	private double positionOffset;
 
 	public CanCoder(int port) {
-		this._canCoder = new CANcoder(port);
+		this.canCoder = new CANcoder(port);
 		this.inverted = false;
 		this.positionOffset = 0.0;
 	}
@@ -30,7 +30,7 @@ public class CanCoder
 	 */
 	public double getPosition() {
 
-		return (inverted ? -1.0 : 1.0) * Units.rotationsToRadians(_canCoder.getAbsolutePosition().getValue());
+		return (inverted ? -1.0 : 1.0) * Units.rotationsToRadians(canCoder.getAbsolutePosition().getValue());
 	}
 
 	/**

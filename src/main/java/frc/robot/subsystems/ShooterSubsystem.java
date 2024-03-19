@@ -16,7 +16,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     CANSparkMax shooterMotor1, shooterMotor2;
     RelativeEncoder shooterEncoder1, shooterEncoder2;
-    Servo servoL, servoR;
+    Servo servo;
 
     public ShooterSubsystem(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
@@ -29,8 +29,7 @@ public class ShooterSubsystem extends SubsystemBase{
             shooterMotor1.setInverted(true);
             // shooterMotor1.burnFlash();
             // shooterMotor2.burnFlash();
-            servoL = new Servo(PortConstants.LEFT_SHOOTER_SERVO_PORT);
-            servoR = new Servo(PortConstants.RIGHT_SHOOTER_SERVO_PORT);
+            servo = new Servo(PortConstants.SHOOTER_SERVO_PORT);
             resetEncoder();
         }
     }
@@ -95,17 +94,15 @@ public class ShooterSubsystem extends SubsystemBase{
         }
     }
 
-    public void setServoPosition(double positionL, double positionR){
-        servoL.set(positionL);
-        servoR.set(positionR);
+    public void setServoPosition(double position){
+        servo.set(position);
     }
 
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Shooter Speed", getspeed1());
-            SmartDashboard.putNumber("ServoLPosition", servoL.get());
-            SmartDashboard.putNumber("ServoRPosition", servoR.get());
+            SmartDashboard.putNumber("ServoPosition", servo.get());
         }
     }
 }
