@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7,
-      "y": 4.5
+      "x": 1.3140196323188638,
+      "y": 4.625780435583695
     },
-    "rotation": 120.0
+    "rotation": -178.36342295838335
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Non-Amp Blue Side trajectory 1"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -26,31 +32,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Non-Amp Blue Side trajectory 1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "Non Amp Blue Side trajectory 2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "TransitShootSpeaker"
+            "name": "IntakeTransitStopCommand"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Non-Amp Blue Side trajectory 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Non Amp Blue Side trajectory 2"
+            "pathName": "Copy of Non-Amp Blue Side trajectory 3"
           }
         },
         {

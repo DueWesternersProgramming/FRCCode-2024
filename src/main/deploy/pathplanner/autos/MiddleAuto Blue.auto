@@ -44,6 +44,12 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeTransitStopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "TransitShootSpeaker"
           }
         },
@@ -69,6 +75,12 @@
           "type": "path",
           "data": {
             "pathName": "MiddleTrajectory4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitStopCommand"
           }
         },
         {

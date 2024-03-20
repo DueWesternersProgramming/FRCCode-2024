@@ -17,12 +17,12 @@ public final class RobotConstants {
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double MAX_SPEED_METERS_PER_SECOND = 6.0; // 4.42; //4.8;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 7.0; // 4.42; //4.8;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI; // radians per second
 
         public static final double DIRECTION_SLEW_RATE = 25;//1.2; // radians per second
         public static final double MAGNITUDE_SLEW_RATE = 25;//1.8; // 2.0; //1.8; // percent per second (1 = 100%)
-        public static final double ROTATIONAL_SLEW_RATE = 5;//2.0; // 20.0; //2.0; // percent per second (1 = 100%)
+        public static final double ROTATIONAL_SLEW_RATE = 10;//2.0; // 20.0; //2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
         public static final double TRACK_WIDTH_METERS = Units.inchesToMeters(25);
@@ -94,7 +94,7 @@ public final class RobotConstants {
         public static final double DRIVING_MIN_OUTPUT_NORMALIZED = -1;
         public static final double DRIVING_MAX_OUTPUT_NORMALIZED = 1;
 
-        public static final double TURNING_P = 1.0; // 1.0; // 1.0 might be a bit too much - reduce a bit if needed
+        public static final double TURNING_P = 1.25; // 1.0; // 1.0 might be a bit too much - reduce a bit if needed
         public static final double TURNING_I = 0;
         public static final double TURNING_D = 0;
         public static final double TURNING_FF = 0;
@@ -160,8 +160,8 @@ public final class RobotConstants {
 
     public static final class AutonomousConstants {
         public static final double X_CONTROLLER_P = 0.05;
-        public static final double Y_CONTROLLER_P = 0.02;
-        public static final double THETA_CONTROLLER_P = 0.02;
+        public static final double Y_CONTROLLER_P = 0.05;
+        public static final double THETA_CONTROLLER_P = 0.05;
 
         public static final double X_CONTROLLER_I = 0;
         public static final double Y_CONTROLLER_I = 0;
@@ -176,7 +176,6 @@ public final class RobotConstants {
     }
 
     public static final class VisionConstants {
-        public static final String PHOTON_CAMERA_NAME = "photonvision";
         public static final double AUTO_ALIGN_P = 0.005;
         public static final double AUTO_ALIGN_I = 0;
         public static final double AUTO_ALIGN_D = 55;

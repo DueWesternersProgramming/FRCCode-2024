@@ -123,7 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
                             new PIDConstants(SwerveModuleConstants.ROT_MOTION_P, SwerveModuleConstants.ROT_MOTION_I, SwerveModuleConstants.ROT_MOTION_D), // Rotation PID constants
                             RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
                             RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
-                            new ReplanningConfig() // Default path replanning config. See the API for the options here
+                            new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
                     ),
                     () -> {
                         // Boolean supplier that controls when the path will be mirrored for the red alliance
