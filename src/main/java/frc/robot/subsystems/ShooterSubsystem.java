@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -14,22 +13,20 @@ import frc.robot.RobotConstants.PortConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
-    CANSparkMax shooterMotor1, shooterMotor2;
-    RelativeEncoder shooterEncoder1, shooterEncoder2;
-    Servo servo;
+    CANSparkMax shooterMotor1, shooterMotor2, ampAim;
+    RelativeEncoder shooterEncoder1, shooterEncoder2,ampAimEncoder;
 
     public ShooterSubsystem(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             shooterMotor1 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_1, MotorType.kBrushless);
             shooterMotor2 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_2, MotorType.kBrushless);
+            ampAim = new CANSparkMax(PortConstants.CAN.AIM_MOTOR_PORT, MotorType.kBrushless);
             shooterMotor1.setIdleMode(IdleMode.kBrake);
             shooterMotor2.setIdleMode(IdleMode.kBrake);
             shooterEncoder1 = shooterMotor1.getEncoder();
             shooterEncoder2 = shooterMotor2.getEncoder();
+            ampAimEncoder = ampAim.getEncoder();
             shooterMotor1.setInverted(true);
-            // shooterMotor1.burnFlash();
-            // shooterMotor2.burnFlash();
-            servo = new Servo(PortConstants.SHOOTER_SERVO_PORT);
             resetEncoder();
         }
     }
@@ -40,6 +37,13 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public double getspeed2() {
         return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? shooterMotor2.get(): 0;
+    }
+    public double getAimingPosition(){
+        return ampAimEncoder.getPosition();
+    }
+    
+    public void setShooterAim(double speed){
+        ampAim.set(speed);
     }
 
     /**
@@ -78,6 +82,7 @@ public class ShooterSubsystem extends SubsystemBase{
             shooterMotor2.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/2);
         }
     }
+    
 
     public double getEncoderPosition1() {
         return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? shooterEncoder1.getPosition() : 0;
@@ -94,15 +99,10 @@ public class ShooterSubsystem extends SubsystemBase{
         }
     }
 
-    public void setServoPosition(double position){
-        servo.set(position);
-    }
-
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Shooter Speed", getspeed1());
-            SmartDashboard.putNumber("ServoPosition", servo.get());
         }
     }
 }

@@ -25,7 +25,6 @@ import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDMatch;
 import frc.robot.commands.light.LEDOff;
-import frc.robot.commands.shooter.ServoCommand;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
@@ -45,6 +44,7 @@ import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
 import frc.robot.commands.drive.MoveAtPowerCommand;
+import frc.robot.commands.shooter.SetAimPower;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -112,7 +112,7 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(visionSubsystem));
         new JoystickButton(driveJoystick, 2).whileTrue(new SnapToHeadingCommand(driveSubsystem, 45));
 
-        new POVButton(driveJoystick, 0).whileTrue(new MoveAtPowerCommand(driveSubsystem, 0.15, 0, 0));
+        //new POVButton(driveJoystick, 0).whileTrue(new MoveAtPowerCommand(driveSubsystem, 0.15, 0, 0));
         // new POVButton(driveJoystick, 90).whileTrue(new SnapToHeadingCommand(driveSubsystem, 90));
         // new POVButton(driveJoystick, 180).whileTrue(new SnapToHeadingCommand(driveSubsystem, 180));
         // new POVButton(driveJoystick, 270).whileTrue(new SnapToHeadingCommand(driveSubsystem, 270));
@@ -125,8 +125,8 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1)); // AMP
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1)); // AMP
        
-        new POVButton(operatorJoystick, 0).onTrue(new ServoCommand(shooterSubsystem, 1));
-        new POVButton(operatorJoystick, 180).onTrue(new ServoCommand(shooterSubsystem, 0));
+        // new POVButton(operatorJoystick, 0).onTrue(new SetAimPower(shooterSubsystem, -0.1)).onFalse(new SetAimPower(shooterSubsystem, 0));
+        // new POVButton(operatorJoystick, 180).onTrue(new SetAimPower(shooterSubsystem, 0.1)).onFalse(new SetAimPower(shooterSubsystem, 0));
     }
     /**
     * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)

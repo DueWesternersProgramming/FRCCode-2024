@@ -17,7 +17,7 @@ public final class RobotConstants {
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double MAX_SPEED_METERS_PER_SECOND = 6.0; // 4.42; //4.8;
+        public static final double MAX_SPEED_METERS_PER_SECOND = 5.0; // 4.42; //4.8;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI; // radians per second
 
         public static final double DIRECTION_SLEW_RATE = 25;//1.2; // radians per second
@@ -140,6 +140,8 @@ public final class RobotConstants {
 
             public static final int LEFT_CLIMBER_PORT = 26;
             public static final int RIGHT_CLIMBER_PORT = 27;
+
+            public static final int AIM_MOTOR_PORT = 28;
         }
         public static class Controller {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
