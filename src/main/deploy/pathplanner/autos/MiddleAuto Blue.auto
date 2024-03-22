@@ -48,6 +48,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "TransitShootSpeaker"
@@ -81,6 +87,12 @@
           "type": "named",
           "data": {
             "name": "IntakeTransitStopCommand"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {

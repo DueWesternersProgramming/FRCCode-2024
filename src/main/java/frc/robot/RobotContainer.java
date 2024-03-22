@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.SnapToHeadingCommand;
 import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
@@ -44,6 +43,7 @@ import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
+import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.MoveAtPowerCommand;
 
 /*
@@ -121,9 +121,8 @@ public class RobotContainer {
 
         new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         new JoystickButton(operatorJoystick, 7).onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem)).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0)); // SPEAKER
-        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1)); // AMP
-        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1)); // AMP
+        new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked)); // SPEAKER
+        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)); // AMP
        
         new POVButton(operatorJoystick, 0).onTrue(new ServoCommand(shooterSubsystem, 1));
         new POVButton(operatorJoystick, 180).onTrue(new ServoCommand(shooterSubsystem, 0));
@@ -160,5 +159,6 @@ public class RobotContainer {
         public static boolean twistable = false;
         public static boolean xLocked = false;
         public static boolean canAutoAlign = false;
+        public static boolean shootCommandLocked = false;
     }
 }

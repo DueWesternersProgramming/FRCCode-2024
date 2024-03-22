@@ -42,6 +42,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "TransitShootSpeaker"
@@ -57,30 +63,6 @@
           "type": "named",
           "data": {
             "name": "IntakeTransitCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Side Blue trajectory5 (pickup regular)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Side Blue trajectory1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TransitShootSpeaker"
           }
         }
       ]
