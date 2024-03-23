@@ -2,21 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7509152340242001,
-      "y": 4.373613761472538
+      "x": 0.7401886415755699,
+      "y": 4.520382906671662
     },
-    "rotation": 115.46334506187162
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Non-Amp Blue Side trajectory 1"
-          }
-        },
         {
           "type": "named",
           "data": {
@@ -32,6 +26,12 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Non-Amp Blue Side trajectory 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Non Amp Blue Side trajectory 2"
           }
         },
@@ -42,9 +42,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Copy of Non-Amp Blue Side trajectory 3"
+            "waitTime": 0.2
           }
         },
         {
