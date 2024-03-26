@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -16,7 +15,6 @@ public class ShooterSubsystem extends SubsystemBase{
 
     CANSparkMax shooterMotor1, shooterMotor2;
     RelativeEncoder shooterEncoder1, shooterEncoder2;
-    Servo servo;
 
     public ShooterSubsystem(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
@@ -29,7 +27,6 @@ public class ShooterSubsystem extends SubsystemBase{
             shooterMotor1.setInverted(true);
             // shooterMotor1.burnFlash();
             // shooterMotor2.burnFlash();
-            servo = new Servo(PortConstants.SHOOTER_SERVO_PORT);
             resetEncoder();
         }
     }
@@ -94,15 +91,10 @@ public class ShooterSubsystem extends SubsystemBase{
         }
     }
 
-    public void setServoPosition(double position){
-        servo.set(position);
-    }
-
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Shooter Speed", getspeed1());
-            SmartDashboard.putNumber("ServoPosition", servo.get());
         }
     }
 }
