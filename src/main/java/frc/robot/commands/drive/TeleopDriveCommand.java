@@ -51,7 +51,7 @@ public class TeleopDriveCommand extends Command {
 
             if (UserPolicy.twistable) {
                 drive.drive(-ySquared, -xSquared, -rotSquared, DrivetrainConstants.FIELD_RELATIVE, true);
-            } 
+            }
             
             else {
                 if (UserPolicy.canAutoAlign){

@@ -110,8 +110,6 @@ public final class RobotConstants {
 
     public static interface PortConstants {
 
-        public static final int SHOOTER_SERVO_PORT = 0;
-
         public static class CAN {
             public static final int FRONT_LEFT_DRIVING = 5;
             public static final int REAR_LEFT_DRIVING = 7;
