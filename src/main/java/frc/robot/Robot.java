@@ -35,7 +35,7 @@ public class Robot extends LoggedRobot {
 
         if (isReal()) {
             Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
-            Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+            Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables for live view
         } else {
             setUseTiming(false); // Run as fast as possible
             String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -46,16 +46,6 @@ public class Robot extends LoggedRobot {
         Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     }
 
-    /**
-     * This function is called every 20 ms, no matter the mode. Use this for items
-     * like diagnostics
-     * that you want ran during disabled, autonomous, teleoperated and test.
-     *
-     * <p>
-     * This runs after the mode specific periodic functions, but before LiveWindow
-     * and
-     * SmartDashboard integrated updating.
-     */
     @Override
     public void robotPeriodic() {
         // Runs the Scheduler. This is responsible for polling buttons, adding

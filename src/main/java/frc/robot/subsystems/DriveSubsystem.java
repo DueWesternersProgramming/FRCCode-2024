@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -63,11 +65,6 @@ public class DriveSubsystem extends SubsystemBase {
     Field2d field = new Field2d();
 
     Pose2d pose = new Pose2d();
-    Pose2d pose2 = new Pose2d();
-    
-    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
-    StructArrayPublisher<Pose2d> arrayPublisher = NetworkTableInstance.getDefault().getStructArrayTopic("MyPoseArray", Pose2d.struct).publish();
-
     /** Creates a new Drivetrain. */
     public DriveSubsystem() {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
@@ -160,6 +157,7 @@ public class DriveSubsystem extends SubsystemBase {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             field.setRobotPose(m_odometry.getEstimatedPosition());
             SmartDashboard.putData("Odometry Pose Field", field);
+            
             SmartDashboard.putNumberArray("modules pose angles", new double[] {
                     m_frontLeft.getPosition().angle.getDegrees(),
                     m_frontRight.getPosition().angle.getDegrees(),
@@ -186,13 +184,15 @@ public class DriveSubsystem extends SubsystemBase {
                     m_rearRight.getTurningAbsoluteEncoder().getPosition()
             }); 
 
-        
+            Logger.recordOutput("Robot Pose (yes really)", pose);
             
 
-            SmartDashboard.putNumber("LEFT", m_rearRight.getTurningAbsoluteEncoder().getPosition());
+            //SmartDashboard.putNumber("LEFT", m_rearRight.getTurningAbsoluteEncoder().getPosition());
             
 
             SmartDashboard.putData("NAVX", m_gyro);
+
+
 
             // Update the odometry in the periodic block
             m_odometry.update(
@@ -203,9 +203,7 @@ public class DriveSubsystem extends SubsystemBase {
                             m_rearLeft.getPosition(),
                             m_rearRight.getPosition()
                     });
-
-                    publisher.set(pose);
-                    arrayPublisher.set(new Pose2d[] {pose, pose2});
+                    
 
             
 
