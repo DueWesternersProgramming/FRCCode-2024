@@ -140,7 +140,7 @@ public class DriveSubsystem extends SubsystemBase {
                         return false;
                     },
                     this // Reference to this subsystem to set requirements
-                );
+            );
         }
     }
 
@@ -440,4 +440,3 @@ public class DriveSubsystem extends SubsystemBase {
         return ChassisSpeeds.fromRobotRelativeSpeeds(m_gyro.getVelocityX(), m_gyro.getVelocityY(), radiansPerSecond, m_gyro.getRotation2d());
     }
 }
-
