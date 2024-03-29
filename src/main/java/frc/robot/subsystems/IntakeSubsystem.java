@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -13,7 +14,6 @@ import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
-
 
 public class IntakeSubsystem extends SubsystemBase{
     
@@ -72,14 +72,14 @@ public class IntakeSubsystem extends SubsystemBase{
             return colorSensor.getColor();
         }
         else {
-            return Color.kBlack;
+            return Color.kWhite;
         }
     }
 
     public boolean seesNote() {
         try {
             if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
-                if (Integer.parseInt(colorSensor.getColor().toHexString().substring(1, 2)) >= 8){
+                if (Integer.parseInt(colorSensor.getColor().toHexString().substring(1, 2)) >= 5){
                     return true;
                 }
             }
@@ -94,8 +94,8 @@ public class IntakeSubsystem extends SubsystemBase{
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
-            SmartDashboard.putString("Color", getColor().toString());
-            SmartDashboard.putBoolean("SeesNote", seesNote());
+            //SmartDashboard.putBoolean("SeesNote", seesNote());
+            //Logger.recordOutput("Color", getColor().toString());
         }
     }
 }

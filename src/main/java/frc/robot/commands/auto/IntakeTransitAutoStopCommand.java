@@ -10,11 +10,11 @@ import frc.robot.commands.shooter.StopShooter;
 
 public class IntakeTransitAutoStopCommand extends SequentialCommandGroup{
     
-    public IntakeTransitAutoStopCommand(ShooterSubsystem shooter_Subsystem, IntakeSubsystem intake_Subsystem, TransitSubsystem transit_Subsystem) {
+    public IntakeTransitAutoStopCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, TransitSubsystem transitSubsystem) {
         addCommands(
-            new StopShooter(shooter_Subsystem),
-            new StopIntake(intake_Subsystem),
-            new StopTransit(transit_Subsystem)
+            new StopShooter(shooterSubsystem),
+            new StopIntake(intakeSubsystem),
+            new StopTransit(transitSubsystem)
         );
     }
 }

@@ -18,22 +18,22 @@ import frc.robot.commands.transit.ReverseTransit;
 
 public class TransitShootAutoCommand extends SequentialCommandGroup{
     
-    public TransitShootAutoCommand(ShooterSubsystem shooter_Subsystem, TransitSubsystem transit_Subsystem, IntakeSubsystem intake_Subsystem, LightSubsystem light_subsystem, int mode) {
+    public TransitShootAutoCommand(ShooterSubsystem shooterSubsystem, TransitSubsystem transitSubsystem, IntakeSubsystem intakeSubsystem, LightSubsystem lightsubsystem, int mode) {
         addCommands(
             new LockShootCommand(true),
-            new LEDMatch(light_subsystem, 3),
-            new StartShooter(shooter_Subsystem, mode),
-            new ReverseTransit(transit_Subsystem),
+            new LEDMatch(lightsubsystem, 3),
+            new StartShooter(shooterSubsystem, mode),
+            new ReverseTransit(transitSubsystem),
             new WaitCommand(0.25),
-            new StopTransit(transit_Subsystem),
+            new StopTransit(transitSubsystem),
             new WaitCommand(0.2),
-            new StartIntake(intake_Subsystem),
-            new StartTransit(transit_Subsystem),
+            new StartIntake(intakeSubsystem),
+            new StartTransit(transitSubsystem),
             new WaitCommand(1),
-            new StopShooter(shooter_Subsystem),
-            new StopTransit(transit_Subsystem),
-            new StopIntake(intake_Subsystem),
-            new LEDMatch(light_subsystem, 2),
+            new StopShooter(shooterSubsystem),
+            new StopTransit(transitSubsystem),
+            new StopIntake(intakeSubsystem),
+            new LEDMatch(lightsubsystem, 2),
             new LockShootCommand(false)
         );
     }

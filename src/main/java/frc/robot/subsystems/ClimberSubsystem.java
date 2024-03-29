@@ -23,8 +23,6 @@ public class ClimberSubsystem extends SubsystemBase{
             climberMotor1.setIdleMode(IdleMode.kBrake);
             climberMotor2.setIdleMode(IdleMode.kBrake);
             climberMotor1.setInverted(true);
-            //climberMotor1.burnFlash();
-            //climberMotor2.burnFlash();
             climber1RelativeEncoder = climberMotor1.getEncoder();
             climber2RelativeEncoder = climberMotor2.getEncoder();
             resetEncoders();
