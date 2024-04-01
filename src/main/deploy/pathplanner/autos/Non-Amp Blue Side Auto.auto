@@ -2,15 +2,45 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7401886415755699,
-      "y": 4.520382906671662
+      "x": 0.7753211512129142,
+      "y": 4.496961233580098
     },
-    "rotation": 120.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Non-Amp Blue Side trajectory 0.3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Non-Amp Blue Side trajectory 0.5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitStopCommand"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -36,12 +66,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 0.2
@@ -50,7 +74,19 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeTransitStopCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
           }
         }
       ]

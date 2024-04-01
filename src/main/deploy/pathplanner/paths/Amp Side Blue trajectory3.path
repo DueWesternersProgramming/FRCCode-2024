@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.2,
-      "rotationDegrees": -120.0,
+      "rotationDegrees": 59.2721784025477,
       "rotateFast": false
     }
   ],
@@ -45,13 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.0,
+    "rotation": 57.012632075391,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Amp Blue Side",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -0.80176384086368,
     "velocity": 0.0
   },
   "useDefaultConstraints": false

@@ -50,15 +50,15 @@ public class TeleopDriveCommand extends Command {
             }
 
             if (UserPolicy.twistable) {
-                drive.drive(-ySquared, -xSquared, -rotSquared, DrivetrainConstants.FIELD_RELATIVE, true);
+                drive.drive(ySquared, xSquared, rotSquared, DrivetrainConstants.FIELD_RELATIVE, true);
             }
             
             else {
                 if (UserPolicy.canAutoAlign){
-                    drive.drive(-ySquared, -xSquared, DriveSubsystem.autoAimSpeed, DrivetrainConstants.FIELD_RELATIVE, true);
+                    drive.drive(ySquared, xSquared, DriveSubsystem.autoAimSpeed, DrivetrainConstants.FIELD_RELATIVE, true);
                 }
                 else {
-                    drive.drive(-ySquared, -xSquared, 0, DrivetrainConstants.FIELD_RELATIVE, true);
+                    drive.drive(ySquared, xSquared, 0, DrivetrainConstants.FIELD_RELATIVE, true);
                 }
             }
         }

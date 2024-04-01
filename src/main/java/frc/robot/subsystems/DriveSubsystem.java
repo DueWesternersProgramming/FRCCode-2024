@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.RobotConstants.SwerveModuleConstants;
 import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.swerve.SwerveModule;
 import frc.robot.swerve.SwerveUtils;
@@ -92,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             m_odometry = new SwerveDrivePoseEstimator(
                 DrivetrainConstants.DRIVE_KINEMATICS,
-                Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * m_gyro.getAngle()),
+                Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getHeadingDegrees()),
                 new SwerveModulePosition[] {
                         m_frontLeft.getPosition(),
                         m_frontRight.getPosition(),
@@ -120,8 +119,8 @@ public class DriveSubsystem extends SubsystemBase {
                     this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     this::pathFollowDrive,
                     new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                            new PIDConstants(SwerveModuleConstants.TRANSLATION_P, SwerveModuleConstants.TRANSLATION_I, SwerveModuleConstants.TRANSLATION_D), // Translation PID constants
-                            new PIDConstants(SwerveModuleConstants.ROT_MOTION_P, SwerveModuleConstants.ROT_MOTION_I, SwerveModuleConstants.ROT_MOTION_D), // Rotation PID constants
+                            new PIDConstants(AutonomousConstants.X_CONTROLLER_P, AutonomousConstants.X_CONTROLLER_I, AutonomousConstants.X_CONTROLLER_D), // Translation PID constants
+                            new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P, AutonomousConstants.THETA_CONTROLLER_I, AutonomousConstants.THETA_CONTROLLER_D), // Rotation PID constants
                             RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
                             RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
                             new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here

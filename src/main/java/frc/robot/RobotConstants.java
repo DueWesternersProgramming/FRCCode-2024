@@ -157,17 +157,17 @@ public final class RobotConstants {
     }
 
     public static final class AutonomousConstants {
-        public static final double X_CONTROLLER_P = 0.05;
-        public static final double Y_CONTROLLER_P = 0.05;
-        public static final double THETA_CONTROLLER_P = 0.05;
+        public static final double X_CONTROLLER_P = 5;
+        public static final double Y_CONTROLLER_P = 5;
+        public static final double THETA_CONTROLLER_P = 5;
 
         public static final double X_CONTROLLER_I = 0;
         public static final double Y_CONTROLLER_I = 0;
         public static final double THETA_CONTROLLER_I = 0;
 
-        public static final double X_CONTROLLER_D = 50;
-        public static final double Y_CONTROLLER_D = 50;
-        public static final double THETA_CONTROLLER_D = 50;
+        public static final double X_CONTROLLER_D = 0;
+        public static final double Y_CONTROLLER_D = 0;
+        public static final double THETA_CONTROLLER_D = 0;
 
         public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
         public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
