@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 5.5
+        "x": 2.726646530796364,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.25,
-        "y": 5.5
+        "x": 2.976646530796364,
+        "y": 5.55
       },
       "isLocked": false,
       "linkedName": "middleAutoWaypoint1"
     },
     {
       "anchor": {
-        "x": 1.3479282065452507,
+        "x": 1.2888463383764373,
         "y": 5.5
       },
       "prevControl": {
-        "x": 1.0979282065452507,
+        "x": 1.0388463383764373,
         "y": 5.5
       },
       "nextControl": null,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Middle Auto Blue",
   "previewStartingState": {
-    "rotation": 1.8616003659549558,
+    "rotation": 1.1227365357992924,
     "velocity": 0
   },
   "useDefaultConstraints": false
