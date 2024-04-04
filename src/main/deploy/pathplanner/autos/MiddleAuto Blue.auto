@@ -44,24 +44,6 @@
         {
           "type": "named",
           "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TransitShootSpeaker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "IntakeTransitCommand"
           }
         },
@@ -75,24 +57,6 @@
           "type": "path",
           "data": {
             "pathName": "MiddleTrajectory4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TransitShootSpeaker"
           }
         }
       ]

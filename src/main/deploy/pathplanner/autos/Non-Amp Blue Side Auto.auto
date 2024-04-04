@@ -38,18 +38,6 @@
         {
           "type": "named",
           "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TransitShootSpeaker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "IntakeTransitCommand"
           }
         },
@@ -63,30 +51,6 @@
           "type": "path",
           "data": {
             "pathName": "Non Amp Blue Side trajectory 2"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TransitShootSpeaker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitCommand"
           }
         }
       ]
