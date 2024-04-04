@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 0.973104168430559,
-        "y": 4.642579313648657
+        "x": 1.3239288017037572,
+        "y": 4.958321483594535
       },
       "prevControl": {
-        "x": 1.2771521839339972,
-        "y": 3.0053976917070653
+        "x": 1.6279768172071953,
+        "y": 3.3211398616529433
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,17 +53,34 @@
           ]
         }
       }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.45,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeTransitStopCommand"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.0,
+    "rotation": -36.0,
     "rotateFast": true
   },
   "reversed": false,
@@ -72,5 +89,5 @@
     "rotation": -9.46232220802554,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -53,6 +53,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.15,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeTransitStopCommand"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

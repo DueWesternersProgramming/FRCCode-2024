@@ -33,15 +33,15 @@ public class ClimberSubsystem extends SubsystemBase{
         return SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED ? climberMotor1.get() : 0;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(double speed, boolean override) {
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
-            if ((getEncoder1Position() > 0 && speed > 0) || (speed < 0.1 && speed > -0.1)){
+            if ((getEncoder1Position() > 0 && speed > 0 && !override) || (speed < 0.1 && speed > -0.1)){
                 climberMotor1.set(0);
             }
             else {
                 climberMotor1.set(speed);
             }
-            if ((getEncoder2Position() > 0 && speed > 0) || (speed < 0.1 && speed > -0.1)){
+            if ((getEncoder2Position() > 0 && speed > 0 && !override) || (speed < 0.1 && speed > -0.1)){
                 climberMotor2.set(0);
             }
             else {

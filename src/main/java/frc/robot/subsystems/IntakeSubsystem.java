@@ -7,21 +7,15 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.I2C;
 
 public class IntakeSubsystem extends SubsystemBase{
     
     CANSparkMax intakeMotor;
     RelativeEncoder intakeEncoder;
-    I2C.Port i2cPort;
-    ColorSensorV3 colorSensor;
-
 
     public IntakeSubsystem(){
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
@@ -30,8 +24,6 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeEncoder = intakeMotor.getEncoder();
             //intakeMotor.burnFlash();
             resetIntakeEncoder();
-            i2cPort = I2C.Port.kOnboard;
-            colorSensor = new ColorSensorV3(i2cPort);
         }
     }
 
@@ -67,35 +59,10 @@ public class IntakeSubsystem extends SubsystemBase{
         }
     }
 
-    public Color getColor() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
-            return colorSensor.getColor();
-        }
-        else {
-            return Color.kWhite;
-        }
-    }
-
-    public boolean seesNote() {
-        try {
-            if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
-                if (Integer.parseInt(colorSensor.getColor().toHexString().substring(1, 2)) >= 5){
-                    return true;
-                }
-            }
-        }
-        catch (NumberFormatException e){
-
-        }
-        return false;
-    }
-
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
-            //SmartDashboard.putBoolean("SeesNote", seesNote());
-            //Logger.recordOutput("Color", getColor().toString());
         }
     }
 }

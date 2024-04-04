@@ -21,7 +21,7 @@ public class ClimberDown extends Command {
     @Override
     public void execute() {
         if (climber.getEncoder1Position() > ClimberConstants.CLIMBER_DOWN_POSITION){
-            climber.setSpeed(-ClimberConstants.CLIMBER_MOTOR_SPEED);
+            climber.setSpeed(-ClimberConstants.CLIMBER_MOTOR_SPEED, false);
         }
         else {
             finished = true;
@@ -30,7 +30,7 @@ public class ClimberDown extends Command {
     
     @Override
     public void end(boolean interrupted) {
-        climber.setSpeed(0);
+        climber.setSpeed(0, false);
     }
 
     @Override

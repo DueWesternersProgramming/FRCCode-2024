@@ -36,9 +36,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "IntakeTransitCommand"
+            "waitTime": 0.25
           }
         },
         {

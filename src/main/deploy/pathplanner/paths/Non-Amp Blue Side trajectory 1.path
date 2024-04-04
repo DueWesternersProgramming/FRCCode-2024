@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7753211512129142,
-        "y": 4.496961233580098
+        "x": 0.9146333962183594,
+        "y": 4.572414386994017
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.265158439148787,
-        "y": 1.7541231663659906
+        "x": 3.404470684154232,
+        "y": 1.829576319779909
       },
       "isLocked": false,
       "linkedName": null
@@ -28,9 +28,33 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.2,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.45,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeTransitCommand"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.5,
@@ -40,7 +64,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 0.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Non-Amp Side Blue",
