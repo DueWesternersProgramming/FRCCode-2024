@@ -91,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             m_odometry = new SwerveDrivePoseEstimator(
                 DrivetrainConstants.DRIVE_KINEMATICS,
-                Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getHeadingDegrees()),
+                Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()),
                 new SwerveModulePosition[] {
                         m_frontLeft.getPosition(),
                         m_frontRight.getPosition(),
@@ -123,7 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
                             new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P, AutonomousConstants.THETA_CONTROLLER_I, AutonomousConstants.THETA_CONTROLLER_D), // Rotation PID constants
                             RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
                             RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
-                            new ReplanningConfig(true, true) // Default path replanning config. See the API for the options here
+                            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
                     ),
                     () -> {
                         // Boolean supplier that controls when the path will be mirrored for the red alliance

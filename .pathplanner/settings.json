@@ -3,8 +3,9 @@
   "robotLength": 0.762,
   "holonomicMode": true,
   "pathFolders": [
-    "Middle Auto Blue",
     "Amp Blue Side",
+    "Middle Auto Blue OLD",
+    "Middle Auto NEW",
     "Non-Amp Side Blue"
   ],
   "autoFolders": [],

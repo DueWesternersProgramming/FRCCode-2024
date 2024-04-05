@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2303755661642377,
-        "y": 6.373314171129768
+        "x": 2.7856981070087494,
+        "y": 4.081259900411539
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.013284733122172,
-        "y": 6.759221267730286
+        "x": 1.8969423693833143,
+        "y": 4.034483282641778
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.3053390038404,
-        "y": 7.449176379834242
+        "x": 1.2654580294915574,
+        "y": 5.5430292057165325
       },
       "prevControl": {
-        "x": 4.224079103428862,
-        "y": 7.472564688719121
+        "x": 2.107437149347233,
+        "y": 5.566417514601411
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "sequential",
         "data": {
@@ -41,7 +41,24 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeTransitCommand"
+                "name": "TransitShootSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeTransitStopCommand"
               }
             }
           ]
@@ -51,20 +68,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": -0.525356301900408,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp Blue Side",
+  "folder": "Middle Auto NEW",
   "previewStartingState": {
-    "rotation": 40.914383220025044,
+    "rotation": 1.1227365357992924,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

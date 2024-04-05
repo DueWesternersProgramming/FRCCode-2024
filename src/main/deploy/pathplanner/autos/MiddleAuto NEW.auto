@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7509152340242001,
-      "y": 6.595503105536126
+      "x": 1.3479282065452507,
+      "y": 5.5
     },
-    "rotation": 58.46520809481169
+    "rotation": 0.8473192878032328
   },
   "command": {
     "type": "sequential",
@@ -26,13 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side Blue trajectory1"
+            "pathName": "MiddleTrajectory1NEW"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side Blue trajectory2"
+            "pathName": "MiddleTrajectory2NEW"
           }
         },
         {
@@ -44,31 +44,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side Blue Regular trajectory3"
+            "pathName": "Middle Trajectory3NEW"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleTrajectory4NEW"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.75
+            "waitTime": 0.5
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "IntakeTransitStopCommand"
+            "pathName": "Middle Trajectory5NEW"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "TransitShootSpeaker"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.75
+            "pathName": "MiddleTrajectory6NEW"
           }
         }
       ]

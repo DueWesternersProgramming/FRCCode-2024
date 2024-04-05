@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.3190033814132631,
-        "y": 5.5
+        "x": 1.3940937283583965,
+        "y": 5.5196408968316515
       },
       "prevControl": {
-        "x": 1.2251793864213358,
-        "y": 5.465401474543634
+        "x": 1.3002697333664692,
+        "y": 5.485042371375285
       },
       "nextControl": null,
       "isLocked": false,
@@ -60,12 +60,6 @@
         "type": "sequential",
         "data": {
           "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeTransitStopCommand"
-              }
-            },
             {
               "type": "named",
               "data": {
@@ -96,7 +90,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 6.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
@@ -106,7 +100,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Middle Auto Blue",
+  "folder": "Middle Auto Blue OLD",
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0

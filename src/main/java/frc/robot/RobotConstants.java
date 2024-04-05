@@ -201,7 +201,8 @@ public final class RobotConstants {
     }
 
     public static final class TransitConstants {
-        public static final double TRANSIT_MOTOR_SPEED = 0.5;
+        public static final double TRANSIT_MOTOR_SPEED = 0.6;
+        public static final double REVERSE_TRANSIT_MOTOR_SPEED = -0.25;
     }
 
     public static final class LightConstants {

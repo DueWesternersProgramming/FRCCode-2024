@@ -41,6 +41,8 @@ import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
+import frc.robot.commands.auto.TransitChamberAutoCommand;
+import frc.robot.commands.auto.TransitLaunchAutoCommand;
 import frc.robot.commands.drive.GyroReset;
 
 
@@ -114,8 +116,8 @@ public class RobotContainer {
 
         new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         new JoystickButton(operatorJoystick, 7).onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem)).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 4).onTrue(new TransitShootAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked)); // SPEAKER
-        new JoystickButton(operatorJoystick, 3).onTrue(new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)); // AMP
+        new JoystickButton(operatorJoystick, 4).onTrue(new TransitChamberAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
+        new JoystickButton(operatorJoystick, 3).onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
         //new JoystickButton(operatorJoystick, 5).whileTrue(new AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
     }
     /**

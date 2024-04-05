@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.79769185179396,
-      "y": 6.911245275482004
+      "x": 2,
+      "y": 2
     },
-    "rotation": -0.5657352796369772
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "goForwardTrajectoryTest"
+            "name": "TransitShootSpeaker"
           }
         }
       ]

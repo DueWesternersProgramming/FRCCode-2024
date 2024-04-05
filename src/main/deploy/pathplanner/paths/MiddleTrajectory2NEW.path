@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2303755661642377,
-        "y": 6.373314171129768
+        "x": 2.9026396514331485,
+        "y": 5.5430292057165325
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.013284733122172,
-        "y": 6.759221267730286
+        "x": 3.1526396514331485,
+        "y": 5.5430292057165325
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middleAutoWaypoint1"
     },
     {
       "anchor": {
-        "x": 8.3053390038404,
-        "y": 7.449176379834242
+        "x": 1.2654580294915574,
+        "y": 5.5430292057165325
       },
       "prevControl": {
-        "x": 4.224079103428862,
-        "y": 7.472564688719121
+        "x": 1.0154580294915574,
+        "y": 5.5430292057165325
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middleAutoStarting"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "sequential",
         "data": {
@@ -41,7 +41,24 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeTransitCommand"
+                "name": "TransitShootSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeTransitStopCommand"
               }
             }
           ]
@@ -57,13 +74,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": -0.525356301900408,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp Blue Side",
+  "folder": "Middle Auto NEW",
   "previewStartingState": {
-    "rotation": 40.914383220025044,
+    "rotation": 1.1227365357992924,
     "velocity": 0
   },
   "useDefaultConstraints": true

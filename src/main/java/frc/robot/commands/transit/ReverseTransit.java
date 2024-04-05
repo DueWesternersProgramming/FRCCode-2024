@@ -1,6 +1,7 @@
 package frc.robot.commands.transit;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConstants.TransitConstants;
 import frc.robot.subsystems.TransitSubsystem;
 
 public class ReverseTransit extends Command {
@@ -13,7 +14,7 @@ public class ReverseTransit extends Command {
 
     @Override
     public void initialize() {
-        transit.SetTransitSpeed(-0.25);
+        transit.SetTransitSpeed(TransitConstants.REVERSE_TRANSIT_MOTOR_SPEED);
     }
     
     @Override

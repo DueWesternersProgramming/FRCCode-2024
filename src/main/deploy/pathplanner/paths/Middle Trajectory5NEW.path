@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2303755661642377,
-        "y": 6.373314171129768
+        "x": 1.32,
+        "y": 5.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.013284733122172,
-        "y": 6.759221267730286
+        "x": 1.6513651260920754,
+        "y": 6.455173252226847
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.3053390038404,
-        "y": 7.449176379834242
+        "x": 2.8909454969907094,
+        "y": 6.993104356579084
       },
       "prevControl": {
-        "x": 4.224079103428862,
-        "y": 7.472564688719121
+        "x": 0.7509152340242001,
+        "y": 7.086657592118603
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "sequential",
         "data": {
@@ -50,21 +50,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 6.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": 0.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp Blue Side",
+  "folder": "Middle Auto NEW",
   "previewStartingState": {
-    "rotation": 40.914383220025044,
+    "rotation": -0.34423885703228213,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

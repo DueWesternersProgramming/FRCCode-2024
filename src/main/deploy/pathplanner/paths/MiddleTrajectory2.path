@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.726646530796364,
-        "y": 5.55
+        "x": 2.9026396514331485,
+        "y": 5.5430292057165325
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.976646530796364,
-        "y": 5.55
+        "x": 3.1526396514331485,
+        "y": 5.5430292057165325
       },
       "isLocked": false,
       "linkedName": "middleAutoWaypoint1"
     },
     {
       "anchor": {
-        "x": 1.2888463383764373,
-        "y": 5.5
+        "x": 1.2654580294915574,
+        "y": 5.5430292057165325
       },
       "prevControl": {
-        "x": 1.0388463383764373,
-        "y": 5.5
+        "x": 1.0154580294915574,
+        "y": 5.5430292057165325
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,12 +38,6 @@
         "type": "sequential",
         "data": {
           "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeTransitStopCommand"
-              }
-            },
             {
               "type": "named",
               "data": {
@@ -84,7 +78,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Middle Auto Blue",
+  "folder": "Middle Auto Blue OLD",
   "previewStartingState": {
     "rotation": 1.1227365357992924,
     "velocity": 0
