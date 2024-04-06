@@ -22,7 +22,8 @@ public class ClimberCommand extends Command {
     
     @Override
     public void execute() {
-        climber.setSpeed(operatorJoystick.getRawAxis(TeleopConstants.CLIMBER_COMMAND_AXIS), operatorJoystick.getRawButton(5));
+        climber.setSpeed(operatorJoystick.getRawAxis(TeleopConstants.CLIMBER_LEFT_COMMAND_AXIS),
+            operatorJoystick.getRawAxis(TeleopConstants.CLIMBER_RIGHT_COMMAND_AXIS), operatorJoystick.getRawButton(5));
     }
     
     @Override

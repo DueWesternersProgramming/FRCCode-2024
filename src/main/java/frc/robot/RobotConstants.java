@@ -185,7 +185,9 @@ public final class RobotConstants {
         public static final int DRIVE_COMMAND_Y_AXIS = 1;
         public static final int DRIVE_COMMAND_ROT_AXIS = 2;
         public static final int SHOOTER_COMMAND_AXIS = 3;
-        public static final int CLIMBER_COMMAND_AXIS = 1;
+        public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
+        public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5;
+
     }
 
     public static final class IntakeConstants {
@@ -201,7 +203,7 @@ public final class RobotConstants {
     }
 
     public static final class TransitConstants {
-        public static final double TRANSIT_MOTOR_SPEED = 0.6;
+        public static final double TRANSIT_MOTOR_SPEED = 0.7;
         public static final double REVERSE_TRANSIT_MOTOR_SPEED = -0.25;
     }
 

@@ -40,6 +40,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
+import frc.robot.commands.auto.OldTransitShootAutoCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
 import frc.robot.commands.auto.TransitChamberAutoCommand;
 import frc.robot.commands.auto.TransitLaunchAutoCommand;
@@ -101,7 +102,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeTransitStopCommand", new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(visionSubsystem));
         NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        NamedCommands.registerCommand("TransitShootSpeaker", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
+        NamedCommands.registerCommand("TransitShootSpeaker", new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
         NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1));
     }
 

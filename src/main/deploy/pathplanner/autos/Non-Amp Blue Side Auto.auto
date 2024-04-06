@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7753211512129142,
-      "y": 4.496961233580098
+      "x": 0.4234789096358818,
+      "y": 4.186507290393498
     },
-    "rotation": -60.0
+    "rotation": 2.4366482468101056
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Non-Amp Blue Side trajectory 0.2"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -38,7 +44,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.95
           }
         },
         {
