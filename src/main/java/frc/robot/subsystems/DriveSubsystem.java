@@ -44,7 +44,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     private AHRS m_gyro;
 
-
     private double m_currentRotation = 0.0;
     private double m_currentTranslationDir = 0.0;
     private double m_currentTranslationMag = 0.0;

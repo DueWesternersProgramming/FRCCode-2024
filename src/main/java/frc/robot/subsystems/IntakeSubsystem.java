@@ -6,16 +6,19 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.sensors.ColorV3;
 
 public class IntakeSubsystem extends SubsystemBase{
     
     CANSparkMax intakeMotor;
     RelativeEncoder intakeEncoder;
+    ColorV3 colorSensor;
 
     public IntakeSubsystem(){
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
@@ -24,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeEncoder = intakeMotor.getEncoder();
             //intakeMotor.burnFlash();
             resetIntakeEncoder();
+            colorSensor = new ColorV3(I2C.Port.kMXP);
         }
     }
 
@@ -59,10 +63,26 @@ public class IntakeSubsystem extends SubsystemBase{
         }
     }
 
+    public boolean seesNote() {
+        try {
+            if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+                if (Integer.parseInt(colorSensor.getColor().toHexString().substring(1, 2)) >= 8){
+                    return true;
+                }
+            }
+        }
+        catch (NumberFormatException e){
+
+        }
+        return false;
+    }
+
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
+            SmartDashboard.putBoolean("Sees Note", seesNote());
+            SmartDashboard.putString("Color", colorSensor.getColor().toHexString());
         }
     }
 }
