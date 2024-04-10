@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        m_robotContainer.startLEDS(0);
+        m_robotContainer.startLEDS();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        m_robotContainer.startLEDS(1);
+        m_robotContainer.startLEDS();
         UserPolicy.shootCommandLocked = false;
 
         if (m_autonomousCommand != null) {

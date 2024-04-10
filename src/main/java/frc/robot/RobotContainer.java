@@ -21,7 +21,7 @@ import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
-import frc.robot.commands.light.LEDMatch;
+import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
@@ -121,11 +121,9 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
         //new JoystickButton(operatorJoystick, 5).whileTrue(new AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
     }
-    /**
-    * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
-    */
-    public void startLEDS(int mode){
-        new LEDMatch(lightSubsystem, mode).schedule();
+
+    public void startLEDS(){
+        new LEDHasNoteUpdater(lightSubsystem, intakeSubsystem).schedule();
     }
 
     public void stopLEDS(){

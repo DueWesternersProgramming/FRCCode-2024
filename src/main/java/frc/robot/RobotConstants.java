@@ -187,7 +187,6 @@ public final class RobotConstants {
         public static final int SHOOTER_COMMAND_AXIS = 3;
         public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
         public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5;
-
     }
 
     public static final class IntakeConstants {
@@ -224,6 +223,6 @@ public final class RobotConstants {
         public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
         public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
         public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
-        public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
+        public static final boolean LIGHT_SUBSYSTEM_ENABLED = true;
     }
 }
