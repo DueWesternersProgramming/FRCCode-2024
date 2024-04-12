@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -202,8 +203,12 @@ public class DriveSubsystem extends SubsystemBase {
                             m_rearRight.getPosition()
                     });
 
-            m_odometry.addVisionMeasurement(VisionSubsystem.getEstimatedGlobalPose(getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),Timer.getFPGATimestamp());
-            
+            try {
+                m_odometry.addVisionMeasurement(VisionSubsystem.getEstimatedGlobalPose(getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),Timer.getFPGATimestamp());
+            }
+            catch (NoSuchElementException e){
+                
+            }
 
         }
     }

@@ -21,7 +21,7 @@ public class OldTransitShootAutoCommand extends SequentialCommandGroup{
     public OldTransitShootAutoCommand(ShooterSubsystem shooterSubsystem, TransitSubsystem transitSubsystem, IntakeSubsystem intakeSubsystem, LightSubsystem lightsubsystem, int mode) {
         addCommands(
             new LockShootCommand(true),
-            new LEDMatch(lightsubsystem, 3),
+            new LEDMatch(lightsubsystem, intakeSubsystem, 3),
             new StartShooter(shooterSubsystem, mode),
             new ReverseTransit(transitSubsystem),
             new WaitCommand(0.25),
@@ -33,7 +33,7 @@ public class OldTransitShootAutoCommand extends SequentialCommandGroup{
             new StopShooter(shooterSubsystem),
             new StopTransit(transitSubsystem),
             new StopIntake(intakeSubsystem),
-            new LEDMatch(lightsubsystem, 2),
+            new LEDMatch(lightsubsystem, intakeSubsystem, 2),
             new LockShootCommand(false)
         );
     }
