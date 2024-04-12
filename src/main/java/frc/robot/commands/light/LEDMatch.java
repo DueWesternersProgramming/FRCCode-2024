@@ -4,26 +4,29 @@
 
 package frc.robot.commands.light;
 
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 
-import com.ctre.phoenix.led.ColorFlowAnimation;
-import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+import com.ctre.phoenix.led.LarsonAnimation;
+import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class LEDMatch extends Command {
-  public final LightSubsystem lightSubsystem;
+  private final LightSubsystem lightSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
   private int m_mode = 0;
 
   /**
    * Creates a new TankDrive command.
    *
    * @param lightSubsystem The subsystem used by this command.
-   * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
+   * @param mode 0 = red, 1 = green, 2 = noteDetector, 3 = shooting (cool animation)
    */
-  public LEDMatch(LightSubsystem lightSubsystem, int mode) {
+  public LEDMatch(LightSubsystem lightSubsystem, IntakeSubsystem intakeSubsystem, int mode) {
     this.lightSubsystem = lightSubsystem; 
+    this.intakeSubsystem = intakeSubsystem;
     m_mode = mode;
     addRequirements(lightSubsystem);
   }
@@ -35,17 +38,18 @@ public class LEDMatch extends Command {
     lightSubsystem.stopAnimation(1);
     switch (m_mode){
       case 0:
-        lightSubsystem.setColor(255, 0, 0);
+        lightSubsystem.setColor(255, 0, 0, 0, 9, 150);
         break;
       case 1:
-        lightSubsystem.setColor(0, 255, 0);
+        lightSubsystem.setColor(0, 255, 0, 0, 9, 150);
         break;
       case 2:
-        lightSubsystem.setAnimation(new ColorFlowAnimation(0, 0, 255, 0, 0.3, 308, Direction.Forward, 8), 0);
-        lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 0.3, 308, Direction.Backward, 8), 1);
+        new LEDHasNoteUpdater(lightSubsystem, intakeSubsystem).schedule();
         break;
       case 3:
-        lightSubsystem.setAnimation(new ColorFlowAnimation(255, 0, 0, 0, 1, 308, Direction.Forward, 8), 0);
+        lightSubsystem.setColor(0, 0, 0);
+        lightSubsystem.setAnimation(new LarsonAnimation(0, 0, 255, 0, 0.35, 24, BounceMode.Front, 5, 25), 0);
+        lightSubsystem.setAnimation(new LarsonAnimation(0, 0, 255, 0, 0.35, 24, BounceMode.Front, 5, 102), 1);
         break;
     }
   }

@@ -21,7 +21,7 @@ import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
-import frc.robot.commands.light.LEDMatch;
+import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
@@ -98,10 +98,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
         NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
-        NamedCommands.registerCommand("IntakeTransitCommand", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        NamedCommands.registerCommand("IntakeTransitCommand", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
         NamedCommands.registerCommand("IntakeTransitStopCommand", new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(visionSubsystem));
-        NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
         NamedCommands.registerCommand("TransitShootSpeaker", new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
         NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1));
     }
@@ -115,21 +115,19 @@ public class RobotContainer {
 
         ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
 
-        new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         new JoystickButton(operatorJoystick, 7).onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem)).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         new JoystickButton(operatorJoystick, 4).onTrue(new TransitChamberAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
         //new JoystickButton(operatorJoystick, 5).whileTrue(new AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
     }
-    /**
-    * @param mode 0 = auto (red), 1 = teleop (green), 2 = visiontarget (rainbow), 3 = shooting (cool animation)
-    */
-    public void startLEDS(int mode){
-        new LEDMatch(lightSubsystem, mode).schedule();
+
+    public Command startLEDCommand(){
+        return new LEDHasNoteUpdater(lightSubsystem, intakeSubsystem);
     }
 
-    public void stopLEDS(){
-        new LEDOff(lightSubsystem).schedule();
+    public Command stopLEDCommand(){
+        return new LEDOff(lightSubsystem);
     }
 
     public Command getAutonomousCommand() {

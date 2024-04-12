@@ -1,108 +1,105 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
+
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends SubsystemBase{
 
-    NetworkTable cameraTableEntry; 
+    static PhotonCamera camera;
+    static AprilTagFieldLayout aprilTagFieldLayout;
+    static Transform3d robotToCam;
+    static PhotonPoseEstimator photonPoseEstimator;
     
     public VisionSubsystem(){
-
-        try{
-            cameraTableEntry = NetworkTableInstance.getDefault().getTable("limelight");
-            intializeLimelight();
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            camera = new PhotonCamera("photonvision");
+            aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+            robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+            photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
         }
-        catch (Exception e){
-            System.out.println("Vision Error: " + e);
+    }
+
+    public void setPipeline(int index){
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            camera.setPipelineIndex(index);
         }
-
     }
 
-    public void intializeLimelight() {
-        setLedMode(0);
-        setCamMode(0);
-        setActivePipeline(0);
-    }
-
-    public boolean hasValidTarget(){
-        double tv = cameraTableEntry.getEntry("tv").getDouble(0);
-        if(tv == 1){
-            return true;
+    public PhotonPipelineResult getResult(){
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            return camera.getLatestResult();
         }
-
-        return false;
-    }
-
-    public double getTargetHorizontalOffset(){
-        if(hasValidTarget()){
-            return cameraTableEntry.getEntry("tx").getDouble(0);
+        else {
+            return null;
         }
-        return Double.NaN;
     }
 
-    public double getTargetVerticalOffset(){
-        if (hasValidTarget()) {
-            return cameraTableEntry.getEntry("ty").getDouble(0);
+    public boolean isCameraConnected(){
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            return camera.isConnected();
         }
-        return Double.NaN;
-    }
-
-    public double getTargetArea(){
-        if(hasValidTarget()){
-            return cameraTableEntry.getEntry("ta").getDouble(0);
-        }
-        return Double.NaN;
-    }
-
-    public double getCamMode(){
-        return cameraTableEntry.getEntry("camMode").getDouble(0);
-    }
-
-    public double getLedMode(){
-        return cameraTableEntry.getEntry("ledMode").getDouble(0);
-    }
-
-    public double getActivePipeline(){
-        return cameraTableEntry.getEntry("getpipe").getDouble(0);
-    }
-
-    public void setCamMode(double camMode){
-        cameraTableEntry.getEntry("camMode").setNumber(camMode);
-    }
-
-    public void setLedMode(double ledMode){
-        cameraTableEntry.getEntry("ledMode").setNumber(ledMode);
-    }
-
-    public void setActivePipeline(int pipeline){
-        cameraTableEntry.getEntry("pipeline").setNumber(pipeline);
-    }
-
-    public boolean hasValidAprilTag(){
-        double result = cameraTableEntry.getEntry("getpipe").getDouble(-1);
-        
-        if (result != -1){
-            return true;
-        }
-        else{
+        else {
             return false;
         }
     }
-    public double getTargetID(){
-        try{
-            return cameraTableEntry.getEntry("getpipe").getDouble(-1);
+    
+    public boolean hasResults() {
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            return camera.getLatestResult().hasTargets();
         }
-        catch(Exception e){
-            return -1;
+        else {
+            return false;
         }
     }
+
+    public PhotonTrackedTarget getBestTarget(){
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            return getResult().getBestTarget();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public double getTargetYaw(){
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            return getBestTarget().getYaw();
+        }
+        else {
+            return 0;
+        }
+    }
+    
+    public static Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+            return photonPoseEstimator.update();
+        }
+        else {
+            return null;
+        }
+    }
+    
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("tx", cameraTableEntry.getEntry("tx").getDouble(0));
-        SmartDashboard.putNumber("pipeline", cameraTableEntry.getEntry("getpipe").getDouble(-1));
-        SmartDashboard.putNumber("Apriltag ID that I see:", getTargetID());
+        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
+            SmartDashboard.putBoolean("Has a tracked object:", hasResults());
+        }
     }
 }

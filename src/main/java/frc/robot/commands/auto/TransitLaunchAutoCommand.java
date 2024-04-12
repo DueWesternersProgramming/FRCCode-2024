@@ -24,8 +24,8 @@ public class TransitLaunchAutoCommand extends SequentialCommandGroup{
             new StopShooter(shooterSubsystem),
             new StopTransit(transitSubsystem),
             new StopIntake(intakeSubsystem),
-            new LEDMatch(lightsubsystem, 2),
-            new LockShootCommand(false)
+            new LockShootCommand(false),
+            new LEDMatch(lightsubsystem, intakeSubsystem, 2)
         );
     }
 }

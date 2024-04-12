@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -35,6 +36,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.wpilibj.Timer;
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
  * function of the drivetrain.
@@ -200,7 +202,13 @@ public class DriveSubsystem extends SubsystemBase {
                             m_rearLeft.getPosition(),
                             m_rearRight.getPosition()
                     });
-            
+
+            try {
+                m_odometry.addVisionMeasurement(VisionSubsystem.getEstimatedGlobalPose(getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),Timer.getFPGATimestamp());
+            }
+            catch (NoSuchElementException e){
+                
+            }
 
         }
     }

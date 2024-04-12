@@ -52,7 +52,8 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        m_robotContainer.stopLEDS();
+        m_robotContainer.startLEDCommand().cancel();
+        m_robotContainer.stopLEDCommand().schedule();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        m_robotContainer.startLEDS(0);
+        m_robotContainer.startLEDCommand().schedule();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
@@ -83,7 +84,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        m_robotContainer.startLEDS(1);
+        m_robotContainer.startLEDCommand().schedule();
         UserPolicy.shootCommandLocked = false;
 
         if (m_autonomousCommand != null) {
