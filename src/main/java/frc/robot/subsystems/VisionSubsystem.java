@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
@@ -30,8 +32,13 @@ public class VisionSubsystem extends SubsystemBase{
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
             camera = new PhotonCamera("photonvision");
             aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-            robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-            photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
+            robotToCam = new Transform3d(
+                new Translation3d(
+                    Units.inchesToMeters(-27), // forward+
+                    0., // left+
+                    0.5), // up+
+                new Rotation3d(0,Units.degreesToRadians(26), Units.degreesToRadians(180))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+            photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
         }
     }
 

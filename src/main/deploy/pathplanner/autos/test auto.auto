@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "goForwardTrajectoryTest"

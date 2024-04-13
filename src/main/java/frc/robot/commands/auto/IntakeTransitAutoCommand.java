@@ -18,8 +18,8 @@ public class IntakeTransitAutoCommand extends SequentialCommandGroup{
             new LockShootCommand(false),
             new StopShooter(shooterSubsystem),
             new StartIntake(intakeSubsystem),
-            new StartTransit(transitSubsystem),
-            new LEDMatch(lightSubsystem, intakeSubsystem, 2)
+            new StartTransit(transitSubsystem)
+            //new LEDMatch(lightSubsystem, intakeSubsystem, 2)
         );
     }
 }

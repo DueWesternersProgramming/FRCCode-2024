@@ -17,7 +17,7 @@ public class TransitChamberAutoCommand extends SequentialCommandGroup{
     public TransitChamberAutoCommand(ShooterSubsystem shooterSubsystem, TransitSubsystem transitSubsystem, IntakeSubsystem intakeSubsystem, LightSubsystem lightsubsystem, int mode) {
         addCommands(
             new LockShootCommand(true),
-            new LEDMatch(lightsubsystem, intakeSubsystem, 3),
+            //new LEDMatch(lightsubsystem, intakeSubsystem, 3),
             new StartShooter(shooterSubsystem, mode),
             new ReverseTransit(transitSubsystem),
             new WaitCommand(0.35),

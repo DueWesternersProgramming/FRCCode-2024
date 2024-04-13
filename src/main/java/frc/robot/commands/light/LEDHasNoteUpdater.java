@@ -41,16 +41,15 @@ public class LEDHasNoteUpdater extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (previousTime < (LocalTime.now().toSecondOfDay() - 1)){
-      if (intakeSubsystem.seesNote()) {
-          lightSubsystem.setColor(0, 255, 0);
-          previousTime = LocalTime.now().toSecondOfDay();
+    
+      if (true) {
+        lightSubsystem.setColor(0, 255, 0);
+          
       }
       else {
-          lightSubsystem.setColor(255, 0, 0);
+        lightSubsystem.setColor(255, 0, 0);
       }
-    }
-    new WaitCommand(0.5);
+    //new WaitCommand(0.5);
   }
 
   // Called once the command ends or is interrupted.

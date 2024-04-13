@@ -37,6 +37,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
  * function of the drivetrain.
@@ -83,51 +85,62 @@ public class DriveSubsystem extends SubsystemBase {
 
             m_gyro = new AHRS(Port.kMXP);
             m_gyro.reset();
-            m_gyro.zeroYaw();
-            
+            // m_gyro.zeroYaw();
 
-            Translation2d initialTranslation = new Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES / 2),
-                    Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid field
-            Rotation2d initialRotation = Rotation2d.fromDegrees(180);
+            // Translation2d initialTranslation = new
+            // Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES /
+            // 2),
+            // Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid
+            // field
+            // Rotation2d initialRotation = Rotation2d.fromDegrees(180);
+
+            resetEncoders();
 
             m_odometry = new SwerveDrivePoseEstimator(
-                DrivetrainConstants.DRIVE_KINEMATICS,
-                Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()),
-                new SwerveModulePosition[] {
-                        m_frontLeft.getPosition(),
-                        m_frontRight.getPosition(),
-                        m_rearLeft.getPosition(),
-                        m_rearRight.getPosition()
-                    }, new Pose2d(initialTranslation, initialRotation));
-            
+                    DrivetrainConstants.DRIVE_KINEMATICS,
+                    Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()),
+                    new SwerveModulePosition[] {
+                            m_frontLeft.getPosition(),
+                            m_frontRight.getPosition(),
+                            m_rearLeft.getPosition(),
+                            m_rearRight.getPosition()
+                    }, new Pose2d());
+
             m_frontLeft.calibrateVirtualPosition(DrivetrainConstants.FRONT_LEFT_VIRTUAL_OFFSET_RADIANS);
             m_frontRight.calibrateVirtualPosition(DrivetrainConstants.FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
             m_rearLeft.calibrateVirtualPosition(DrivetrainConstants.REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
             m_rearRight.calibrateVirtualPosition(DrivetrainConstants.REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
 
-            resetEncoders();
+            // calculateHeading();
+            // zeroHeading();
 
-            calculateHeading();
-            zeroHeading();
-
-            m_gyro.setAngleAdjustment(0);
-            Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
-            resetOdometry(initialPose);
+            // m_gyro.setAngleAdjustment(0);
+            // Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
+            // resetOdometry(initialPose);
 
             AutoBuilder.configureHolonomic(
                     m_odometry::getEstimatedPosition, // Robot pose supplier
                     this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
                     this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                     this::pathFollowDrive,
-                    new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                            new PIDConstants(AutonomousConstants.X_CONTROLLER_P, AutonomousConstants.X_CONTROLLER_I, AutonomousConstants.X_CONTROLLER_D), // Translation PID constants
-                            new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P, AutonomousConstants.THETA_CONTROLLER_I, AutonomousConstants.THETA_CONTROLLER_D), // Rotation PID constants
+                    new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
+                                                     // Constants class
+                            new PIDConstants(AutonomousConstants.X_CONTROLLER_P, AutonomousConstants.X_CONTROLLER_I,
+                                    AutonomousConstants.X_CONTROLLER_D), // Translation PID constants
+                            new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P,
+                                    AutonomousConstants.THETA_CONTROLLER_I, AutonomousConstants.THETA_CONTROLLER_D), // Rotation
+                                                                                                                     // PID
+                                                                                                                     // constants
                             RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
-                            RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters. Distance from robot center to furthest module.
-                            new ReplanningConfig(false, false) // Default path replanning config. See the API for the options here
+                            RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters.
+                                                                                         // Distance from robot center
+                                                                                         // to furthest module.
+                            new ReplanningConfig(false, false) // Default path replanning config. See the API for the
+                                                               // options here
                     ),
                     () -> {
-                        // Boolean supplier that controls when the path will be mirrored for the red alliance
+                        // Boolean supplier that controls when the path will be mirrored for the red
+                        // alliance
                         // This will flip the path being followed to the red side of the field.
                         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
@@ -145,13 +158,16 @@ public class DriveSubsystem extends SubsystemBase {
     private double getGyroAngle() {
         return m_gyro.getAngle();
     }
+
     public double getHeadingDegrees() {
         return m_gyro.getRotation2d().getDegrees();
     }
-    public void setAutoAimSpeedVal(double val){
+
+    public void setAutoAimSpeedVal(double val) {
         autoAimSpeed = val;
     }
-    public double getautoAimSpeedVal(){
+
+    public double getautoAimSpeedVal() {
         return autoAimSpeed;
     }
 
@@ -187,11 +203,10 @@ public class DriveSubsystem extends SubsystemBase {
             });
 
             SmartDashboard.putNumber("LEFT", m_rearRight.getTurningAbsoluteEncoder().getPosition());
-            
 
             SmartDashboard.putData("NAVX", m_gyro);
-            
-            //Logger.recordOutput("MyPose2d", m_odometry.getEstimatedPosition());
+
+            // Logger.recordOutput("MyPose2d", m_odometry.getEstimatedPosition());
 
             // Update the odometry in the periodic block
             m_odometry.update(
@@ -204,10 +219,12 @@ public class DriveSubsystem extends SubsystemBase {
                     });
 
             try {
-                m_odometry.addVisionMeasurement(VisionSubsystem.getEstimatedGlobalPose(getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),Timer.getFPGATimestamp());
-            }
-            catch (NoSuchElementException e){
-                
+                m_odometry.addVisionMeasurement(
+                        VisionSubsystem.getEstimatedGlobalPose(getPose().orElseThrow()).orElseThrow().estimatedPose
+                                .toPose2d(),
+                        Timer.getFPGATimestamp());
+            } catch (NoSuchElementException e) {
+
             }
 
         }
@@ -219,7 +236,8 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The pose.
      */
     public Optional<Pose2d> getPose() {
-        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_odometry.getEstimatedPosition()) : Optional.empty();
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_odometry.getEstimatedPosition())
+                : Optional.empty();
     }
 
     /**
@@ -311,10 +329,14 @@ public class DriveSubsystem extends SubsystemBase {
             double ySpeedDelivered = ySpeedCommanded * DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND;
             double rotDelivered = m_currentRotation * DrivetrainConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
+            Rotation2d rotation = Rotation2d.fromDegrees(
+                    DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()
+                            + (DriverStation.getAlliance().isPresent()
+                                    && DriverStation.getAlliance().get() == Alliance.Red ? 180 : 0));
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative
                             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                                    Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()))
+                                    rotation)
                             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
             SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -377,10 +399,10 @@ public class DriveSubsystem extends SubsystemBase {
     public void zeroHeading() {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_gyro.reset();
-            m_gyro.setAngleAdjustment(180);
-            Pose2d pose = getPose().get();
-            Pose2d pose2 = new Pose2d(pose.getTranslation(), Rotation2d.fromDegrees(0));
-            resetOdometry(pose2);
+            // m_gyro.setAngleAdjustment(180);
+            // Pose2d pose = getPose().get();
+            // Pose2d pose2 = new Pose2d(pose.getTranslation(), Rotation2d.fromDegrees(0));
+            // resetOdometry(pose2);
         }
     }
 
@@ -397,10 +419,11 @@ public class DriveSubsystem extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public Optional<Double> getHeading() {
-        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()).getDegrees())
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED
+                ? Optional
+                        .of(Rotation2d.fromDegrees(DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()).getDegrees())
                 : Optional.empty();
     }
-    
 
     /**
      * Returns the turn rate of the robot.
@@ -408,9 +431,10 @@ public class DriveSubsystem extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public Optional<Double> getTurnRate() {
-        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_gyro.getRate() * (DrivetrainConstants.GYRO_ORIENTATION))
+        return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED
+                ? Optional.of(m_gyro.getRate() * (DrivetrainConstants.GYRO_ORIENTATION))
                 : Optional.empty();
-        
+
     }
 
     public Optional<SwerveModule> getFrontLeftModule() {
@@ -432,15 +456,16 @@ public class DriveSubsystem extends SubsystemBase {
     public Optional<AHRS> getImu() {
         return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_gyro) : Optional.empty();
     }
-    
+
     private void pathFollowDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
-        
+
         setModuleStates(swerveModuleStates);
     }
 
     private ChassisSpeeds getChassisSpeeds() {
         double radiansPerSecond = Units.degreesToRadians(m_gyro.getRate());
-        return ChassisSpeeds.fromRobotRelativeSpeeds(m_gyro.getVelocityX(), m_gyro.getVelocityY(), radiansPerSecond, m_gyro.getRotation2d());
+        return ChassisSpeeds.fromRobotRelativeSpeeds(m_gyro.getVelocityX(), m_gyro.getVelocityY(), radiansPerSecond,
+                m_gyro.getRotation2d());
     }
 }
