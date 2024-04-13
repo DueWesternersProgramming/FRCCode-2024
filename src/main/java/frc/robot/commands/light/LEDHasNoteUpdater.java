@@ -7,12 +7,16 @@ package frc.robot.commands.light;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 
+import java.time.LocalTime;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /** An example command that uses an example subsystem. */
 public class LEDHasNoteUpdater extends Command {
   public final LightSubsystem lightSubsystem;
   public final IntakeSubsystem intakeSubsystem;
+  public double previousTime = 0;
 
   /**
    * Creates a new LEDHasNote command.
@@ -37,12 +41,16 @@ public class LEDHasNoteUpdater extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intakeSubsystem.seesNote()) {
-        lightSubsystem.setColor(0, 255, 0);
+    if (previousTime < (LocalTime.now().toSecondOfDay() - 1)){
+      if (intakeSubsystem.seesNote()) {
+          lightSubsystem.setColor(0, 255, 0);
+          previousTime = LocalTime.now().toSecondOfDay();
+      }
+      else {
+          lightSubsystem.setColor(255, 0, 0);
+      }
     }
-    else {
-        lightSubsystem.setColor(255, 0, 0);
-    }
+    new WaitCommand(0.5);
   }
 
   // Called once the command ends or is interrupted.

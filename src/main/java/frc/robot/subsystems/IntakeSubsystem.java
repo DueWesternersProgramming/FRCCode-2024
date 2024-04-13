@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
@@ -81,7 +82,6 @@ public class IntakeSubsystem extends SubsystemBase{
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
-            SmartDashboard.putBoolean("Sees Note", seesNote());
             SmartDashboard.putString("Color", colorSensor.getColor().toHexString());
         }
     }
