@@ -16,6 +16,7 @@ public class LightSubsystem extends SubsystemBase {
 
     CANdle candle;
     CANdleConfiguration candleConfig;
+    public boolean runningAnimation;
     
     public LightSubsystem(){
         if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
@@ -29,6 +30,7 @@ public class LightSubsystem extends SubsystemBase {
                 candleConfig.vBatOutputMode = VBatOutputMode.Off;
                 candleConfig.brightnessScalar = LightConstants.LIGHT_BRIGHTNESS;
                 candle.configAllSettings(candleConfig);
+                runningAnimation = false;
             }
             catch (Exception e){
                 System.out.println("Error: " + e);
@@ -101,7 +103,6 @@ public class LightSubsystem extends SubsystemBase {
     public double getCurrent() {
         return SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED ? candle.getCurrent() : 0;
     }
-
 
     @Override
     public void periodic() {

@@ -14,7 +14,6 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -332,7 +331,7 @@ public class DriveSubsystem extends SubsystemBase {
             Rotation2d rotation = Rotation2d.fromDegrees(
                     DrivetrainConstants.GYRO_ORIENTATION * getGyroAngle()
                             + (DriverStation.getAlliance().isPresent()
-                                    && DriverStation.getAlliance().get() == Alliance.Red ? 180 : 0));
+                                    && DriverStation.getAlliance().get() == Alliance.Red ? 0 : 0));
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative
                             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,

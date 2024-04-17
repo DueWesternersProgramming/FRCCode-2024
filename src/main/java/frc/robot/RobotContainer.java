@@ -23,6 +23,7 @@ import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
+import frc.robot.commands.light.LEDPrematch;
 import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
@@ -30,6 +31,7 @@ import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.camera.AutoAimCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.commands.auto.TransitShootAutoCommand;
+import frc.robot.commands.auto.AutoAlignTrap;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -75,6 +77,8 @@ public class RobotContainer {
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(new TeleopDriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
+        lightSubsystem.setDefaultCommand(new LEDHasNoteUpdater(lightSubsystem, intakeSubsystem));
+        
         createNamedCommands();
 
         configureButtonBindings();
@@ -112,7 +116,8 @@ public class RobotContainer {
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
         new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(visionSubsystem));
         new JoystickButton(driveJoystick, 2).whileTrue(new SnapToHeadingCommand(driveSubsystem, 45));
-
+        new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignTrap());
+        //new JoystickButton(driveJoystick, 5).whileTrue(new AutoAlignSpeaker());
         ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
 
         new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
@@ -120,6 +125,10 @@ public class RobotContainer {
         new JoystickButton(operatorJoystick, 4).onTrue(new TransitChamberAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
         new JoystickButton(operatorJoystick, 3).onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
         //new JoystickButton(operatorJoystick, 5).whileTrue(new AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+    }
+
+    public Command preLEDCommand(){
+        return new LEDPrematch(lightSubsystem);
     }
 
     public Command startLEDCommand(){

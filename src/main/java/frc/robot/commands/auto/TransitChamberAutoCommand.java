@@ -7,6 +7,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
+import frc.robot.commands.intake.ReverseIntake;
+import frc.robot.commands.intake.StartIntake;
+import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDMatch;
 import frc.robot.commands.shooter.LockShootCommand;
 import frc.robot.commands.shooter.StartShooter;
@@ -17,11 +20,13 @@ public class TransitChamberAutoCommand extends SequentialCommandGroup{
     public TransitChamberAutoCommand(ShooterSubsystem shooterSubsystem, TransitSubsystem transitSubsystem, IntakeSubsystem intakeSubsystem, LightSubsystem lightsubsystem, int mode) {
         addCommands(
             new LockShootCommand(true),
-            //new LEDMatch(lightsubsystem, intakeSubsystem, 3),
+            new LEDMatch(lightsubsystem, 3),
             new StartShooter(shooterSubsystem, mode),
             new ReverseTransit(transitSubsystem),
-            new WaitCommand(0.35),
-            new StopTransit(transitSubsystem)
+            new ReverseIntake(intakeSubsystem),
+            new WaitCommand(0.1),
+            new StopTransit(transitSubsystem),
+            new StopIntake(intakeSubsystem)
         );
     }
 }

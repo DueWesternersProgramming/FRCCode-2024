@@ -6,20 +6,18 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.sensors.ColorV3;
 
 public class IntakeSubsystem extends SubsystemBase{
     
     CANSparkMax intakeMotor;
     RelativeEncoder intakeEncoder;
-    ColorV3 colorSensor;
+    NetworkTableInstance networkTableInstance;
 
     public IntakeSubsystem(){
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
@@ -28,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase{
             intakeEncoder = intakeMotor.getEncoder();
             //intakeMotor.burnFlash();
             resetIntakeEncoder();
-            colorSensor = new ColorV3(I2C.Port.kMXP);
+            networkTableInstance = NetworkTableInstance.getDefault();
         }
     }
 
@@ -39,6 +37,12 @@ public class IntakeSubsystem extends SubsystemBase{
     public void intakeOn(){
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
+        }
+    }
+
+    public void intakeShoot(){
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SHOOT_SPEED);
         }
     }
 
@@ -67,7 +71,7 @@ public class IntakeSubsystem extends SubsystemBase{
     public boolean seesNote() {
         try {
             if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
-                if (Integer.parseInt(colorSensor.getColor().toHexString().substring(1, 2)) >= 8){
+                if (SmartDashboard.getNumber("rawcolorR", 0) > 85){
                     return true;
                 }
             }
@@ -82,7 +86,6 @@ public class IntakeSubsystem extends SubsystemBase{
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
-            SmartDashboard.putString("Color", colorSensor.getColor().toHexString());
         }
     }
 }
