@@ -71,8 +71,8 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public void shooterReverse(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            shooterMotor1.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/1.5);
-            shooterMotor2.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/1.5);
+            shooterMotor1.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/1.3);
+            shooterMotor2.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/1.3);
         }
     }
 
