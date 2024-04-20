@@ -20,8 +20,8 @@ public class ShooterSubsystem extends SubsystemBase{
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             shooterMotor1 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_1, MotorType.kBrushless);
             shooterMotor2 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_2, MotorType.kBrushless);
-            shooterMotor1.setIdleMode(IdleMode.kCoast);
-            shooterMotor2.setIdleMode(IdleMode.kCoast);
+            shooterMotor1.setIdleMode(IdleMode.kBrake);
+            shooterMotor2.setIdleMode(IdleMode.kBrake);
             shooterEncoder1 = shooterMotor1.getEncoder();
             shooterEncoder2 = shooterMotor2.getEncoder();
             shooterMotor1.setInverted(true);
@@ -46,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase{
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             if (mode == 0){
                 shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
-                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
+                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE - 3.0);
             }
             else if (mode == 1){
                 shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);

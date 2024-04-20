@@ -1,4 +1,4 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.auto.teleop;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -8,7 +8,6 @@ import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.commands.intake.ReverseIntake;
-import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDMatch;
 import frc.robot.commands.shooter.LockShootCommand;

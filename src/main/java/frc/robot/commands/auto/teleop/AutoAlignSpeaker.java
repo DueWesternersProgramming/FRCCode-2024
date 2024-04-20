@@ -1,4 +1,4 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.auto.teleop;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -11,11 +11,11 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 
-public class AutoAlignTrap extends Command {
+public class AutoAlignSpeaker extends Command {
     private PathPlannerPath bluePath;
     private PathPlannerPath redPath;
 
-    public AutoAlignTrap() {
+    public AutoAlignSpeaker() {
         addRequirements();
     }
 
@@ -35,27 +35,28 @@ public class AutoAlignTrap extends Command {
     @Override
     public void initialize() {
         if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
-            List<Translation2d> redShot = PathPlannerPath.bezierFromPoses(
-                new Pose2d(10, 4.0, Rotation2d.fromDegrees(180)),
-                new Pose2d(10.5, 4.0, Rotation2d.fromDegrees(180)));
+            List<Translation2d> redTrajectoy = PathPlannerPath.bezierFromPoses(
+                new Pose2d(14.86,5.3, Rotation2d.fromDegrees(180)),
+                new Pose2d(15.16, 5.43, Rotation2d.fromDegrees(180)));
 
             redPath = new PathPlannerPath(
-                redShot,
+                redTrajectoy,
                 new PathConstraints(1, 3.0, 2 * Math.PI, 4 * Math.PI),
                 new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
-                redPath.preventFlipping = true;
             AutoBuilder.followPath(redPath).schedule();
         }
 
         if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
-            List<Translation2d> blueShot = PathPlannerPath.bezierFromPoses(
-                new Pose2d(6.5, 4.13, Rotation2d.fromDegrees(180)),
-                new Pose2d(6, 4.13, Rotation2d.fromDegrees(180)));
+            List<Translation2d> blueTrajectory = PathPlannerPath.bezierFromPoses(
+                new Pose2d(1.74, 5.56, Rotation2d.fromDegrees(0)),
+                new Pose2d(1.34, 5.56, Rotation2d.fromDegrees(0))
+  
+                );
 
             bluePath = new PathPlannerPath(
-                blueShot,
+                blueTrajectory,
                 new PathConstraints(1, 3.0, 2 * Math.PI, 4 * Math.PI),
-                new GoalEndState(0.0, Rotation2d.fromDegrees(180)));
+                new GoalEndState(0.0, Rotation2d.fromDegrees(-38.66)));
                 bluePath.preventFlipping = true;
             AutoBuilder.followPath(bluePath).schedule();
             

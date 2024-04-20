@@ -33,7 +33,7 @@ public class VisionSubsystem extends SubsystemBase{
             aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
             robotToCam = new Transform3d(
                 new Translation3d(
-                    Units.inchesToMeters(-27), // forward+
+                    Units.inchesToMeters(-30), // forward+
                     0., // left+
                     0.5), // up+
                 new Rotation3d(0,Units.degreesToRadians(26), Units.degreesToRadians(180))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.

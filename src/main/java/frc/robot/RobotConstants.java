@@ -197,7 +197,7 @@ public final class RobotConstants {
     }
     
     public static final class ShooterConstants {
-        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.0;
+        public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.5;
         public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.25;
         public static final double SERVO_BEGINNING_POSITION = 0.2;
         public static final double SERVO_SHOOTING_POSITION = 0.65;

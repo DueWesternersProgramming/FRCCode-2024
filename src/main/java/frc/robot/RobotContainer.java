@@ -30,8 +30,10 @@ import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.camera.AutoAimCommand;
 import frc.robot.commands.climber.ClimberCommand;
-import frc.robot.commands.auto.TransitShootAutoCommand;
-import frc.robot.commands.auto.AutoAlignTrap;
+import frc.robot.commands.auto.autonomous.OldTransitShootAutoCommand;
+import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
+import frc.robot.commands.auto.teleop.TransitChamberAutoCommand;
+import frc.robot.commands.auto.teleop.TransitLaunchAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -42,10 +44,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
-import frc.robot.commands.auto.OldTransitShootAutoCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
-import frc.robot.commands.auto.TransitChamberAutoCommand;
-import frc.robot.commands.auto.TransitLaunchAutoCommand;
 import frc.robot.commands.drive.GyroReset;
 
 
@@ -64,7 +63,6 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-    public final TransitShootAutoCommand transitShootCommand = new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0);
     private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.Controller.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.Controller.OPERATOR_JOYSTICK);
 
@@ -97,7 +95,6 @@ public class RobotContainer {
     private void createNamedCommands() {
         NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem, 0));
         NamedCommands.registerCommand("StopShooter", new StopShooter(shooterSubsystem));
-        NamedCommands.registerCommand("AutoShooter", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
         NamedCommands.registerCommand("StartIntake", new StartIntake(intakeSubsystem));
         NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
@@ -107,16 +104,15 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(visionSubsystem));
         NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
         NamedCommands.registerCommand("TransitShootSpeaker", new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
-        NamedCommands.registerCommand("TransitShootAmp", new TransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1));
     }
 
     private void configureButtonBindings(){
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(visionSubsystem));
+        //new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(visionSubsystem));
         new JoystickButton(driveJoystick, 2).whileTrue(new SnapToHeadingCommand(driveSubsystem, 45));
-        new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignTrap());
+        new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignSpeaker());
         //new JoystickButton(driveJoystick, 5).whileTrue(new AutoAlignSpeaker());
         ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
 
