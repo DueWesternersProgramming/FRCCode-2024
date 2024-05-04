@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.SwerveControlRequestParameters;
 import com.kauailabs.navx.frc.AHRS;
 //import org.littletonrobotics.junction.Logger;
 
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.commands.shooter.StartShooter;
 import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.swerve.SwerveModule;
 import frc.robot.swerve.SwerveUtils;
@@ -37,6 +39,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.commands.shooter.StartShooter;
 
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
@@ -55,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
     private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DrivetrainConstants.ROTATIONAL_SLEW_RATE);
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-    private SwerveDrivePoseEstimator m_odometry;
+    private static SwerveDrivePoseEstimator m_odometry;
 
     Field2d field = new Field2d();
 
@@ -116,7 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
             // m_gyro.setAngleAdjustment(0);
             // Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
             // resetOdometry(initialPose);
-
+            
             AutoBuilder.configureHolonomic(
                     m_odometry::getEstimatedPosition, // Robot pose supplier
                     this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -226,6 +229,8 @@ public class DriveSubsystem extends SubsystemBase {
 
             }
 
+            
+
         }
     }
 
@@ -234,7 +239,7 @@ public class DriveSubsystem extends SubsystemBase {
      *
      * @return The pose.
      */
-    public Optional<Pose2d> getPose() {
+    public static Optional<Pose2d> getPose() {
         return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_odometry.getEstimatedPosition())
                 : Optional.empty();
     }

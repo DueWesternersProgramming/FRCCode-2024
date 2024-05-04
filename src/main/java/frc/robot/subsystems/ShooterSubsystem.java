@@ -5,16 +5,21 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.RobotConstants.PortConstants;
 
 public class ShooterSubsystem extends SubsystemBase{
 
     CANSparkMax shooterMotor1, shooterMotor2;
     RelativeEncoder shooterEncoder1, shooterEncoder2;
+    //DriveSubsystem driveSubsystem;
 
     public ShooterSubsystem(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
@@ -25,6 +30,7 @@ public class ShooterSubsystem extends SubsystemBase{
             shooterEncoder1 = shooterMotor1.getEncoder();
             shooterEncoder2 = shooterMotor2.getEncoder();
             shooterMotor1.setInverted(true);
+            //driveSubsystem = new DriveSubsystem();
             // shooterMotor1.burnFlash();
             // shooterMotor2.burnFlash();
             resetEncoder();
@@ -46,7 +52,7 @@ public class ShooterSubsystem extends SubsystemBase{
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             if (mode == 0){
                 shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
-                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE - 3.0);
+                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE - 8.0);
             }
             else if (mode == 1){
                 shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
@@ -62,7 +68,7 @@ public class ShooterSubsystem extends SubsystemBase{
         }
     }
 
-    public void shooteroff(){
+    public void shooterOff(){
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
             shooterMotor1.setVoltage(0.0);
             shooterMotor2.setVoltage(0.0);
@@ -94,7 +100,30 @@ public class ShooterSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            SmartDashboard.putNumber("Shooter Speed", getspeed1());
+            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+                if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning)) {
+                    shooterOff();
+                }
+                else if((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning == false) && (IntakeSubsystem.getVelocity()<5)){
+                    shooterOn(0);
+                    
+                }
+
+                if (DriveSubsystem.getPose().get().getX() > 2) {
+                    shooterOff();
+                }
+            }
+            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
+                if (DriveSubsystem.getPose().get().getX() < 14.5) {
+                    shooterOff();
+                }
+                if (DriveSubsystem.getPose().get().getX() > 14.5) {
+                    shooterOn(0);
+                }
+                
+            }
+        
         }
+        
     }
 }

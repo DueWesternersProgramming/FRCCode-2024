@@ -13,7 +13,7 @@ public class StopShooter extends Command {
 
     @Override
     public void initialize() {
-        shooter.shooteroff();
+        shooter.shooterOff();
     }
     
     @Override

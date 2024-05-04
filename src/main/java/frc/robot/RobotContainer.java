@@ -28,7 +28,6 @@ import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
-import frc.robot.commands.camera.AutoAimCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.commands.auto.autonomous.OldTransitShootAutoCommand;
 import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
@@ -101,7 +100,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
         NamedCommands.registerCommand("IntakeTransitCommand", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
         NamedCommands.registerCommand("IntakeTransitStopCommand", new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        NamedCommands.registerCommand("AutoAimCommand", new AutoAimCommand(visionSubsystem));
         NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
         NamedCommands.registerCommand("TransitShootSpeaker", new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
     }
@@ -157,5 +155,6 @@ public class RobotContainer {
         public static boolean xLocked = false;
         public static boolean canAutoAlign = false;
         public static boolean shootCommandLocked = false;
+        public static boolean intakeRunning = false;
     }
 }

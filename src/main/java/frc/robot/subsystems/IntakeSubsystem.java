@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.RobotContainer.UserPolicy;
 
 public class IntakeSubsystem extends SubsystemBase{
     
-    CANSparkMax intakeMotor;
-    RelativeEncoder intakeEncoder;
+    static CANSparkMax intakeMotor;
+    static RelativeEncoder intakeEncoder;
     NetworkTableInstance networkTableInstance;
 
     public IntakeSubsystem(){
@@ -30,12 +31,13 @@ public class IntakeSubsystem extends SubsystemBase{
         }
     }
 
-    public double getIntakeSpeed() {
+    public static double getIntakeSpeed() {
         return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeMotor.get() : 0;
     }
 
     public void intakeOn(){
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
+            UserPolicy.intakeRunning = true;
             intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
         }
     }
@@ -55,6 +57,7 @@ public class IntakeSubsystem extends SubsystemBase{
     public void intakeOff(){
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED){
             intakeMotor.set(0);
+            UserPolicy.intakeRunning = false;
         }
     }
 
@@ -80,6 +83,9 @@ public class IntakeSubsystem extends SubsystemBase{
 
         }
         return false;
+    }
+    public static double getVelocity(){
+        return intakeEncoder.getVelocity();
     }
 
     @Override

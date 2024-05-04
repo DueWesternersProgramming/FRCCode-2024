@@ -190,7 +190,7 @@ public final class RobotConstants {
     }
 
     public static final class IntakeConstants {
-        public static final double INTAKE_MOTOR_SPEED = 0.8;
+        public static final double INTAKE_MOTOR_SPEED = 0.95;
         public static final double INTAKE_REVERSE_MOTOR_SPEED = -0.40;
         public static final double INTAKE_MOTOR_SHOOT_SPEED = 1;
 
@@ -199,12 +199,10 @@ public final class RobotConstants {
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.5;
         public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.25;
-        public static final double SERVO_BEGINNING_POSITION = 0.2;
-        public static final double SERVO_SHOOTING_POSITION = 0.65;
     }
 
     public static final class TransitConstants {
-        public static final double TRANSIT_MOTOR_SPEED = 0.7;
+        public static final double TRANSIT_MOTOR_SPEED = .8;
         public static final double REVERSE_TRANSIT_MOTOR_SPEED = -0.20;
     }
 
