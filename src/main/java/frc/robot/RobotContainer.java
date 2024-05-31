@@ -28,11 +28,15 @@ import frc.robot.commands.shooter.StartShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
+import frc.robot.commands.automated.IntakeTransitAutoCommand;
+import frc.robot.commands.automated.IntakeTransitAutoReverseCommand;
+import frc.robot.commands.automated.IntakeTransitAutoStopCommand;
+import frc.robot.commands.automated.RobotSystemsCheckCommand;
+import frc.robot.commands.automated.autonomous.OldTransitShootAutoCommand;
+import frc.robot.commands.automated.teleop.AutoAlignSpeaker;
+import frc.robot.commands.automated.teleop.TransitChamberAutoCommand;
+import frc.robot.commands.automated.teleop.TransitLaunchAutoCommand;
 import frc.robot.commands.climber.ClimberCommand;
-import frc.robot.commands.auto.autonomous.OldTransitShootAutoCommand;
-import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
-import frc.robot.commands.auto.teleop.TransitChamberAutoCommand;
-import frc.robot.commands.auto.teleop.TransitLaunchAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -40,12 +44,7 @@ import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.commands.auto.IntakeTransitAutoCommand;
-import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
-import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
-import frc.robot.commands.auto.RobotSystemsCheckCommand;
 import frc.robot.commands.drive.GyroReset;
-
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -75,7 +74,7 @@ public class RobotContainer {
         driveSubsystem.setDefaultCommand(new TeleopDriveCommand(driveSubsystem, driveJoystick));
         climberSubsystem.setDefaultCommand(new ClimberCommand(climberSubsystem, operatorJoystick));
         lightSubsystem.setDefaultCommand(new LEDHasNoteUpdater(lightSubsystem, intakeSubsystem));
-        
+
         createNamedCommands();
 
         configureButtonBindings();
@@ -85,8 +84,7 @@ public class RobotContainer {
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
             Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
             Shuffleboard.getTab("Power").add(pdp);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -98,58 +96,77 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
         NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
         NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
-        NamedCommands.registerCommand("IntakeTransitCommand", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
-        NamedCommands.registerCommand("IntakeTransitStopCommand", new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        NamedCommands.registerCommand("IntakeTransit", new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
-        NamedCommands.registerCommand("TransitShootSpeaker", new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
+        NamedCommands.registerCommand("IntakeTransitCommand",
+                new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
+        NamedCommands.registerCommand("IntakeTransitStopCommand",
+                new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        NamedCommands.registerCommand("IntakeTransit",
+                new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
+        NamedCommands.registerCommand("TransitShootSpeaker",
+                new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
     }
 
-    private void configureButtonBindings(){
+    private void configureButtonBindings() {
         new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
-        new JoystickButton(driveJoystick,11).onTrue(new GyroReset(driveSubsystem));
+        new JoystickButton(driveJoystick, 11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        //new JoystickButton(driveJoystick, 7).whileTrue(new AutoAimCommand(visionSubsystem));
+        // new JoystickButton(driveJoystick, 7).whileTrue(new
+        // AutoAimCommand(visionSubsystem));
         new JoystickButton(driveJoystick, 2).whileTrue(new SnapToHeadingCommand(driveSubsystem, 45));
         new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignSpeaker());
-        //new JoystickButton(driveJoystick, 5).whileTrue(new AutoAlignSpeaker());
-        ///////////////////     Above = DriveJoystick, Below = OperatorJoystick     /////////////////////////////////////////
+        // new JoystickButton(driveJoystick, 5).whileTrue(new AutoAlignSpeaker());
+        /////////////////// Above = DriveJoystick, Below = OperatorJoystick
+        // /////////////////////////////////////////
 
-        new JoystickButton(operatorJoystick, 2).onTrue((new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem))).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 7).onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem)).onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 4).onTrue(new TransitChamberAutoCommand(shooterSubsystem,transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
-        new JoystickButton(operatorJoystick, 3).onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked)).onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
-        //new JoystickButton(operatorJoystick, 5).whileTrue(new AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        new JoystickButton(operatorJoystick, 2).onTrue(
+                (new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem)))
+                .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        new JoystickButton(operatorJoystick, 7)
+                .onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))
+                .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        new JoystickButton(operatorJoystick, 4)
+                .onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                        lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                .onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                        lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
+        new JoystickButton(operatorJoystick, 3)
+                .onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                        lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                .onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                        lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
+        // new JoystickButton(operatorJoystick, 5).whileTrue(new
+        // AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem,
+        // transitSubsystem));
     }
 
-    public Command preLEDCommand(){
+    public Command preLEDCommand() {
         return new LEDPrematch(lightSubsystem);
     }
 
-    public Command startLEDCommand(){
+    public Command startLEDCommand() {
         return new LEDHasNoteUpdater(lightSubsystem, intakeSubsystem);
     }
 
-    public Command stopLEDCommand(){
+    public Command stopLEDCommand() {
         return new LEDOff(lightSubsystem);
     }
 
     public Command getAutonomousCommand() {
-        if (m_autoPositionChooser.getSelected() != null){
+        if (m_autoPositionChooser.getSelected() != null) {
             return m_autoPositionChooser.getSelected();
-        }
-        else {
+        } else {
             return new GyroReset(driveSubsystem);
         }
     }
 
-    public Command getTestingCommand(){
+    public Command getTestingCommand() {
         return new RobotSystemsCheckCommand(driveSubsystem, shooterSubsystem, intakeSubsystem, transitSubsystem);
     }
 
     public Field2d getField() {
         return field;
     }
-    
+
     public final class UserPolicy {
         public static boolean twistable = false;
         public static boolean xLocked = false;
