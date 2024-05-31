@@ -64,6 +64,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     /** Creates a new Drivetrain. */
     public DriveSubsystem() {
+
+        
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_frontLeft = new SwerveModule(
                     RobotConstants.PortConstants.CAN.FRONT_LEFT_DRIVING,
@@ -222,7 +224,8 @@ public class DriveSubsystem extends SubsystemBase {
 
             try {
                 m_odometry.addVisionMeasurement(
-                        VisionSubsystem.getEstimatedGlobalPose(getPose().orElseThrow()).orElseThrow().estimatedPose
+                    
+                        VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getFrontLeftPhotonPoseEstimator(), VisionSubsystem.getFrontLeftPhotonCamera(), getPose().orElseThrow()).orElseThrow().estimatedPose
                                 .toPose2d(),
                         Timer.getFPGATimestamp());
             } catch (NoSuchElementException e) {

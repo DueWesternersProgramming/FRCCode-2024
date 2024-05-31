@@ -10,9 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-
 import java.util.Optional;
-
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -22,32 +20,67 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends SubsystemBase{
 
-    static PhotonCamera camera;
+    static PhotonCamera frontLeftCamera;
+    private static PhotonCamera frontRightCamera;
+
     static AprilTagFieldLayout aprilTagFieldLayout;
-    static Transform3d robotToCam;
-    static PhotonPoseEstimator photonPoseEstimator;
+
+    private static PhotonPoseEstimator frontLeftPoseEstimator;
+    private static PhotonPoseEstimator frontRightPoseEstimator;
     
     public VisionSubsystem(){
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
-            camera = new PhotonCamera("photonvision");
             aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-            robotToCam = new Transform3d(
-                new Translation3d(
-                    Units.inchesToMeters(-30), // forward+
-                    0., // left+
-                    0.5), // up+
-                new Rotation3d(0,Units.degreesToRadians(26), Units.degreesToRadians(180))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-            photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, camera, robotToCam);
+
+            //Create as many camera instances (photonvision) as cameras you have
+
+            frontLeftCamera = new PhotonCamera("frontLeftCamera");
+            frontRightCamera = new PhotonCamera("frontRightCamera");
+
+            frontLeftPoseEstimator = new PhotonPoseEstimator(
+                aprilTagFieldLayout,
+                PoseStrategy.LOWEST_AMBIGUITY,
+                frontLeftCamera,
+                new Transform3d(new Translation3d(
+                    Units.inchesToMeters(0),
+                    Units.inchesToMeters(0),  //Figure this out later.
+                    Units.inchesToMeters(0)),
+                new Rotation3d()));
+
+            frontRightPoseEstimator = new PhotonPoseEstimator(
+                aprilTagFieldLayout,
+                PoseStrategy.LOWEST_AMBIGUITY,
+                frontRightCamera,
+                new Transform3d(new Translation3d(
+                    Units.inchesToMeters(0),  //Figure this out later.
+                    Units.inchesToMeters(0),  //positioning relitive to center of the robot, on the floor. Use CAD mesurements ;)
+                    Units.inchesToMeters(0)),
+                new Rotation3d()));
+
         }
     }
 
-    public void setPipeline(int index){
+    public static PhotonCamera getFrontLeftPhotonCamera(){
+        return frontLeftCamera;
+    }
+    public static PhotonCamera getFrontRightPhotonCamera(){
+        return frontRightCamera;
+    }
+
+    public static PhotonPoseEstimator getFrontLeftPhotonPoseEstimator(){
+        return frontLeftPoseEstimator;
+    }
+    public static PhotonPoseEstimator getFrontRightPhotonPoseEstimator(){
+        return frontRightPoseEstimator;
+    }
+
+    public void setPipeline(PhotonCamera camera, int index){
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
             camera.setPipelineIndex(index);
         }
     }
 
-    public PhotonPipelineResult getResult(){
+    public PhotonPipelineResult getResult(PhotonCamera camera){
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
             return camera.getLatestResult();
         }
@@ -56,7 +89,7 @@ public class VisionSubsystem extends SubsystemBase{
         }
     }
 
-    public boolean isCameraConnected(){
+    public boolean isCameraConnected(PhotonCamera camera){
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
             return camera.isConnected();
         }
@@ -65,7 +98,7 @@ public class VisionSubsystem extends SubsystemBase{
         }
     }
     
-    public boolean hasResults() {
+    public boolean hasResults(PhotonCamera camera) {
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
             return camera.getLatestResult().hasTargets();
         }
@@ -74,28 +107,28 @@ public class VisionSubsystem extends SubsystemBase{
         }
     }
 
-    public PhotonTrackedTarget getBestTarget(){
+    public PhotonTrackedTarget getBestTarget(PhotonCamera camera){
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
-            return getResult().getBestTarget();
+            return getResult(camera).getBestTarget();
         }
         else {
             return null;
         }
     }
 
-    public double getTargetYaw(){
+    public double getTargetYaw(PhotonCamera camera){
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
-            return getBestTarget().getYaw();
+            return getBestTarget(camera).getYaw();
         }
         else {
             return 0;
         }
     }
     
-    public static Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+    public static Optional<EstimatedRobotPose> getEstimatedGlobalPose(PhotonPoseEstimator estimator, PhotonCamera camera, Pose2d prevEstimatedRobotPose) {
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
-            photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-            return photonPoseEstimator.update();
+            estimator.setReferencePose(prevEstimatedRobotPose);
+            return estimator.update();
         }
         else {
             return null;
@@ -105,7 +138,7 @@ public class VisionSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
-            SmartDashboard.putBoolean("Has a tracked object:", hasResults());
+            SmartDashboard.putBoolean("Has a tracked object:", hasResults(frontLeftCamera));
         }
     }
 }
