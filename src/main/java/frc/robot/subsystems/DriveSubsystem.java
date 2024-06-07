@@ -223,13 +223,18 @@ public class DriveSubsystem extends SubsystemBase {
                     });
 
             try {
+                
+                // Check
                 m_odometry.addVisionMeasurement(
-                    
-                        VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getFrontLeftPhotonPoseEstimator(), VisionSubsystem.getFrontLeftPhotonCamera(), getPose().orElseThrow()).orElseThrow().estimatedPose
-                                .toPose2d(),
+                        VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getFrontLeftPhotonPoseEstimator(), VisionSubsystem.getFrontLeftPhotonCamera(), getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),
                         Timer.getFPGATimestamp());
-            } catch (NoSuchElementException e) {
+                
+                m_odometry.addVisionMeasurement(
+                        VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getFrontRightPhotonPoseEstimator(), VisionSubsystem.getFrontRightPhotonCamera(), getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),
+                        Timer.getFPGATimestamp());
 
+            } catch (NoSuchElementException e) {
+                System.out.println(e);;
             }
 
             

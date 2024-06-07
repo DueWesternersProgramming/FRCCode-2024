@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
@@ -98,7 +99,7 @@ public class VisionSubsystem extends SubsystemBase{
         }
     }
     
-    public boolean hasResults(PhotonCamera camera) {
+    public static boolean hasResults(PhotonCamera camera) {
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
             return camera.getLatestResult().hasTargets();
         }
@@ -138,7 +139,9 @@ public class VisionSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED){
-            SmartDashboard.putBoolean("Has a tracked object:", hasResults(frontLeftCamera));
+            SmartDashboard.putBoolean("Left Has a tracked object:", hasResults(frontLeftCamera));
+            SmartDashboard.putBoolean("Right Has a tracked object:", hasResults(frontRightCamera));
+        
         }
     }
 }
