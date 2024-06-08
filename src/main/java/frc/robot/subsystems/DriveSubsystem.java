@@ -65,7 +65,6 @@ public class DriveSubsystem extends SubsystemBase {
     /** Creates a new Drivetrain. */
     public DriveSubsystem() {
 
-        
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             m_frontLeft = new SwerveModule(
                     RobotConstants.PortConstants.CAN.FRONT_LEFT_DRIVING,
@@ -89,14 +88,6 @@ public class DriveSubsystem extends SubsystemBase {
 
             m_gyro = new AHRS(Port.kMXP);
             m_gyro.reset();
-            // m_gyro.zeroYaw();
-
-            // Translation2d initialTranslation = new
-            // Translation2d(Units.inchesToMeters(AutonomousConstants.FIELD_LENGTH_INCHES /
-            // 2),
-            // Units.inchesToMeters(AutonomousConstants.FIELD_WIDTH_INCHES / 2)); // mid
-            // field
-            // Rotation2d initialRotation = Rotation2d.fromDegrees(180);
 
             resetEncoders();
 
@@ -115,13 +106,6 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.calibrateVirtualPosition(DrivetrainConstants.REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
             m_rearRight.calibrateVirtualPosition(DrivetrainConstants.REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
 
-            // calculateHeading();
-            // zeroHeading();
-
-            // m_gyro.setAngleAdjustment(0);
-            // Pose2d initialPose = new Pose2d(initialTranslation, initialRotation);
-            // resetOdometry(initialPose);
-            
             AutoBuilder.configureHolonomic(
                     m_odometry::getEstimatedPosition, // Robot pose supplier
                     this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -148,10 +132,11 @@ public class DriveSubsystem extends SubsystemBase {
                         // This will flip the path being followed to the red side of the field.
                         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-                        var alliance = DriverStation.getAlliance();
-                        if (alliance.isPresent()) {
-                            return alliance.get() == DriverStation.Alliance.Red;
-                        }
+                        // var alliance = DriverStation.getAlliance();
+                        // if (alliance.isPresent()) {
+                        // return alliance.get() == DriverStation.Alliance.Red;
+                        // }
+                        // return false;
                         return false;
                     },
                     this // Reference to this subsystem to set requirements
@@ -163,23 +148,14 @@ public class DriveSubsystem extends SubsystemBase {
         return m_gyro.getAngle();
     }
 
-    public double getHeadingDegrees() {
-        return m_gyro.getRotation2d().getDegrees();
-    }
-
-    public void setAutoAimSpeedVal(double val) {
-        autoAimSpeed = val;
-    }
-
-    public double getautoAimSpeedVal() {
-        return autoAimSpeed;
-    }
-
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
+
             field.setRobotPose(m_odometry.getEstimatedPosition());
+
             SmartDashboard.putData("Odometry Pose Field", field);
+
             SmartDashboard.putNumberArray("modules pose angles", new double[] {
                     m_frontLeft.getPosition().angle.getDegrees(),
                     m_frontRight.getPosition().angle.getDegrees(),
@@ -223,21 +199,42 @@ public class DriveSubsystem extends SubsystemBase {
                     });
 
             try {
-                
-                // Check
-                m_odometry.addVisionMeasurement(
-                        VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getFrontLeftPhotonPoseEstimator(), VisionSubsystem.getFrontLeftPhotonCamera(), getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),
-                        Timer.getFPGATimestamp());
-                
-                m_odometry.addVisionMeasurement(
-                        VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getFrontRightPhotonPoseEstimator(), VisionSubsystem.getFrontRightPhotonCamera(), getPose().orElseThrow()).orElseThrow().estimatedPose.toPose2d(),
-                        Timer.getFPGATimestamp());
+                /*
+                 * Check that it does not equal null if that camera does not have a target or an
+                 * error is thrown in VisionSubsystem causing null to be returned.
+                 * 
+                 * Might be able to optimize/clean up this code later on by not calling get
+                 * estimated global pose so many times.
+                 */
+                if (VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getBackLeftPhotonPoseEstimator(),
+                        VisionSubsystem.getBackLeftPhotonCamera(),
+                        getPose().orElseThrow()).isPresent()) {
+
+                    m_odometry.addVisionMeasurement(
+                            VisionSubsystem
+                                    .getEstimatedGlobalPose(VisionSubsystem.getBackLeftPhotonPoseEstimator(),
+                                            VisionSubsystem.getBackLeftPhotonCamera(), getPose().orElseThrow())
+                                    .orElseThrow().estimatedPose.toPose2d(),
+                            Timer.getFPGATimestamp());
+                }
+
+                if (VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getBackRightPhotonPoseEstimator(),
+                        VisionSubsystem.getBackRightPhotonCamera(),
+                        getPose().orElseThrow()).isPresent()) {
+
+                    m_odometry.addVisionMeasurement(
+                            VisionSubsystem
+                                    .getEstimatedGlobalPose(VisionSubsystem.getBackRightPhotonPoseEstimator(),
+                                            VisionSubsystem.getBackRightPhotonCamera(), getPose().orElseThrow())
+                                    .orElseThrow().estimatedPose.toPose2d(),
+                            Timer.getFPGATimestamp());
+                }
 
             } catch (NoSuchElementException e) {
-                System.out.println(e);;
+                System.out.println(e); // Main failure point but should not happen
+            } catch (Exception e) {
+                System.out.println(e);// Should NEVER happen but just in case, don't want to crash.
             }
-
-            
 
         }
     }

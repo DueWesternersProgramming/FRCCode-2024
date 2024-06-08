@@ -15,14 +15,14 @@ import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.RobotConstants.PortConstants;
 
-public class ShooterSubsystem extends SubsystemBase{
+public class ShooterSubsystem extends SubsystemBase {
 
     CANSparkMax shooterMotor1, shooterMotor2;
     RelativeEncoder shooterEncoder1, shooterEncoder2;
-    //DriveSubsystem driveSubsystem;
+    // DriveSubsystem driveSubsystem;
 
-    public ShooterSubsystem(){
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
+    public ShooterSubsystem() {
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             shooterMotor1 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_1, MotorType.kBrushless);
             shooterMotor2 = new CANSparkMax(PortConstants.CAN.SHOOTER_MOTOR_PORT_2, MotorType.kBrushless);
             shooterMotor1.setIdleMode(IdleMode.kBrake);
@@ -30,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase{
             shooterEncoder1 = shooterMotor1.getEncoder();
             shooterEncoder2 = shooterMotor2.getEncoder();
             shooterMotor1.setInverted(true);
-            //driveSubsystem = new DriveSubsystem();
+            // driveSubsystem = new DriveSubsystem();
             // shooterMotor1.burnFlash();
             // shooterMotor2.burnFlash();
             resetEncoder();
@@ -42,43 +42,42 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public double getspeed2() {
-        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? shooterMotor2.get(): 0;
+        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? shooterMotor2.get() : 0;
     }
 
     /**
      * @param mode 0 = speaker, 1 = amp
      */
-    public void shooterOn(int mode){
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            if (mode == 0){
+    public void shooterOn(int mode) {
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
+            if (mode == 0) {
                 shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
                 shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE - 8.0);
-            }
-            else if (mode == 1){
+            } else if (mode == 1) {
                 shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
                 shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
             }
         }
     }
 
-    public void setShooterSpeed(double speed){
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
+    public void setShooterSpeed(double speed) {
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             shooterMotor1.set(speed);
             shooterMotor2.set(speed);
         }
     }
 
-    public void shooterOff(){
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
+    public void shooterOff() {
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             shooterMotor1.setVoltage(0.0);
             shooterMotor2.setVoltage(0.0);
         }
     }
 
-    public void shooterReverse(){
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            shooterMotor1.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/1.3);
-            shooterMotor2.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE/1.3);
+    public void shooterReverse() {
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
+            shooterMotor1.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE / 1.3);
+            shooterMotor2.setVoltage(-ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE / 1.3);
         }
     }
 
@@ -91,7 +90,7 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void resetEncoder() {
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             shooterEncoder1.setPosition(0.0);
             shooterEncoder2.setPosition(0.0);
         }
@@ -99,31 +98,31 @@ public class ShooterSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED){
-            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
+            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
                 if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning)) {
                     shooterOff();
-                }
-                else if((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning == false) && (IntakeSubsystem.getVelocity()<5)){
+                } else if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning == false)
+                        && (IntakeSubsystem.getVelocity() < 5)) {
                     shooterOn(0);
-                    
+
                 }
 
                 if (DriveSubsystem.getPose().get().getX() > 2) {
                     shooterOff();
                 }
             }
-            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
+            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
                 if (DriveSubsystem.getPose().get().getX() < 14.5) {
                     shooterOff();
                 }
                 if (DriveSubsystem.getPose().get().getX() > 14.5) {
                     shooterOn(0);
                 }
-                
+
             }
-        
+
         }
-        
+
     }
 }
