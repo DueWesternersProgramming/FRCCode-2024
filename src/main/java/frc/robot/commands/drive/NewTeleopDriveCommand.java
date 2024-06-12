@@ -34,14 +34,14 @@ public class NewTeleopDriveCommand extends Command {
 
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
-            double rot;
-            if (UserPolicy.autoAimSpeaker) { // could directly acsess buttons?
+            double rot = 0;
+            if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
                 rot = -(AimAtSpeakerCommand.getAimSpeed());
             } else {
                 rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
             }
 
-            if (joystick.getRawButton(9)) {
+            if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
                 fieldRelative = !DrivetrainConstants.FIELD_RELATIVE;
                 xRaw = -joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS);
                 yRaw = -joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS);

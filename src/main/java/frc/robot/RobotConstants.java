@@ -8,11 +8,11 @@ import edu.wpi.first.math.util.Units;
 
 public final class RobotConstants {
     public static final class DrivetrainConstants {
-        public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//5.30603;
-        public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//3.31033;
-        public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;//0.59211;
-        public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;//5.67266;
-    
+        public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 5.30603;
+        public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 3.31033;
+        public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 0.59211;
+        public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 5.67266;
+
         public static final double DRIVE_BASE_RADIUS_METERS = 0.52705;
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
@@ -20,9 +20,9 @@ public final class RobotConstants {
         public static final double MAX_SPEED_METERS_PER_SECOND = 6.0; // 4.42; //4.8;
         public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 2 * Math.PI; // radians per second
 
-        public static final double DIRECTION_SLEW_RATE = 25;//1.2; // radians per second
-        public static final double MAGNITUDE_SLEW_RATE = 25;//1.8; // 2.0; //1.8; // percent per second (1 = 100%)
-        public static final double ROTATIONAL_SLEW_RATE = 10;//2.0; // 20.0; //2.0; // percent per second (1 = 100%)
+        public static final double DIRECTION_SLEW_RATE = 25;// 1.2; // radians per second
+        public static final double MAGNITUDE_SLEW_RATE = 25;// 1.8; // 2.0; //1.8; // percent per second (1 = 100%)
+        public static final double ROTATIONAL_SLEW_RATE = 10;// 2.0; // 20.0; //2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
         public static final double TRACK_WIDTH_METERS = Units.inchesToMeters(25);
@@ -139,6 +139,7 @@ public final class RobotConstants {
             public static final int LEFT_CLIMBER_PORT = 26;
             public static final int RIGHT_CLIMBER_PORT = 27;
         }
+
         public static class Controller {
             public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
             public static final int DRIVE_JOYSTICK = 0;
@@ -187,6 +188,8 @@ public final class RobotConstants {
         public static final int SHOOTER_COMMAND_AXIS = 3;
         public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
         public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5;
+        public static final int ROBOT_RELATIVE_BUTTON = 9;
+        public static final int SPEAKER_AIM_BUTTON = 8;
     }
 
     public static final class IntakeConstants {
@@ -195,7 +198,7 @@ public final class RobotConstants {
         public static final double INTAKE_MOTOR_SHOOT_SPEED = 1;
 
     }
-    
+
     public static final class ShooterConstants {
         public static final double SHOOTER_MOTOR_SPEAKER_VOLTAGE = 12.5;
         public static final double SHOOTER_MOTOR_AMP_VOLTAGE = 2.25;
@@ -209,8 +212,8 @@ public final class RobotConstants {
     public static final class LightConstants {
         public static final int LIGHT_COUNT = 8;
         public static final double LIGHT_BRIGHTNESS = 0.25;
-      }
-    
+    }
+
     public static final class ClimberConstants {
         public static final double CLIMBER_MOTOR_SPEED = 0.2;
         public static final double CLIMBER_DOWN_POSITION = 0;

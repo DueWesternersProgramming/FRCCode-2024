@@ -176,6 +176,5 @@ public class RobotContainer {
         public static boolean xLocked = false;
         public static boolean shootCommandLocked = false;
         public static boolean intakeRunning = false;
-        public static boolean autoAimSpeaker = false;
     }
 }

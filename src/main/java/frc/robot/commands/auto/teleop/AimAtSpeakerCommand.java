@@ -49,7 +49,6 @@ public class AimAtSpeakerCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        UserPolicy.autoAimSpeaker = false;
 
     }
 
@@ -60,7 +59,7 @@ public class AimAtSpeakerCommand extends Command {
 
     @Override
     public void initialize() {
-        UserPolicy.autoAimSpeaker = true;
+
         rotationPidController.disableContinuousInput();
     }
 
