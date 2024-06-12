@@ -9,6 +9,8 @@ import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.auto.teleop.AimAtSpeakerCommand;
+import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 
 public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
@@ -27,25 +29,32 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED){
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             boolean fieldRelative = DrivetrainConstants.FIELD_RELATIVE;
-            
+
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
-            double rotRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
-        
-            if (joystick.getRawButton(9)){
+            double rot = 0;
+            if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
+                rot = -(AimAtSpeakerCommand.getAimSpeed());
+            } else {
+                rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
+            }
+
+            if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
                 fieldRelative = !DrivetrainConstants.FIELD_RELATIVE;
                 xRaw = -joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS);
                 yRaw = -joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS);
             }
 
-            double xConstrained = MathUtil.applyDeadband(MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
+            double xConstrained = MathUtil.applyDeadband(
+                    MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
                     RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
-            double yConstrained = MathUtil.applyDeadband(MathUtil.clamp(yRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
+            double yConstrained = MathUtil.applyDeadband(
+                    MathUtil.clamp(yRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
                     RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
             double rotConstrained = MathUtil.applyDeadband(
-                    MathUtil.clamp(rotRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
+                    MathUtil.clamp(rot, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
                     RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
 
             double xSquared = Math.copySign(xConstrained * xConstrained, xConstrained);
@@ -59,12 +68,11 @@ public class TeleopDriveCommand extends Command {
 
             if (UserPolicy.twistable) {
                 drive.drive(ySquared, xSquared, rotSquared, fieldRelative, true);
-            }
-            else {
+            } else {
                 drive.drive(ySquared, xSquared, 0, fieldRelative, true);
             }
         }
-        
+
     }
 
     @Override
