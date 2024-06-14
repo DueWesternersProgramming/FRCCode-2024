@@ -2,6 +2,7 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.TeleopConstants;
@@ -14,9 +15,9 @@ import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 
 public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
-    private final Joystick joystick;
+    private final XboxController joystick;
 
-    public TeleopDriveCommand(DriveSubsystem drive, Joystick joystick) {
+    public TeleopDriveCommand(DriveSubsystem drive, XboxController joystick) {
         this.drive = drive;
         this.joystick = joystick;
         addRequirements(drive);
@@ -34,12 +35,14 @@ public class TeleopDriveCommand extends Command {
 
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
-            double rot = 0;
-            if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
-                rot = -(AimAtSpeakerCommand.getAimSpeed());
-            } else {
-                rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
-            }
+            double rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
+            
+
+            // if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
+            //     rot = -(AimAtSpeakerCommand.getAimSpeed());
+            // } else {
+            //     rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
+            // }
 
             if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
                 fieldRelative = !DrivetrainConstants.FIELD_RELATIVE;

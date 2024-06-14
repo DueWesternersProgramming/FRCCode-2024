@@ -42,25 +42,29 @@ public class VisionSubsystem extends SubsystemBase {
                     PoseStrategy.LOWEST_AMBIGUITY,
                     backLeftCamera,
                     new Transform3d(new Translation3d(
-                            Units.inchesToMeters(0),
-                            Units.inchesToMeters(0), // Figure this out later.
-                            Units.inchesToMeters(0)),
-                            new Rotation3d()));
+                            Units.inchesToMeters(12.75),
+                            Units.inchesToMeters(-13.5), // Figure this out later.
+                            Units.inchesToMeters(9)),
+                            new Rotation3d(
+                                Units.degreesToRadians(0),
+                                Units.degreesToRadians(40),
+                                Units.degreesToRadians(180-15))));
 
             backRightPoseEstimator = new PhotonPoseEstimator(
                     aprilTagFieldLayout,
                     PoseStrategy.LOWEST_AMBIGUITY,
                     backRightCamera,
                     new Transform3d(new Translation3d(
-                            Units.inchesToMeters(0), // Figure this out later.
-                            Units.inchesToMeters(0), // positioning relitive to center of the robot, on the floor. Use
-                                                     // CAD mesurements ;)
-                            Units.inchesToMeters(0)),
-                            new Rotation3d()));
+                            Units.inchesToMeters(-12.75),
+                            Units.inchesToMeters(13.5),                    
+                            Units.inchesToMeters(9)),
+                            new Rotation3d(
+                                Units.degreesToRadians(0),
+                                Units.degreesToRadians(40),
+                                Units.degreesToRadians(180+15))));
 
         }
     }
-
     public static PhotonCamera getBackLeftPhotonCamera() {
         return backLeftCamera;
     }

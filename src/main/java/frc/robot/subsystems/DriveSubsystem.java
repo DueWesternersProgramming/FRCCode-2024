@@ -199,44 +199,35 @@ public class DriveSubsystem extends SubsystemBase {
                     });
 
             try {
-                /*
-                 * Check that it does not equal null if that camera does not have a target or an
-                 * error is thrown in VisionSubsystem causing null to be returned.
-                 * 
-                 * Might be able to optimize/clean up this code later on by not calling get
-                 * estimated global pose so many times.
-                 */
-                if (VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getBackLeftPhotonPoseEstimator(),
-                        VisionSubsystem.getBackLeftPhotonCamera(),
-                        getPose().orElseThrow()).isPresent()) {
 
-                    m_odometry.addVisionMeasurement(
+                m_odometry.addVisionMeasurement(
                             VisionSubsystem
                                     .getEstimatedGlobalPose(VisionSubsystem.getBackLeftPhotonPoseEstimator(),
                                             VisionSubsystem.getBackLeftPhotonCamera(), getPose().orElseThrow())
                                     .orElseThrow().estimatedPose.toPose2d(),
                             Timer.getFPGATimestamp());
+                    
                 }
-
-                if (VisionSubsystem.getEstimatedGlobalPose(VisionSubsystem.getBackRightPhotonPoseEstimator(),
-                        VisionSubsystem.getBackRightPhotonCamera(),
-                        getPose().orElseThrow()).isPresent()) {
-
-                    m_odometry.addVisionMeasurement(
-                            VisionSubsystem
-                                    .getEstimatedGlobalPose(VisionSubsystem.getBackRightPhotonPoseEstimator(),
-                                            VisionSubsystem.getBackRightPhotonCamera(), getPose().orElseThrow())
-                                    .orElseThrow().estimatedPose.toPose2d(),
-                            Timer.getFPGATimestamp());
-                }
-
-            } catch (NoSuchElementException e) {
-                System.out.println(e); // Main failure point but should not happen
-            } catch (Exception e) {
-                System.out.println(e);// Should NEVER happen but just in case, don't want to crash.
+            catch (NoSuchElementException e) {
+                
             }
 
+            try{
+                m_odometry.addVisionMeasurement(
+                        VisionSubsystem
+                                .getEstimatedGlobalPose(VisionSubsystem.getBackRightPhotonPoseEstimator(),
+                                        VisionSubsystem.getBackRightPhotonCamera(), getPose().orElseThrow())
+                                .orElseThrow().estimatedPose.toPose2d(),
+                        Timer.getFPGATimestamp());
+            }
+            catch (NoSuchElementException i){
+                
+            }
         }
+
+            
+
+        
     }
 
     /**
