@@ -188,8 +188,14 @@ public final class RobotConstants {
         public static final int SHOOTER_COMMAND_AXIS = 3;
         public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
         public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5;
+
+        // Driver constants:
         public static final int ROBOT_RELATIVE_BUTTON = 9;
         public static final int SPEAKER_AIM_BUTTON = 8;
+        public static final int RESET_GYRO_BUTTON = 11;
+        public static final int X_LOCK_BUTTON = 3;
+
+        // Operator constants: TODO:
     }
 
     public static final class IntakeConstants {

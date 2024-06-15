@@ -39,6 +39,7 @@ import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
@@ -121,9 +122,9 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driveJoystick, 11).onTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignSpeaker());
+        new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(new GyroReset(driveSubsystem));
+        new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((new XCommand()));
+        // new JoystickButton(driveJoystick, null).whileTrue(new AutoAlignSpeaker());
 
         // Above = DriveJoystick, Below = OperatorJoystick
 
