@@ -12,11 +12,11 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.auto.teleop.AimAtSpeakerCommand;
 import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 
-public class TeleopDriveCommand extends Command {
+public class NewTeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
     private final Joystick joystick;
 
-    public TeleopDriveCommand(DriveSubsystem drive, Joystick joystick) {
+    public NewTeleopDriveCommand(DriveSubsystem drive, Joystick joystick) {
         this.drive = drive;
         this.joystick = joystick;
         addRequirements(drive);
