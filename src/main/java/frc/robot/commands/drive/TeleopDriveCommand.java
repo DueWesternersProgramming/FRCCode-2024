@@ -36,12 +36,11 @@ public class TeleopDriveCommand extends Command {
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
             double rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
-            
 
             // if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
-            //     rot = -(AimAtSpeakerCommand.getAimSpeed());
+            // rot = -(AimAtSpeakerCommand.getAimSpeed());
             // } else {
-            //     rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
+            // rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
             // }
 
             if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
@@ -69,11 +68,8 @@ public class TeleopDriveCommand extends Command {
                 return;
             }
 
-            if (UserPolicy.twistable) {
-                drive.drive(ySquared, xSquared, rotSquared, fieldRelative, true);
-            } else {
-                drive.drive(ySquared, xSquared, 0, fieldRelative, true);
-            }
+            drive.drive(ySquared, xSquared, rotSquared, fieldRelative, true);
+
         }
 
     }

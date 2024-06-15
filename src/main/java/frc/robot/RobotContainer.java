@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.drive.TwistCommand;
 import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
@@ -61,7 +60,8 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-    private final XboxController driveJoystick = new XboxController(RobotConstants.PortConstants.Controller.DRIVE_JOYSTICK);
+    private final XboxController driveJoystick = new XboxController(
+            RobotConstants.PortConstants.Controller.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.Controller.OPERATOR_JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
@@ -121,13 +121,11 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
         new JoystickButton(driveJoystick, 11).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
         new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignSpeaker());
 
-        /////////////////// Above = DriveJoystick, Below = OperatorJoystick
-        // /////////////////////////////////////////
+        // Above = DriveJoystick, Below = OperatorJoystick
 
         new JoystickButton(operatorJoystick, 2).onTrue(
                 (new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem)))
@@ -173,7 +171,6 @@ public class RobotContainer {
     }
 
     public final class UserPolicy {
-        public static boolean twistable = false;
         public static boolean xLocked = false;
         public static boolean shootCommandLocked = false;
         public static boolean intakeRunning = false;
