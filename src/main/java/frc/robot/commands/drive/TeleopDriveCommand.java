@@ -16,6 +16,7 @@ import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
     private final XboxController joystick;
+    private double rot = 0;
 
     public TeleopDriveCommand(DriveSubsystem drive, XboxController joystick) {
         this.drive = drive;
@@ -35,13 +36,12 @@ public class TeleopDriveCommand extends Command {
 
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
-            double rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
 
-            // if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
-            // rot = -(AimAtSpeakerCommand.getAimSpeed());
-            // } else {
-            // rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
-            // }
+            if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
+                rot = -(AimAtSpeakerCommand.getAimSpeed());
+            } else {
+                rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
+            }
 
             if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
                 fieldRelative = !DrivetrainConstants.FIELD_RELATIVE;
