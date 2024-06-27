@@ -2,6 +2,7 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.TeleopConstants;
@@ -9,8 +10,6 @@ import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.commands.auto.teleop.AimAtSpeakerCommand;
-import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 
 public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
@@ -34,12 +33,8 @@ public class TeleopDriveCommand extends Command {
 
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
-            double rot = 0;
-            if (joystick.getRawButton(TeleopConstants.SPEAKER_AIM_BUTTON)) {
-                rot = -(AimAtSpeakerCommand.getAimSpeed());
-            } else {
-                rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
-            }
+
+            double rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
 
             if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
                 fieldRelative = !DrivetrainConstants.FIELD_RELATIVE;
@@ -48,7 +43,11 @@ public class TeleopDriveCommand extends Command {
             }
 
             double xConstrained = MathUtil.applyDeadband(
-                    MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
+                    MathUtil.clamp(xRaw,
+                            -TeleopConstants.MAX_SPEED_PERCENT
+                                    * SmartDashboard.getNumber("Variable Ajust Speed Limiter", 1),
+                            TeleopConstants.MAX_SPEED_PERCENT
+                                    * SmartDashboard.getNumber("Variable Ajust Speed Limiter", 1)),
                     RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
             double yConstrained = MathUtil.applyDeadband(
                     MathUtil.clamp(yRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
@@ -77,6 +76,7 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void initialize() {
+        SmartDashboard.putNumber("Variable Ajust Speed Limiter", 1);
         drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
     }
 

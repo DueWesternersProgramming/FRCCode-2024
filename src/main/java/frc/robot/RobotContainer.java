@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.drive.TwistCommand;
-import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDHasNoteUpdater;
@@ -29,7 +27,6 @@ import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.commands.auto.autonomous.OldTransitShootAutoCommand;
-import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 import frc.robot.commands.auto.teleop.TransitChamberAutoCommand;
 import frc.robot.commands.auto.teleop.TransitLaunchAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -43,7 +40,6 @@ import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
-import frc.robot.commands.drive.GyroReset;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -120,10 +116,9 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
-        new JoystickButton(driveJoystick, 11).onTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignSpeaker());
+        new JoystickButton(driveJoystick, 1).whileTrue(driveSubsystem.TwistCommand());
+        new JoystickButton(driveJoystick, 11).onTrue(driveSubsystem.gyroReset());
+        new JoystickButton(driveJoystick, 3).onTrue((driveSubsystem.xCommand()));
 
         /////////////////// Above = DriveJoystick, Below = OperatorJoystick
         // /////////////////////////////////////////
@@ -159,7 +154,9 @@ public class RobotContainer {
         if (m_autoPositionChooser.getSelected() != null) {
             return m_autoPositionChooser.getSelected();
         } else {
-            return new GyroReset(driveSubsystem);
+            return new Command() {
+
+            };
         }
     }
 
