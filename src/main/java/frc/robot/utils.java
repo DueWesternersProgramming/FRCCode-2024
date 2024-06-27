@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class utils {
 
-    public static Pose2d blueAllianceSpeaker = new Pose2d(1.3, 5.55, new Rotation2d(0));
-    public static Pose2d redAllianceSpeaker = new Pose2d(15.2, 5.55, new Rotation2d(180));
+    public static Pose2d blueAllianceSpeaker = new Pose2d(1.4, 5.55, new Rotation2d(Math.toRadians(0)));
+    public static Pose2d redAllianceSpeaker = new Pose2d(15.2, 5.55, new Rotation2d(Math.toRadians(180)));
 
     public static Pose2d getAllainceSpeakerPose() {
+        System.out.println(isRedAlliance());
         return isRedAlliance() ? redAllianceSpeaker : blueAllianceSpeaker;
     }
 
@@ -19,6 +20,6 @@ public class utils {
     }
 
     public static boolean isBlueAlliance() {
-        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);
+        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Blue) : (false);
     }
 }
