@@ -29,7 +29,6 @@ import frc.robot.commands.transit.StartTransit;
 import frc.robot.commands.transit.StopTransit;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.commands.auto.autonomous.OldTransitShootAutoCommand;
-import frc.robot.commands.auto.teleop.AutoAlignSpeaker;
 import frc.robot.commands.auto.teleop.TransitChamberAutoCommand;
 import frc.robot.commands.auto.teleop.TransitLaunchAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -45,6 +44,7 @@ import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 import frc.robot.commands.auto.RobotSystemsCheckCommand;
 import frc.robot.commands.drive.GyroReset;
+import frc.robot.commands.drive.PathFindToPose;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -124,7 +124,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((new XCommand()));
-        // new JoystickButton(driveJoystick, null).whileTrue(new AutoAlignSpeaker());
+        new JoystickButton(driveJoystick, 6).whileTrue(PathFindToPose.alignWithSpeakerCommand());
 
         // Above = DriveJoystick, Below = OperatorJoystick
 

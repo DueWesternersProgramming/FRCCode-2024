@@ -42,6 +42,13 @@ public final class RobotConstants {
         public static final boolean FIELD_RELATIVE = true;
     }
 
+    public static final class PathFindingOnFlyConstants {
+        public static final double MAX_VELOCITY = 6.0; // Meters per second
+        public static final double MAX_ACCELERATION = 6.0; // Meters per second squared
+        public static final double MAX_ANGULAR_SPEED = 540.0; // Degrees per second
+        public static final double MAX_ANGULAR_ACCELERATION = 720.0; // Degrees per second squared
+    }
+
     public static final class SwerveModuleConstants {
 
         public static final double TRANSLATION_P = 1.0;
