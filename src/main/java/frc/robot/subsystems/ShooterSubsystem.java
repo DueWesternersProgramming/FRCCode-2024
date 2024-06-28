@@ -99,28 +99,28 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
-            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
-                if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning)) {
-                    shooterOff();
-                } else if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning == false)
-                        && (IntakeSubsystem.getVelocity() < 5)) {
-                    shooterOn(0);
+            // if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+            //     if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning)) {
+            //         shooterOff();
+            //     } else if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning == false)
+            //             && (IntakeSubsystem.getVelocity() < 5)) {
+            //         shooterOn(0);
 
-                }
+            //     }
 
-                if (DriveSubsystem.getPose().get().getX() > 2) {
-                    shooterOff();
-                }
-            }
-            if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-                if (DriveSubsystem.getPose().get().getX() < 14.5) {
-                    shooterOff();
-                }
-                if (DriveSubsystem.getPose().get().getX() > 14.5) {
-                    shooterOn(0);
-                }
+            //     if (DriveSubsystem.getPose().get().getX() > 2) {
+            //         shooterOff();
+            //     }
+            // }
+            // if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+            //     if (DriveSubsystem.getPose().get().getX() < 14.5) {
+            //         shooterOff();
+            //     }
+            //     if (DriveSubsystem.getPose().get().getX() > 14.5) {
+            //         shooterOn(0);
+            //     }
 
-            }
+            // }
 
         }
 
