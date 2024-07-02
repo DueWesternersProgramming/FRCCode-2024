@@ -188,9 +188,10 @@ public final class RobotConstants {
     }
 
     public static final class TeleopConstants {
-        public static final double MAX_SPEED_PERCENT = 1;
-        public static final int DRIVE_COMMAND_X_AXIS = 1;
-        public static final int DRIVE_COMMAND_Y_AXIS = 0;
+        public static final double MAX_SPEED_PERCENT = 0.75;
+        public static final int DRIVE_COMMAND_X_AXIS = 0;
+        public static final int DRIVE_COMMAND_Y_AXIS = 1;
+        
         public static final int DRIVE_COMMAND_ROT_AXIS = 4;
         public static final int SHOOTER_COMMAND_AXIS = 3;
         public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
