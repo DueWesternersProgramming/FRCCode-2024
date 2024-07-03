@@ -43,12 +43,12 @@ public class VisionSubsystem extends SubsystemBase {
                     backLeftCamera,
                     new Transform3d(new Translation3d(
                             Units.inchesToMeters(12.75),
-                            Units.inchesToMeters(-13.5), // Figure this out later.
+                            Units.inchesToMeters(13.5), // Figure this out later.
                             Units.inchesToMeters(9)),
                             new Rotation3d(
                                 Units.degreesToRadians(0),
-                                Units.degreesToRadians(40),
-                                Units.degreesToRadians(180-15))));
+                                Units.degreesToRadians(30),
+                                Units.degreesToRadians(180-45))));
 
             backRightPoseEstimator = new PhotonPoseEstimator(
                     aprilTagFieldLayout,
@@ -60,8 +60,8 @@ public class VisionSubsystem extends SubsystemBase {
                             Units.inchesToMeters(9)),
                             new Rotation3d(
                                 Units.degreesToRadians(0),
-                                Units.degreesToRadians(40),
-                                Units.degreesToRadians(180+15))));
+                                Units.degreesToRadians(30),
+                                Units.degreesToRadians(-(180-45)))));
 
         }
     }

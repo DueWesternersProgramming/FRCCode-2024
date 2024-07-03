@@ -201,7 +201,7 @@ public final class RobotConstants {
         public static final int ROBOT_RELATIVE_BUTTON = 6;
         public static final int SPEAKER_AIM_BUTTON = 1;
         public static final int RESET_GYRO_BUTTON = 5;
-        public static final int X_LOCK_BUTTON = 3;
+        public static final int X_LOCK_BUTTON = 6;
 
         // Operator constants: TODO:
     }

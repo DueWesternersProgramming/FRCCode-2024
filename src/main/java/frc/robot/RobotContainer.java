@@ -124,7 +124,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(new GyroReset(driveSubsystem));
         new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((new XCommand()));
-        new JoystickButton(driveJoystick, 6).whileTrue(PathFindToPose.alignWithSpeakerCommand());
+        new JoystickButton(driveJoystick, 1).whileTrue(PathFindToPose.alignWithSpeakerCommand());
 
         // Above = DriveJoystick, Below = OperatorJoystick
 

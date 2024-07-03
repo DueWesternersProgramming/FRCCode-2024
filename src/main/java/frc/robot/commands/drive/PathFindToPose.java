@@ -16,7 +16,7 @@ public class PathFindToPose {
 
     // Create the constraints to use while pathfinding (Speeds and acceleration)
     static PathConstraints constraints = new PathConstraints(
-            PathFindingOnFlyConstants.MAX_VELOCITY, PathFindingOnFlyConstants.MAX_ACCELERATION,
+            1, 2,
             Units.degreesToRadians(PathFindingOnFlyConstants.MAX_ANGULAR_SPEED),
             Units.degreesToRadians(PathFindingOnFlyConstants.MAX_ANGULAR_ACCELERATION));
 
