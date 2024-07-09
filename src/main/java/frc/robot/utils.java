@@ -11,7 +11,6 @@ public class utils {
     public static Pose2d redAllianceSpeaker = new Pose2d(15.2, 5.55, new Rotation2d(Math.toRadians(180)));
 
     public static Pose2d getAllainceSpeakerPose() {
-        System.out.println(isRedAlliance());
         return isRedAlliance() ? redAllianceSpeaker : blueAllianceSpeaker;
     }
 
