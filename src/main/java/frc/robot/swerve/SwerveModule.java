@@ -151,8 +151,8 @@ public class SwerveModule {
         SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
                 new Rotation2d(m_turningEncoder.getPosition()));
 
-        if (Math.abs(optimizedDesiredState.speedMetersPerSecond) < 0.001 // less than 1 mm per sec
-                && Math.abs(optimizedDesiredState.angle.getRadians() - m_turningEncoder.getPosition()) < 0.1) // 10% of
+        if (Math.abs(optimizedDesiredState.speedMetersPerSecond) < 0.004 // less than 4 mm per sec
+                && Math.abs(optimizedDesiredState.angle.getRadians() - m_turningEncoder.getPosition()) < 0.4) // 40% of
                                                                                                               // a
                                                                                                               // radian
         {
