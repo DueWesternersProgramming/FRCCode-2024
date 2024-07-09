@@ -43,10 +43,10 @@ public final class RobotConstants {
     }
 
     public static final class PathFindingOnFlyConstants {
-        public static final double MAX_VELOCITY = 6.0; // Meters per second
-        public static final double MAX_ACCELERATION = 6.0; // Meters per second squared
-        public static final double MAX_ANGULAR_SPEED = 540.0; // Degrees per second
-        public static final double MAX_ANGULAR_ACCELERATION = 720.0; // Degrees per second squared
+        public static final double MAX_VELOCITY = 1; // Meters per second
+        public static final double MAX_ACCELERATION = 1; // Meters per second squared
+        public static final double MAX_ANGULAR_SPEED = 300.0; // Degrees per second
+        public static final double MAX_ANGULAR_ACCELERATION = 150.0; // Degrees per second squared
     }
 
     public static final class SwerveModuleConstants {
@@ -167,7 +167,7 @@ public final class RobotConstants {
     public static final class AutonomousConstants {
         public static final double X_CONTROLLER_P = 3.5;
         public static final double Y_CONTROLLER_P = 3.5;
-        public static final double THETA_CONTROLLER_P = 5;
+        public static final double THETA_CONTROLLER_P = 3;
 
         public static final double X_CONTROLLER_I = 0;
         public static final double Y_CONTROLLER_I = 0;
