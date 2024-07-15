@@ -1,4 +1,4 @@
-package frc.robot.commands.shooter;
+package frc.robot.commands.shoot;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -6,8 +6,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
-import frc.robot.commands.intake.ReverseIntake;
-import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDMatch;
 
 public class ChamberAutoCommand extends SequentialCommandGroup {
@@ -19,9 +17,9 @@ public class ChamberAutoCommand extends SequentialCommandGroup {
                 new LEDMatch(lightsubsystem, 3),
                 shooterSubsystem.startShooterCommand(),
                 transitSubsystem.reverseTransitCommand(),
-                new ReverseIntake(intakeSubsystem),
+                intakeSubsystem.reverseIntakeCommand(),
                 new WaitCommand(0.1),
                 transitSubsystem.stopTransitCommand(),
-                new StopIntake(intakeSubsystem));
+                intakeSubsystem.stopIntakeCommand());
     }
 }

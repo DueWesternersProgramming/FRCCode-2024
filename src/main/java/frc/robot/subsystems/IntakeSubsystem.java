@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -15,7 +14,6 @@ import frc.robot.RobotConstants.IntakeConstants;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotContainer.UserPolicy;
-import frc.robot.commands.intake.StartIntake;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -119,7 +117,7 @@ public class IntakeSubsystem extends SubsystemBase {
         });
     }
 
-    public Command stopIntake() {
+    public Command stopIntakeCommand() {
         return new StartEndCommand(() -> {
             intakeOff();
         }, () -> {

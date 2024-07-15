@@ -17,14 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.intake.StartIntake;
-import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.intake.IntakeTransitAutoCommand;
+import frc.robot.commands.intake.IntakeTransitAutoReverseCommand;
+import frc.robot.commands.intake.IntakeTransitAutoStopCommand;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.light.LEDPrematch;
-import frc.robot.commands.shooter.ChamberAutoCommand;
-import frc.robot.commands.shooter.LaunchAutoCommand;
-import frc.robot.commands.shooter.OldTransitShootAutoCommand;
+import frc.robot.commands.shoot.ChamberAutoCommand;
+import frc.robot.commands.shoot.LaunchAutoCommand;
+import frc.robot.commands.shoot.OldTransitShootAutoCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -35,9 +36,6 @@ import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
-import frc.robot.commands.auto.IntakeTransitAutoCommand;
-import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
-import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
 import frc.robot.commands.drive.PathFindToPose;
 
 /*
@@ -93,10 +91,10 @@ public class RobotContainer {
                 shooterSubsystem.stopShooterCommand());
 
         NamedCommands.registerCommand("StartIntake",
-                new StartIntake(intakeSubsystem));
+                intakeSubsystem.startIntakeCommand());
 
         NamedCommands.registerCommand("StopIntake",
-                new StopIntake(intakeSubsystem));
+                intakeSubsystem.stopIntakeCommand());
 
         NamedCommands.registerCommand("StartTransit", transitSubsystem.startTransitCommand());
 

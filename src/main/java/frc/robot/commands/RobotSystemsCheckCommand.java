@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.MoveAtPowerCommand;
-import frc.robot.commands.intake.StartIntake;
-import frc.robot.commands.intake.StopIntake;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -28,9 +26,9 @@ public class RobotSystemsCheckCommand extends SequentialCommandGroup {
                 new WaitCommand(3),
                 transitSubsystem.stopTransitCommand(),
                 new PrintCommand("Transit Complete!\nTesting Intake..."),
-                new StartIntake(intakeSubsystem),
+                intakeSubsystem.startIntakeCommand(),
                 new WaitCommand(3),
-                new StopIntake(intakeSubsystem),
+                intakeSubsystem.stopIntakeCommand(),
                 new PrintCommand("Intake Complete!\nTesting Drive..."),
                 new MoveAtPowerCommand(drivesubsystem, 0, -0.5, 0),
                 new WaitCommand(1),

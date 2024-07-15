@@ -1,10 +1,9 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
-import frc.robot.commands.intake.ReverseIntake;
 
 public class IntakeTransitAutoReverseCommand extends SequentialCommandGroup {
 
@@ -12,7 +11,7 @@ public class IntakeTransitAutoReverseCommand extends SequentialCommandGroup {
             TransitSubsystem transitSubsystem) {
         addCommands(
                 shooterSubsystem.stopShooterCommand(),
-                new ReverseIntake(intakeSubsystem),
+                intakeSubsystem.reverseIntakeCommand(),
                 transitSubsystem.reverseTransitCommand(),
                 shooterSubsystem.reverseShooterCommand());
     }

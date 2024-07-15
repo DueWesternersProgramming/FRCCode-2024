@@ -1,10 +1,9 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
-import frc.robot.commands.intake.StopIntake;
 
 public class IntakeTransitAutoStopCommand extends SequentialCommandGroup {
 
@@ -13,7 +12,7 @@ public class IntakeTransitAutoStopCommand extends SequentialCommandGroup {
         addCommands(
                 // Stop all
                 shooterSubsystem.stopShooterCommand(),
-                new StopIntake(intakeSubsystem),
+                intakeSubsystem.stopIntakeCommand(),
                 transitSubsystem.stopTransitCommand());
     }
 }
