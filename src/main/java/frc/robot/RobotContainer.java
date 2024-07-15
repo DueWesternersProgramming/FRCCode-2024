@@ -17,20 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.drive.XCommand;
 import frc.robot.commands.intake.StartIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.light.LEDPrematch;
-import frc.robot.commands.shooter.StartShooter;
-import frc.robot.commands.shooter.StopShooter;
-import frc.robot.commands.transit.StartTransit;
-import frc.robot.commands.transit.StopTransit;
+import frc.robot.commands.shooter.ChamberAutoCommand;
+import frc.robot.commands.shooter.LaunchAutoCommand;
+import frc.robot.commands.shooter.OldTransitShootAutoCommand;
 import frc.robot.commands.climber.ClimberCommand;
-import frc.robot.commands.auto.autonomous.OldTransitShootAutoCommand;
-import frc.robot.commands.auto.teleop.TransitChamberAutoCommand;
-import frc.robot.commands.auto.teleop.TransitLaunchAutoCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -39,11 +34,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.RobotConstants.TeleopConstants;
+import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.auto.IntakeTransitAutoCommand;
 import frc.robot.commands.auto.IntakeTransitAutoReverseCommand;
 import frc.robot.commands.auto.IntakeTransitAutoStopCommand;
-import frc.robot.commands.auto.RobotSystemsCheckCommand;
-import frc.robot.commands.drive.GyroReset;
 import frc.robot.commands.drive.PathFindToPose;
 
 /*
@@ -61,6 +55,7 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
+
     private final XboxController driveJoystick = new XboxController(
             RobotConstants.PortConstants.Controller.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.Controller.OPERATOR_JOYSTICK);
@@ -92,10 +87,10 @@ public class RobotContainer {
 
     private void createNamedCommands() {
         NamedCommands.registerCommand("StartShooter",
-                new StartShooter(shooterSubsystem, 0));
+                shooterSubsystem.startShooterCommand());
 
         NamedCommands.registerCommand("StopShooter",
-                new StopShooter(shooterSubsystem));
+                shooterSubsystem.stopShooterCommand());
 
         NamedCommands.registerCommand("StartIntake",
                 new StartIntake(intakeSubsystem));
@@ -103,10 +98,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopIntake",
                 new StopIntake(intakeSubsystem));
 
-        NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
+        NamedCommands.registerCommand("StartTransit", transitSubsystem.startTransitCommand());
 
-        NamedCommands.registerCommand("StopTransit",
-                new StopTransit(transitSubsystem));
+        NamedCommands.registerCommand("StopTransit", transitSubsystem.startTransitCommand());
 
         NamedCommands.registerCommand("IntakeTransitCommand",
                 new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
@@ -122,8 +116,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((new XCommand()));
+        new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
+        new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
         new JoystickButton(driveJoystick, 1).whileTrue(PathFindToPose.alignWithSpeakerCommand());
 
         // Above = DriveJoystick, Below = OperatorJoystick
@@ -137,9 +131,9 @@ public class RobotContainer {
                 .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
 
         new JoystickButton(operatorJoystick, 4)
-                .onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                .onTrue(new ChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
                         lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked))
-                .onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                .onFalse(new LaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
                         lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
     }
 
@@ -159,7 +153,7 @@ public class RobotContainer {
         if (m_autoPositionChooser.getSelected() != null) {
             return m_autoPositionChooser.getSelected();
         } else {
-            return new GyroReset(driveSubsystem);
+            return driveSubsystem.gyroReset();
         }
     }
 

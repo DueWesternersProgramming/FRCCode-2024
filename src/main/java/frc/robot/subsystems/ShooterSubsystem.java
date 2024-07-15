@@ -8,6 +8,8 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -30,9 +32,6 @@ public class ShooterSubsystem extends SubsystemBase {
             shooterEncoder1 = shooterMotor1.getEncoder();
             shooterEncoder2 = shooterMotor2.getEncoder();
             shooterMotor1.setInverted(true);
-            // driveSubsystem = new DriveSubsystem();
-            // shooterMotor1.burnFlash();
-            // shooterMotor2.burnFlash();
             resetEncoder();
         }
     }
@@ -48,15 +47,10 @@ public class ShooterSubsystem extends SubsystemBase {
     /**
      * @param mode 0 = speaker, 1 = amp
      */
-    public void shooterOn(int mode) {
+    public void shooterOn() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
-            if (mode == 0) {
-                shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
-                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE - 8.0);
-            } else if (mode == 1) {
-                shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
-                shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_AMP_VOLTAGE);
-            }
+            shooterMotor1.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
+            shooterMotor2.setVoltage(ShooterConstants.SHOOTER_MOTOR_SPEAKER_VOLTAGE);
         }
     }
 
@@ -99,30 +93,34 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
-            // if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
-            //     if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning)) {
-            //         shooterOff();
-            //     } else if ((DriveSubsystem.getPose().get().getX() < 2) && (UserPolicy.intakeRunning == false)
-            //             && (IntakeSubsystem.getVelocity() < 5)) {
-            //         shooterOn(0);
-
-            //     }
-
-            //     if (DriveSubsystem.getPose().get().getX() > 2) {
-            //         shooterOff();
-            //     }
-            // }
-            // if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-            //     if (DriveSubsystem.getPose().get().getX() < 14.5) {
-            //         shooterOff();
-            //     }
-            //     if (DriveSubsystem.getPose().get().getX() > 14.5) {
-            //         shooterOn(0);
-            //     }
-
-            // }
-
         }
+    }
 
+    public Command LockShootCommand(Boolean locked) {
+        return new StartEndCommand(() -> {
+            UserPolicy.shootCommandLocked = locked;
+        }, () -> {
+        });
+    }
+
+    public Command startShooterCommand() {
+        return new StartEndCommand(() -> {
+            shooterOn();
+        }, () -> {
+        });
+    }
+
+    public Command stopShooterCommand() {
+        return new StartEndCommand(() -> {
+            shooterOff();
+        }, () -> {
+        });
+    }
+
+    public Command reverseShooterCommand() {
+        return new StartEndCommand(() -> {
+            shooterReverse();
+        }, () -> {
+        });
     }
 }

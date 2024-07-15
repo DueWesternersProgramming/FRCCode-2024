@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.pathplanner.lib.path.PathConstraints;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,7 +14,8 @@ public final class RobotConstants {
         public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 0.59211;
         public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 5.67266;
 
-        public static final double DRIVE_BASE_RADIUS_METERS = 0.52705;
+        public static final double DRIVE_BASE_RADIUS_METERS = 0.52705; // Middle of the robot to one of the swerve
+                                                                       // module wheel centers. Use CAD.
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
@@ -42,23 +44,20 @@ public final class RobotConstants {
         public static final boolean FIELD_RELATIVE = true;
     }
 
-    public static final class PathFindingOnFlyConstants {
+    public static final class PathFindToPoseConstants {
         public static final double MAX_VELOCITY = .75; // Meters per second
         public static final double MAX_ACCELERATION = 2; // Meters per second squared
         public static final double MAX_ANGULAR_SPEED = 200.0; // Degrees per second
         public static final double MAX_ANGULAR_ACCELERATION = 175.0; // Degrees per second squared
+
+        // Create the constraints to use while pathfinding (Speeds and acceleration)
+        public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
+                PathFindToPoseConstants.MAX_VELOCITY, PathFindToPoseConstants.MAX_ACCELERATION,
+                Units.degreesToRadians(PathFindToPoseConstants.MAX_ANGULAR_SPEED),
+                Units.degreesToRadians(PathFindToPoseConstants.MAX_ANGULAR_ACCELERATION));
     }
 
     public static final class SwerveModuleConstants {
-
-        public static final double TRANSLATION_P = 1.0;
-        public static final double ROT_MOTION_P = 0.0;
-
-        public static final double TRANSLATION_I = 0.0;
-        public static final double ROT_MOTION_I = 0.0;
-
-        public static final double TRANSLATION_D = 0.0;
-        public static final double ROT_MOTION_D = 0.0;
 
         public static final double FREE_SPEED_RPM = 5676;
 
@@ -191,7 +190,7 @@ public final class RobotConstants {
         public static final double MAX_SPEED_PERCENT = 1;
         public static final int DRIVE_COMMAND_X_AXIS = 0;
         public static final int DRIVE_COMMAND_Y_AXIS = 1;
-        
+
         public static final int DRIVE_COMMAND_ROT_AXIS = 4;
         public static final int SHOOTER_COMMAND_AXIS = 3;
         public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;

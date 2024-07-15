@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.SwerveControlRequestParameters;
 import com.kauailabs.navx.frc.AHRS;
 //import org.littletonrobotics.junction.Logger;
 
@@ -25,11 +24,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.commands.shooter.StartShooter;
+import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.swerve.SwerveModule;
 import frc.robot.swerve.SwerveUtils;
@@ -39,7 +40,6 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.commands.shooter.StartShooter;
 
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
@@ -201,33 +201,28 @@ public class DriveSubsystem extends SubsystemBase {
             try {
 
                 m_odometry.addVisionMeasurement(
-                            VisionSubsystem
-                                    .getEstimatedGlobalPose(VisionSubsystem.getBackLeftPhotonPoseEstimator(),
-                                            VisionSubsystem.getBackLeftPhotonCamera(), getPose().orElseThrow())
-                                    .orElseThrow().estimatedPose.toPose2d(),
-                            Timer.getFPGATimestamp());
-                    
-                }
-            catch (NoSuchElementException e) {
-                
+                        VisionSubsystem
+                                .getEstimatedGlobalPose(VisionSubsystem.getBackLeftPhotonPoseEstimator(),
+                                        VisionSubsystem.getBackLeftPhotonCamera(), getPose().orElseThrow())
+                                .orElseThrow().estimatedPose.toPose2d(),
+                        Timer.getFPGATimestamp());
+
+            } catch (NoSuchElementException e) {
+
             }
 
-            try{
+            try {
                 m_odometry.addVisionMeasurement(
                         VisionSubsystem
                                 .getEstimatedGlobalPose(VisionSubsystem.getBackRightPhotonPoseEstimator(),
                                         VisionSubsystem.getBackRightPhotonCamera(), getPose().orElseThrow())
                                 .orElseThrow().estimatedPose.toPose2d(),
                         Timer.getFPGATimestamp());
-            }
-            catch (NoSuchElementException i){
-                
+            } catch (NoSuchElementException i) {
+
             }
         }
 
-            
-
-        
     }
 
     /**
@@ -467,5 +462,24 @@ public class DriveSubsystem extends SubsystemBase {
         double radiansPerSecond = Units.degreesToRadians(m_gyro.getRate());
         return ChassisSpeeds.fromRobotRelativeSpeeds(m_gyro.getVelocityX(), m_gyro.getVelocityY(), radiansPerSecond,
                 m_gyro.getRotation2d());
+    }
+
+    public Command gyroReset() {
+        return Commands.startEnd(() -> {
+            // init
+            zeroHeading();
+        }, () -> {
+            // end
+        });
+    }
+
+    public Command xCommand() {
+        return Commands.startEnd(() -> {
+            // init
+            UserPolicy.xLocked = !UserPolicy.xLocked;
+        }, () -> {
+            // end
+        });
+
     }
 }
