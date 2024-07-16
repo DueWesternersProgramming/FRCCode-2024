@@ -1,4 +1,4 @@
-package frc.robot.commands.intake;
+package frc.robot.commands.automated.intake;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;

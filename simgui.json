@@ -1,7 +1,9 @@
 {
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Autonomous/SendableChooser[1]": "String Chooser",
+      "/SmartDashboard/Odometry Pose Field": "Field2d"
     }
   },
   "NetworkTables Info": {

@@ -17,15 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.intake.IntakeTransitAutoCommand;
-import frc.robot.commands.intake.IntakeTransitAutoReverseCommand;
-import frc.robot.commands.intake.IntakeTransitAutoStopCommand;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.light.LEDPrematch;
-import frc.robot.commands.shoot.ChamberAutoCommand;
-import frc.robot.commands.shoot.LaunchAutoCommand;
-import frc.robot.commands.shoot.OldTransitShootAutoCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -33,9 +27,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
+import frc.robot.commands.automated.intake.IntakeTransitAutoCommand;
+import frc.robot.commands.automated.intake.IntakeTransitAutoReverseCommand;
+import frc.robot.commands.automated.intake.IntakeTransitAutoStopCommand;
+import frc.robot.commands.automated.shoot.ChamberAutoCommand;
+import frc.robot.commands.automated.shoot.LaunchAutoCommand;
+import frc.robot.commands.automated.shoot.OldTransitShootAutoCommand;
 import frc.robot.commands.drive.PathFindToPose;
 
 /*
@@ -114,25 +115,29 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
-        new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
-        new JoystickButton(driveJoystick, 1).whileTrue(PathFindToPose.alignWithSpeakerCommand());
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
+            new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
+            new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
+            new JoystickButton(driveJoystick, 1).whileTrue(PathFindToPose.alignWithSpeakerCommand());
+        }
 
         // Above = DriveJoystick, Below = OperatorJoystick
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+            new JoystickButton(operatorJoystick, 2).onTrue(
+                    (new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem)))
+                    .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
 
-        new JoystickButton(operatorJoystick, 2).onTrue(
-                (new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem)))
-                .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-
-        new JoystickButton(operatorJoystick, 7)
-                .onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))
-                .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-
-        new JoystickButton(operatorJoystick, 4)
-                .onTrue(new ChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                        lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked))
-                .onFalse(new LaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                        lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
+            new JoystickButton(operatorJoystick, 7)
+                    .onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))
+                    .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        }
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
+            new JoystickButton(operatorJoystick, 4)
+                    .onTrue(new ChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                            lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                    .onFalse(new LaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                            lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
+        }
     }
 
     public Command preLEDCommand() {

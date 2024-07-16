@@ -1,11 +1,17 @@
 package frc.robot;
 
 import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 
 public final class RobotConstants {
     public static final class DrivetrainConstants {
@@ -178,12 +184,67 @@ public final class RobotConstants {
 
         public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
         public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
+
+        public static final HolonomicPathFollowerConfig HOLONOMIC_PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
+                new PIDConstants(AutonomousConstants.X_CONTROLLER_P, AutonomousConstants.X_CONTROLLER_I,
+                        AutonomousConstants.X_CONTROLLER_D), // Translation PID constants
+                new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P,
+                        AutonomousConstants.THETA_CONTROLLER_I, AutonomousConstants.THETA_CONTROLLER_D), // Rotation
+                RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in m/s
+                RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters.
+                                                                             // Distance from robot center
+                                                                             // to furthest module.
+                new ReplanningConfig(false, true) // Default path replanning config. See the API for the options here
+        );
+
+        public static final Boolean FLIP_PATHPLANNER_AUTOS = true;
     }
 
     public static final class VisionConstants {
-        public static final double AUTO_ALIGN_P = 0.005;
-        public static final double AUTO_ALIGN_I = 0;
-        public static final double AUTO_ALIGN_D = 55;
+        public static final Transform3d[] CAMERA_POSITIONS = {
+                new Transform3d(
+                        // Back Left
+                        new Translation3d(
+                                Units.inchesToMeters(-13.5), // forward+
+                                Units.inchesToMeters(12.75), // left+
+                                Units.inchesToMeters(9)), // up+
+                        new Rotation3d(
+                                Units.degreesToRadians(0),
+                                Units.degreesToRadians(-40), // Note, these are all
+                                                             // counter clockwise so to
+                                                             // face up we
+                                                             // need -40 (the rest of these as well) ;)
+                                Units.degreesToRadians(180 - 15))),
+                // Back Right
+                new Transform3d(
+                        new Translation3d(
+                                Units.inchesToMeters(-13.5), // forward+
+                                Units.inchesToMeters(-12.75), // left+
+                                Units.inchesToMeters(9)), // up+
+                        new Rotation3d(
+                                Units.degreesToRadians(0),
+                                Units.degreesToRadians(-40),
+                                Units.degreesToRadians(180 + 15))),
+                // Front Left
+                new Transform3d(
+                        new Translation3d(
+                                Units.inchesToMeters(13.5), // forward+
+                                Units.inchesToMeters(12.75), // left+
+                                Units.inchesToMeters(9)), // up+
+                        new Rotation3d(
+                                Units.degreesToRadians(0),
+                                Units.degreesToRadians(-40),
+                                Units.degreesToRadians(-15))),
+                // Front Right
+                new Transform3d(new Translation3d(
+                        Units.inchesToMeters(13.5), // forward+
+                        Units.inchesToMeters(-12.75), // left+
+                        Units.inchesToMeters(9)), // up+
+                        new Rotation3d(
+                                Units.degreesToRadians(0),
+                                Units.degreesToRadians(-40),
+                                Units.degreesToRadians(15))) };
+        public static final String[] CAMERA_NAMES = { "backLeftCamera", "backRightCamera" };
     }
 
     public static final class TeleopConstants {
@@ -235,11 +296,11 @@ public final class RobotConstants {
 
     public static final class SubsystemEnabledConstants {
         public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
-        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
-        public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
-        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
-        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
-        public static final boolean LIGHT_SUBSYSTEM_ENABLED = true;
+        public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
+        public static final boolean INTAKE_SUBSYSTEM_ENABLED = false;
+        public static final boolean SHOOTER_SUBSYSTEM_ENABLED = false;
+        public static final boolean TRANSIT_SUBSYSTEM_ENABLED = false;
+        public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
         public static final boolean VISION_SUBSYSTEM_ENABLED = true;
     }
 }

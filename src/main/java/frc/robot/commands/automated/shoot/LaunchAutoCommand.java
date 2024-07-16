@@ -1,4 +1,4 @@
-package frc.robot.commands.shoot;
+package frc.robot.commands.automated.shoot;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
