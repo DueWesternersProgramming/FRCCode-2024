@@ -497,7 +497,8 @@ public class DriveSubsystem extends SubsystemBase {
                 ? ChassisSpeeds.fromRobotRelativeSpeeds(m_gyro.getVelocityX(), m_gyro.getVelocityY(),
                         Units.degreesToRadians(m_gyro.getRate()),
                         m_gyro.getRotation2d())
-                : ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, 0, new Rotation2d());
+                : ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, 0, Rotation2d.fromDegrees(fakeGyro));// todo figure this
+                                                                                                   // out
     }
 
     public Command gyroReset() {

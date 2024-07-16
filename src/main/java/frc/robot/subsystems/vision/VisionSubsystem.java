@@ -11,19 +11,14 @@ import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.estimation.VisionEstimation;
 import org.photonvision.simulation.VisionSystemSim;
 
 public class VisionSubsystem extends SubsystemBase {
 
     static AprilTagFieldLayout aprilTagFieldLayout;
 
-    public static Camera[] cameras = new Camera[2];
-    public static CameraSim[] cameraSims = new CameraSim[2];
+    public static Camera[] cameras = new Camera[VisionConstants.CAMERA_NAMES.length];
+    public static CameraSim[] cameraSims = new CameraSim[VisionConstants.CAMERA_NAMES.length];
     private VisionSystemSim visionSim;
 
     public VisionSubsystem() {

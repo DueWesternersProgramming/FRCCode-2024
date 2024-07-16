@@ -27,7 +27,6 @@ public class IntakeSubsystem extends SubsystemBase {
             intakeMotor.setIdleMode(IdleMode.kCoast);
             intakeEncoder = intakeMotor.getEncoder();
             resetIntakeEncoder();
-            networkTableInstance = NetworkTableInstance.getDefault();
         }
     }
 
