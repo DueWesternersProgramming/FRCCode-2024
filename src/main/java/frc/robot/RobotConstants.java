@@ -207,10 +207,10 @@ public final class RobotConstants {
                         new Translation3d(
                                 Units.inchesToMeters(-13.5), // forward+
                                 Units.inchesToMeters(12.75), // left+
-                                Units.inchesToMeters(9)), // up+
+                                Units.inchesToMeters(8.351)), // up+
                         new Rotation3d(
                                 Units.degreesToRadians(0),
-                                Units.degreesToRadians(-40), // Note, these are all
+                                Units.degreesToRadians(-30), // Note, these are all
                                                              // counter clockwise so to
                                                              // face up we
                                                              // need -40 (the rest of these as well) ;)
@@ -220,29 +220,29 @@ public final class RobotConstants {
                         new Translation3d(
                                 Units.inchesToMeters(-13.5), // forward+
                                 Units.inchesToMeters(-12.75), // left+
-                                Units.inchesToMeters(9)), // up+
+                                Units.inchesToMeters(8.351)), // up+
                         new Rotation3d(
                                 Units.degreesToRadians(0),
-                                Units.degreesToRadians(-40),
+                                Units.degreesToRadians(-30),
                                 Units.degreesToRadians(180 + 15))),
                 // Front Left
                 new Transform3d(
                         new Translation3d(
                                 Units.inchesToMeters(13.5), // forward+
                                 Units.inchesToMeters(12.75), // left+
-                                Units.inchesToMeters(9)), // up+
+                                Units.inchesToMeters(8.351)), // up+
                         new Rotation3d(
                                 Units.degreesToRadians(0),
-                                Units.degreesToRadians(-40),
+                                Units.degreesToRadians(-30),
                                 Units.degreesToRadians(-15))),
                 // Front Right
                 new Transform3d(new Translation3d(
                         Units.inchesToMeters(13.5), // forward+
                         Units.inchesToMeters(-12.75), // left+
-                        Units.inchesToMeters(9)), // up+
+                        Units.inchesToMeters(8.351)), // up+
                         new Rotation3d(
                                 Units.degreesToRadians(0),
-                                Units.degreesToRadians(-40),
+                                Units.degreesToRadians(-30),
                                 Units.degreesToRadians(15))) };
         public static final String[] CAMERA_NAMES = { "backLeftCamera", "backRightCamera" };
     }
