@@ -5,13 +5,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.commands.climber.ClimberCommand;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -75,26 +71,9 @@ public class ClimberSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED) {
-            SmartDashboard.putNumber("Climber Speed", getSpeed());
-            SmartDashboard.putNumber("Climber L Position", getEncoder1Position());
-            SmartDashboard.putNumber("Climber R Position", getEncoder2Position());
+            // SmartDashboard.putNumber("Climber Speed", getSpeed());
+            // SmartDashboard.putNumber("Climber L Position", getEncoder1Position());
+            // SmartDashboard.putNumber("Climber R Position", getEncoder2Position());
         }
     }
-
-    public Command climberCommand() {
-        new FunctionalCommand(
-                // Reset encoders on command start
-                m_robotDrive::resetEncoders,
-                // Start driving forward at the start of the command
-                () -> m_robotDrive.arcadeDrive(kAutoDriveSpeed, 0),
-                // Stop driving at the end of the command
-                () -> {
-                },
-                // End the command when the robot's driven distance exceeds the desired value
-                () -> m_robotDrive.getAverageEncoderDistance() >= kAutoDriveDistanceInches
-        // Require the drive subsystem
-        );
-
-    }
-
 }

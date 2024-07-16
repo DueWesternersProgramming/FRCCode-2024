@@ -8,8 +8,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.kauailabs.navx.frc.AHRS;
-//import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -123,8 +121,8 @@ public class DriveSubsystem extends SubsystemBase {
                             RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in meters.
                                                                                          // Distance from robot center
                                                                                          // to furthest module.
-                            new ReplanningConfig(false, false) // Default path replanning config. See the API for the
-                                                               // options here
+                            new ReplanningConfig(false, true) // Default path replanning config. See the API for the
+                                                              // options here
                     ),
                     () -> {
                         // Boolean supplier that controls when the path will be mirrored for the red
