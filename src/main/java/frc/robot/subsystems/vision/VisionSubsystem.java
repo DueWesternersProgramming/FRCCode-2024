@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.VisionConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 import java.util.NoSuchElementException;
 import org.photonvision.simulation.VisionSystemSim;

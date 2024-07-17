@@ -22,11 +22,11 @@ import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.light.LEDPrematch;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.TeleopConstants;
@@ -101,10 +101,10 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("StopTransit", transitSubsystem.startTransitCommand());
 
-        NamedCommands.registerCommand("IntakeTransitCommand",
+        NamedCommands.registerCommand("IntakeTransit",
                 new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
 
-        NamedCommands.registerCommand("IntakeTransitStopCommand",
+        NamedCommands.registerCommand("IntakeTransitStop",
                 new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
 
         NamedCommands.registerCommand("IntakeTransit",
@@ -112,6 +112,8 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("TransitShootSpeaker",
                 new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
+
+        NamedCommands.registerCommand("AutoAlignSpeaker", PathFindToPose.alignWithSpeakerCommand());
     }
 
     private void configureButtonBindings() {

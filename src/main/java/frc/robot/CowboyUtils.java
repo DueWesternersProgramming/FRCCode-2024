@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.PathPlannerLogging;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -12,10 +15,6 @@ public class CowboyUtils {
 
     public static Pose2d blueAllianceSpeaker = new Pose2d(1.4 + .4, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
     public static Pose2d redAllianceSpeaker = new Pose2d(15.2 - .4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
-
-    public static Pose2d getAllainceSpeakerPose() {
-        return isRedAlliance() ? redAllianceSpeaker : blueAllianceSpeaker;
-    }
 
     public static boolean isRedAlliance() {
         return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);

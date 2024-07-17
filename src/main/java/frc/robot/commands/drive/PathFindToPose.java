@@ -2,10 +2,12 @@ package frc.robot.commands.drive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.PathFindToPoseConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class PathFindToPose {
     DriveSubsystem driveSubsystem;
@@ -21,7 +23,13 @@ public class PathFindToPose {
     }
 
     public static Command alignWithSpeakerCommand() {
-        return pathToPoseCommand(CowboyUtils.getAllainceSpeakerPose());
+        if (DriverStation.getAlliance().isPresent())
+            if (DriverStation.getAlliance().get() == Alliance.Blue) {
+                return pathToPoseCommand(CowboyUtils.blueAllianceSpeaker);
+            } else {
+                return pathToPoseCommand(CowboyUtils.redAllianceSpeaker);
+            }
+        return pathToPoseCommand(CowboyUtils.blueAllianceSpeaker);
     }
 
 }

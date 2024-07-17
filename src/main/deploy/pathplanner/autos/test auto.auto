@@ -16,6 +16,18 @@
           "data": {
             "pathName": "goForwardTrajectoryTest"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignSpeaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
         }
       ]
     }

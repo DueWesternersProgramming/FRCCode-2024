@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -105,7 +106,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command startShooterCommand() {
         return new StartEndCommand(() -> {
-            shooterOn();
+            if (RobotBase.isReal()) {
+                shooterOn();
+            }
         }, () -> {
         });
     }

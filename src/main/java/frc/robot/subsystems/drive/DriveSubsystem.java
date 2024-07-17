@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -29,11 +29,12 @@ import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotContainer.UserPolicy;
+import frc.robot.subsystems.drive.swerve.SwerveModule;
+import frc.robot.subsystems.drive.swerve.SwerveModuleSim;
+import frc.robot.subsystems.drive.swerve.SwerveUtils;
 import frc.robot.subsystems.vision.VisionSubsystem;
-import frc.robot.swerve.SwerveModule;
-import frc.robot.swerve.SwerveModuleSim;
 import frc.robot.RobotConstants.AutonomousConstants;
-import frc.robot.swerve.SwerveUtils;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.Timer;
 

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7895232974236832,
-      "y": 4.430326569483689
+      "x": 0.7929853090763245,
+      "y": 6.588046104062274
     },
-    "rotation": -54.782407031807374
+    "rotation": 60.6109885336797
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.3
+            "waitTime": 0.2
           }
         },
         {
@@ -32,31 +32,67 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Custom 2note Non amp 1"
+            "pathName": "Amp Side 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of Custom 2note Non amp 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitStopCommand"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.35
+            "pathName": "Amp Side 2"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp side 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp side 5"
           }
         }
       ]
