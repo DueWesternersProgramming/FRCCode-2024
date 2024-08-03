@@ -359,29 +359,58 @@ public class DriveSubsystem extends SubsystemBase {
             double ySpeedDelivered = ySpeedCommanded * DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND;
             double rotDelivered = m_currentRotation * DrivetrainConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
+            ChassisSpeeds speeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
+
             Rotation2d rotation = Rotation2d.fromDegrees(
                     getGyroAngle()
                             + (CowboyUtils.isRedAlliance() ? 180 : 0));
+
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative
-                            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                                    rotation)
-                            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+                            ? ChassisSpeeds.fromFieldRelativeSpeeds(speeds, rotation)
+                            : speeds);
 
             SwerveDriveKinematics.desaturateWheelSpeeds(
                     swerveModuleStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
-
-            if (RobotBase.isReal()) {
-                swerveModules[0].setDesiredState(swerveModuleStates[0]);
-                swerveModules[1].setDesiredState(swerveModuleStates[1]);
-                swerveModules[2].setDesiredState(swerveModuleStates[2]);
-                swerveModules[3].setDesiredState(swerveModuleStates[3]);
-            } else {
-                swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
-                swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
-                swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
-                swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
+            if (UserPolicy.isManualControlled) {
+                if (RobotBase.isReal()) {
+                    swerveModules[0].setDesiredState(swerveModuleStates[0]);
+                    swerveModules[1].setDesiredState(swerveModuleStates[1]);
+                    swerveModules[2].setDesiredState(swerveModuleStates[2]);
+                    swerveModules[3].setDesiredState(swerveModuleStates[3]);
+                } else {
+                    swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
+                    swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
+                    swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
+                    swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
+                }
             }
+        }
+    }
+
+    public void runChassisSpeeds(ChassisSpeeds speeds, Boolean fieldRelative) {
+        Rotation2d rotation = Rotation2d.fromDegrees(
+                getGyroAngle()
+                        + (CowboyUtils.isRedAlliance() ? 180 : 0));
+
+        var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+                fieldRelative
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(speeds, rotation)
+                        : speeds);
+
+        SwerveDriveKinematics.desaturateWheelSpeeds(
+                swerveModuleStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
+
+        if (RobotBase.isReal()) {
+            swerveModules[0].setDesiredState(swerveModuleStates[0]);
+            swerveModules[1].setDesiredState(swerveModuleStates[1]);
+            swerveModules[2].setDesiredState(swerveModuleStates[2]);
+            swerveModules[3].setDesiredState(swerveModuleStates[3]);
+        } else {
+            swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
+            swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
+            swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
+            swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
         }
     }
 

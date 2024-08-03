@@ -37,7 +37,7 @@ import frc.robot.commands.automated.intake.IntakeTransitAutoStopCommand;
 import frc.robot.commands.automated.shoot.ChamberAutoCommand;
 import frc.robot.commands.automated.shoot.LaunchAutoCommand;
 import frc.robot.commands.automated.shoot.OldTransitShootAutoCommand;
-import frc.robot.commands.drive.PathFindToPose;
+import frc.robot.commands.drive.AlignWithPose;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -113,14 +113,14 @@ public class RobotContainer {
         NamedCommands.registerCommand("TransitShootSpeaker",
                 new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
 
-        NamedCommands.registerCommand("AutoAlignSpeaker", PathFindToPose.alignWithSpeakerCommand());
+        NamedCommands.registerCommand("AutoAlignSpeaker", AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
     }
 
     private void configureButtonBindings() {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
             new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
-            new JoystickButton(driveJoystick, 1).whileTrue(PathFindToPose.alignWithSpeakerCommand());
+            new JoystickButton(driveJoystick, 1).whileTrue(AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
         }
 
         // Above = DriveJoystick, Below = OperatorJoystick
@@ -174,5 +174,6 @@ public class RobotContainer {
         public static boolean xLocked = false;
         public static boolean shootCommandLocked = false;
         public static boolean intakeRunning = false;
+        public static boolean isManualControlled = true;
     }
 }
