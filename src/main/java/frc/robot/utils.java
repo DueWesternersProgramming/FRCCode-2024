@@ -11,11 +11,11 @@ public class utils {
     public static Pose2d redAllianceSpeaker = new Pose2d(15.2-.4, 5.55, new Rotation2d(Math.toRadians(180)));
 
     public static Pose2d getAllainceSpeakerPose() {
-        return isRedAlliance() ? redAllianceSpeaker : blueAllianceSpeaker;
+        return blueAllianceSpeaker;
     }
 
     public static boolean isRedAlliance() {
-        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);
+        return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (true);
     }
 
     public static boolean isBlueAlliance() {

@@ -42,12 +42,12 @@ public class VisionSubsystem extends SubsystemBase {
                     PoseStrategy.LOWEST_AMBIGUITY,
                     backLeftCamera,
                     new Transform3d(new Translation3d(
-                            Units.inchesToMeters(-13.5), // forward+
+                            Units.inchesToMeters(-13), // forward+
                             Units.inchesToMeters(12.75), // left+
-                            Units.inchesToMeters(9)), // up+
+                            Units.inchesToMeters(8.5)), // up+
                             new Rotation3d(
                                     Units.degreesToRadians(0),
-                                    Units.degreesToRadians(-40), // Note, these are all counter clockwise so to face up
+                                    Units.degreesToRadians(-30), // Note, these are all counter clockwise so to face up
                                                                  // we need -40 ;)
                                     Units.degreesToRadians(180 - 15))));
 
@@ -56,13 +56,13 @@ public class VisionSubsystem extends SubsystemBase {
                     PoseStrategy.LOWEST_AMBIGUITY,
                     backRightCamera,
                     new Transform3d(new Translation3d(
-                            Units.inchesToMeters(-13.5), // forward+
+                            Units.inchesToMeters(-13), // forward+
                             Units.inchesToMeters(-12.75), // left+
-                            Units.inchesToMeters(9)), // up+
+                            Units.inchesToMeters(8.5)), // up+
 
                             new Rotation3d(
                                     Units.degreesToRadians(0),
-                                    Units.degreesToRadians(-40), // Note, these are all counter clockwise so to face up
+                                    Units.degreesToRadians(-30), // Note, these are all counter clockwise so to face up
                                                                  // we need -40 ;)
                                     Units.degreesToRadians(180 + 15))));
 

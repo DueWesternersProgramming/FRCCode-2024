@@ -42,6 +42,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Middle Trajectory3NEW"
@@ -60,6 +72,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "TransitShootSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Middle Trajectory5NEW"
@@ -69,6 +93,18 @@
           "type": "path",
           "data": {
             "pathName": "MiddleTrajectory6NEW"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.95
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeTransitStopCommand"
           }
         }
       ]
