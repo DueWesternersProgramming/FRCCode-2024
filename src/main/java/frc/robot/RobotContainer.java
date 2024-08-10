@@ -95,9 +95,11 @@ public class RobotContainer {
         // NamedCommands.registerCommand("StopIntake",
         // intakeSubsystem.stopIntakeCommand());
 
-        NamedCommands.registerCommand("StartTransit", transitSubsystem.startTransitCommand());
+        // NamedCommands.registerCommand("StartTransit",
+        // transitSubsystem.startTransitCommand());
 
-        NamedCommands.registerCommand("StopTransit", transitSubsystem.startTransitCommand());
+        // NamedCommands.registerCommand("StopTransit",
+        // transitSubsystem.startTransitCommand());
 
         NamedCommands.registerCommand("StopIntaking",
                 IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));

@@ -34,7 +34,7 @@ public class AlignWithPose {
                 target,
                 PathFindToPoseConstants.PATH_FINDING_CONSTRAINTS,
                 0.0,
-                0.5);
+                0);
         Command fineAlignmentCommand = new FunctionalCommand(
                 () -> {
                     UserPolicy.isManualControlled = false;

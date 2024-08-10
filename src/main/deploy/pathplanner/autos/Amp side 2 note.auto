@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": null
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp side 1"
@@ -20,7 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "StopInta"
+            "name": "StopIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeaker"
           }
         }
       ]

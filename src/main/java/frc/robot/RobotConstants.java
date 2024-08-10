@@ -54,8 +54,8 @@ public final class RobotConstants {
         }
 
         public static final class PathFindToPoseConstants {
-                public static final double MAX_VELOCITY = 3; // Meters per second
-                public static final double MAX_ACCELERATION = 2; // Meters per second squared
+                public static final double MAX_VELOCITY = 5; // Meters per second
+                public static final double MAX_ACCELERATION = 3; // Meters per second squared
                 public static final double MAX_ANGULAR_SPEED = 200.0; // Degrees per second
                 public static final double MAX_ANGULAR_ACCELERATION = 175.0; // Degrees per second squared
 
