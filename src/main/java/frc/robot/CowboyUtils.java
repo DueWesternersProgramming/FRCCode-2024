@@ -1,8 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.PathPlannerLogging;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;

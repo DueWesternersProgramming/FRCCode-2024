@@ -3,8 +3,8 @@
   "robotLength": 0.762,
   "holonomicMode": true,
   "pathFolders": [
-    "Middle Auto NEW",
-    "Amp Side Auto"
+    "Middle Auto 4 note",
+    "New Folder"
   ],
   "autoFolders": [],
   "defaultMaxVel": 6.0,

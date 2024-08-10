@@ -209,7 +209,7 @@ public final class RobotConstants {
                                                                    // the options here
                 );
 
-                public static final Boolean FLIP_PATHPLANNER_AUTOS = true;
+                // public static final Boolean FLIP_PATHPLANNER_AUTOS = true;
         }
 
         public static final class VisionConstants {

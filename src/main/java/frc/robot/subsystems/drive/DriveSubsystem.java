@@ -17,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -136,7 +137,16 @@ public class DriveSubsystem extends SubsystemBase {
                 this::pathFollowDrive,
                 AutonomousConstants.HOLONOMIC_PATH_FOLLOWER_CONFIG,
                 () -> {
-                    return AutonomousConstants.FLIP_PATHPLANNER_AUTOS;
+                    // Boolean supplier that controls when the path will be mirrored for the red
+                    // alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -367,7 +377,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             Rotation2d rotation = Rotation2d.fromDegrees(
                     getGyroAngle()
-                            + (CowboyUtils.isRedAlliance() ? 180 : 0));
+                            + (CowboyUtils.isRedAlliance() ? 0 : 180));
 
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative

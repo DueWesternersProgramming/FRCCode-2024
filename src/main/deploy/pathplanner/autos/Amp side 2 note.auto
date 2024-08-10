@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2992745772536796,
-      "y": 5.535994035608302
+      "x": 0.4397386611987064,
+      "y": 6.985550368616265
     },
     "rotation": 0
   },
@@ -12,9 +12,15 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Amp side 1"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "TransitShootSpeaker"
+            "name": "StopInta"
           }
         }
       ]

@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -31,48 +32,49 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public static double getIntakeSpeed() {
-        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeMotor.get() : 0;
+        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal() ? intakeMotor.get() : 0;
     }
 
     public void intakeOn() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             UserPolicy.intakeRunning = true;
             intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
         }
     }
 
     public void intakeShoot() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SHOOT_SPEED);
         }
     }
 
     public void intakeReverse() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             intakeMotor.set(IntakeConstants.INTAKE_REVERSE_MOTOR_SPEED);
         }
     }
 
     public void intakeOff() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             intakeMotor.set(0);
             UserPolicy.intakeRunning = false;
         }
     }
 
     public double getIntakeEncoderPosition() {
-        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED ? intakeEncoder.getPosition() : 0;
+        return SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal() ? intakeEncoder.getPosition()
+                : 0;
     }
 
     public void resetIntakeEncoder() {
-        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             intakeEncoder.setPosition(0.0);
         }
     }
 
     public boolean seesNote() {
         try {
-            if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+            if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
                 if (SmartDashboard.getNumber("rawcolorR", 0) > 85) {
                     return true;
                 }
@@ -102,7 +104,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command shootIntakeCommand() {
-        // This command will feed full speed forward to the transit then to the shooter.
+
         return new StartEndCommand(() -> {
             intakeShoot();
         }, () -> {

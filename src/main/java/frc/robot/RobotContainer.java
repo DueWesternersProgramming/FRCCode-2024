@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,13 +32,9 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
-import frc.robot.commands.automated.intake.IntakeTransitAutoCommand;
-import frc.robot.commands.automated.intake.IntakeTransitAutoReverseCommand;
-import frc.robot.commands.automated.intake.IntakeTransitAutoStopCommand;
-import frc.robot.commands.automated.shoot.ChamberAutoCommand;
-import frc.robot.commands.automated.shoot.LaunchAutoCommand;
-import frc.robot.commands.automated.shoot.OldTransitShootAutoCommand;
+import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
+import frc.robot.commands.IntakingCommands;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -76,6 +73,7 @@ public class RobotContainer {
 
         try {
             pdp = new PowerDistribution(16, ModuleType.kRev);
+            DogLog.setPdh(pdp);
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("");
             Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
             Shuffleboard.getTab("Power").add(pdp);
@@ -91,29 +89,29 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopShooter",
                 shooterSubsystem.stopShooterCommand());
 
-        NamedCommands.registerCommand("StartIntake",
-                intakeSubsystem.startIntakeCommand());
+        // NamedCommands.registerCommand("StartIntake",
+        // intakeSubsystem.startIntakeCommand());
 
-        NamedCommands.registerCommand("StopIntake",
-                intakeSubsystem.stopIntakeCommand());
+        // NamedCommands.registerCommand("StopIntake",
+        // intakeSubsystem.stopIntakeCommand());
 
         NamedCommands.registerCommand("StartTransit", transitSubsystem.startTransitCommand());
 
         NamedCommands.registerCommand("StopTransit", transitSubsystem.startTransitCommand());
 
-        NamedCommands.registerCommand("IntakeTransit",
-                new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
+        NamedCommands.registerCommand("StopIntaking",
+                IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
 
-        NamedCommands.registerCommand("IntakeTransitStop",
-                new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+        NamedCommands.registerCommand("StartIntaking",
+                IntakingCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
+                        lightSubsystem));
 
-        NamedCommands.registerCommand("IntakeTransit",
-                new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
+        NamedCommands.registerCommand("ShootSpeaker",
+                ShootingCommands.fullShootSpeakerCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                        lightSubsystem));
 
-        NamedCommands.registerCommand("TransitShootSpeaker",
-                new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
-
-        NamedCommands.registerCommand("AutoAlignSpeaker", AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
+        // NamedCommands.registerCommand("AutoAlignSpeaker",
+        // AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
     }
 
     private void configureButtonBindings() {
@@ -126,19 +124,21 @@ public class RobotContainer {
         // Above = DriveJoystick, Below = OperatorJoystick
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 2).onTrue(
-                    (new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem)))
-                    .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+                    (IntakingCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
+                            lightSubsystem)))
+                    .onFalse(IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
 
             new JoystickButton(operatorJoystick, 7)
-                    .onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))
-                    .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+                    .onTrue(IntakingCommands.reverseIntakingCommand(shooterSubsystem, intakeSubsystem,
+                            transitSubsystem))
+                    .onFalse(IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
         }
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 4)
-                    .onTrue(new ChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                            lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked))
-                    .onFalse(new LaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                            lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
+                    .onTrue(ShootingCommands.ShootSpeakerChamber(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                            lightSubsystem).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                    .onFalse(ShootingCommands.ShootSpeaker(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                            lightSubsystem).onlyIf(() -> UserPolicy.shootCommandLocked));
         }
     }
 
