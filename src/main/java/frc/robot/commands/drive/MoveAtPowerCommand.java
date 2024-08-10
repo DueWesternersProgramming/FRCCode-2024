@@ -2,8 +2,8 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants.DrivetrainConstants;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class MoveAtPowerCommand extends Command {
     private final DriveSubsystem drive;
@@ -26,7 +26,7 @@ public class MoveAtPowerCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED){
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             drive.drive(-x, -y, -rot, DrivetrainConstants.FIELD_RELATIVE, true);
         } else {
             drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
@@ -35,7 +35,7 @@ public class MoveAtPowerCommand extends Command {
 
     @Override
     public void initialize() {
-        //drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
+        // drive.drive(0, 0, 0, DrivetrainConstants.kFieldRelative, true);
     }
 
     @Override

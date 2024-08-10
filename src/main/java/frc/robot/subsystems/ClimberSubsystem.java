@@ -5,19 +5,17 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.PortConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 
+public class ClimberSubsystem extends SubsystemBase {
 
-public class ClimberSubsystem extends SubsystemBase{
-    
     CANSparkMax climberMotor1, climberMotor2;
     RelativeEncoder climber1RelativeEncoder, climber2RelativeEncoder;
 
-    public ClimberSubsystem(){
-        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
+    public ClimberSubsystem() {
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED) {
             climberMotor1 = new CANSparkMax(PortConstants.CAN.LEFT_CLIMBER_PORT, MotorType.kBrushless);
             climberMotor2 = new CANSparkMax(PortConstants.CAN.RIGHT_CLIMBER_PORT, MotorType.kBrushless);
             climberMotor1.setIdleMode(IdleMode.kBrake);
@@ -34,23 +32,20 @@ public class ClimberSubsystem extends SubsystemBase{
     }
 
     public void setSpeed(double leftSpeed, double rightSpeed, boolean override) {
-        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
-            if ((leftSpeed < 0.1 && leftSpeed > -0.1) || (rightSpeed < 0.1 && rightSpeed > -0.1)){
-                if ((getEncoder1Position() > 0 && leftSpeed > 0 && !override)){
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED) {
+            if ((leftSpeed < 0.1 && leftSpeed > -0.1) || (rightSpeed < 0.1 && rightSpeed > -0.1)) {
+                if ((getEncoder1Position() > 0 && leftSpeed > 0 && !override)) {
                     climberMotor1.set(0);
-                }
-                else {
+                } else {
                     climberMotor1.set(leftSpeed);
 
                 }
-                if ((getEncoder2Position() > 0 && leftSpeed > 0 && !override)){
+                if ((getEncoder2Position() > 0 && leftSpeed > 0 && !override)) {
                     climberMotor2.set(0);
-                }
-                else {
-                    if (override){
+                } else {
+                    if (override) {
                         climberMotor2.set(rightSpeed);
-                    }
-                    else{
+                    } else {
                         climberMotor2.set(leftSpeed);
                     }
                 }
@@ -67,7 +62,7 @@ public class ClimberSubsystem extends SubsystemBase{
     }
 
     public void resetEncoders() {
-        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED) {
             climber1RelativeEncoder.setPosition(0.0);
             climber2RelativeEncoder.setPosition(0.0);
         }
@@ -75,10 +70,10 @@ public class ClimberSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED){
-            SmartDashboard.putNumber("Climber Speed", getSpeed());
-            SmartDashboard.putNumber("Climber L Position", getEncoder1Position());
-            SmartDashboard.putNumber("Climber R Position", getEncoder2Position());
+        if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED) {
+            // SmartDashboard.putNumber("Climber Speed", getSpeed());
+            // SmartDashboard.putNumber("Climber L Position", getEncoder1Position());
+            // SmartDashboard.putNumber("Climber R Position", getEncoder2Position());
         }
     }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         m_robotContainer = new RobotContainer();
         m_robotContainer.preLEDCommand().ignoringDisable(true).schedule();
+        DriverStation.silenceJoystickConnectionWarning(true);
     }
 
     /**
@@ -69,7 +71,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        m_robotContainer.startLEDCommand().schedule();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
@@ -87,7 +88,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         m_robotContainer.startLEDCommand().schedule();
         UserPolicy.shootCommandLocked = false;
-
+        CommandScheduler.getInstance().cancelAll();
+        m_robotContainer.startLEDCommand().schedule();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
@@ -96,15 +98,14 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        
-    }
 
+    }
 
     @Override
     public void testInit() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
-        
+
         m_robotContainer.getTestingCommand().schedule();
     }
 

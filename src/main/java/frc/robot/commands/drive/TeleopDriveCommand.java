@@ -9,7 +9,8 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotContainer.UserPolicy;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
+
 public class TeleopDriveCommand extends Command {
     private final DriveSubsystem drive;
     private final XboxController joystick;
@@ -34,9 +35,7 @@ public class TeleopDriveCommand extends Command {
             double xRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_X_AXIS));
             double yRaw = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_Y_AXIS));
 
-            
             rot = -(joystick.getRawAxis(TeleopConstants.DRIVE_COMMAND_ROT_AXIS));
-            
 
             if (joystick.getRawButton(TeleopConstants.ROBOT_RELATIVE_BUTTON)) {
                 fieldRelative = !DrivetrainConstants.FIELD_RELATIVE;

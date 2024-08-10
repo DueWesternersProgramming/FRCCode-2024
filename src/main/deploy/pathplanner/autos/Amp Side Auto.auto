@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2654580294915574,
-      "y": 5.5430292057165325
+      "x": 0.7929853090763245,
+      "y": 6.588046104062274
     },
-    "rotation": 0.8473192878032328
+    "rotation": 60.6109885336797
   },
   "command": {
     "type": "sequential",
@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "IntakeTransitCommand"
@@ -26,19 +32,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleTrajectory1NEW"
+            "pathName": "Amp Side 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleTrajectory2NEW"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
+            "pathName": "Amp Side 2"
           }
         },
         {
@@ -48,6 +48,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "IntakeTransitCommand"
@@ -56,19 +62,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Trajectory3NEW"
+            "pathName": "Amp Side 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "MiddleTrajectory4NEW"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
+            "pathName": "Amp side 4"
           }
         },
         {
@@ -78,6 +78,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "IntakeTransitCommand"
@@ -86,25 +92,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Trajectory5NEW"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MiddleTrajectory6NEW"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.95
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeTransitStopCommand"
+            "pathName": "Amp side 5"
           }
         }
       ]
