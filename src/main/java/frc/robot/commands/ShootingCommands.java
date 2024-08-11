@@ -1,11 +1,8 @@
 package frc.robot.commands;
 
-import dev.doglog.DogLog;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
@@ -24,6 +21,9 @@ public class ShootingCommands extends SequentialCommandGroup {
     public static Command ShootSpeaker(ShooterSubsystem shooterSubsystem, TransitSubsystem transitSubsystem,
             IntakeSubsystem intakeSubsystem, LightSubsystem lightsubsystem) {
         return new SequentialCommandGroup(
+                new RunCommand(() -> {
+                    System.out.println("Shooting speaker...");
+                }),
                 intakeSubsystem.shootIntakeCommand(),
                 transitSubsystem.startTransitCommand(),
                 new WaitCommand(1.5),
