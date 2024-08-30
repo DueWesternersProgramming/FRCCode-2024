@@ -15,9 +15,9 @@ import frc.robot.subsystems.TransitSubsystem;
  * This is how the code interacts with the intake and transit subsystems, at a
  * higher level.
  */
-public class IntakingCommands extends SequentialCommandGroup {
+public class NoteMovementCommands extends SequentialCommandGroup {
 
-    public IntakingCommands() {
+    public NoteMovementCommands() {
     }
 
     /**

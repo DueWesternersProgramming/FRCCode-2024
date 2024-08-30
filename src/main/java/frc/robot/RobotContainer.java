@@ -34,7 +34,7 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
-import frc.robot.commands.IntakingCommands;
+import frc.robot.commands.NoteMovementCommands;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -102,18 +102,15 @@ public class RobotContainer {
         // transitSubsystem.startTransitCommand());
 
         NamedCommands.registerCommand("StopIntaking",
-                IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+                NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
 
         NamedCommands.registerCommand("StartIntaking",
-                IntakingCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
+                NoteMovementCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
                         lightSubsystem));
 
         NamedCommands.registerCommand("ShootSpeaker",
                 ShootingCommands.fullShootSpeakerCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
                         lightSubsystem));
-
-        // NamedCommands.registerCommand("AutoAlignSpeaker",
-        // AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
     }
 
     private void configureButtonBindings() {
@@ -126,14 +123,16 @@ public class RobotContainer {
         // Above = DriveJoystick, Below = OperatorJoystick
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 2).onTrue(
-                    (IntakingCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
+                    (NoteMovementCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
                             lightSubsystem)))
-                    .onFalse(IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+                    .onFalse(NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem,
+                            transitSubsystem));
 
             new JoystickButton(operatorJoystick, 7)
-                    .onTrue(IntakingCommands.reverseIntakingCommand(shooterSubsystem, intakeSubsystem,
+                    .onTrue(NoteMovementCommands.reverseIntakingCommand(shooterSubsystem, intakeSubsystem,
                             transitSubsystem))
-                    .onFalse(IntakingCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+                    .onFalse(NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem,
+                            transitSubsystem));
         }
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 4)
