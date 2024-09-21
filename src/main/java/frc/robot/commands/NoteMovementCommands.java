@@ -3,7 +3,6 @@ package frc.robot.commands;
 import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.light.LEDMatch;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -26,9 +25,6 @@ public class NoteMovementCommands extends SequentialCommandGroup {
     public static Command startIntakingCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem,
             TransitSubsystem transitSubsystem, LightSubsystem lightSubsystem) {
         return new SequentialCommandGroup(
-                new RunCommand(() -> {
-                    System.out.println("Intake and transit on...");
-                }),
                 shooterSubsystem.LockShootCommand(false),
                 shooterSubsystem.stopShooterCommand(),
                 intakeSubsystem.startIntakeCommand(),
@@ -42,9 +38,6 @@ public class NoteMovementCommands extends SequentialCommandGroup {
     public static Command reverseIntakingCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem,
             TransitSubsystem transitSubsystem) {
         return new SequentialCommandGroup(
-                new RunCommand(() -> {
-                    System.out.println("Intake/transit reversed...");
-                }),
                 shooterSubsystem.stopShooterCommand(),
                 intakeSubsystem.reverseIntakeCommand(),
                 transitSubsystem.reverseTransitCommand(),
@@ -57,9 +50,6 @@ public class NoteMovementCommands extends SequentialCommandGroup {
     public static Command stopIntakingCommand(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem,
             TransitSubsystem transitSubsystem) {
         return new SequentialCommandGroup(
-                new RunCommand(() -> {
-                    System.out.println("All systems stopped...");
-                }),
                 shooterSubsystem.stopShooterCommand(),
                 intakeSubsystem.stopIntakeCommand(),
                 transitSubsystem.stopTransitCommand());

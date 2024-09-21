@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.TransitConstants;
@@ -85,26 +86,20 @@ public class TransitSubsystem extends SubsystemBase {
     }
 
     public Command reverseTransitCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             setTransitSpeed(TransitConstants.REVERSE_TRANSIT_MOTOR_SPEED);
-        }, () -> {
-
         });
     }
 
     public Command startTransitCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             transitOn();
-        }, () -> {
-
         });
     }
 
     public Command stopTransitCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             transitOff();
-        }, () -> {
-
         });
     }
 }

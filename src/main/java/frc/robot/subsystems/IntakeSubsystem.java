@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.IntakeConstants;
@@ -97,31 +98,27 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Command reverseIntakeCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             intakeReverse();
-        }, () -> {
         });
     }
 
     public Command shootIntakeCommand() {
 
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             intakeShoot();
-        }, () -> {
         });
     }
 
     public Command startIntakeCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             intakeOn();
-        }, () -> {
         });
     }
 
     public Command stopIntakeCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             intakeOff();
-        }, () -> {
         });
     }
 }

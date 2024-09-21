@@ -7,6 +7,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
@@ -96,31 +97,27 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Command LockShootCommand(Boolean locked) {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             UserPolicy.shootCommandLocked = locked;
-        }, () -> {
         });
     }
 
     public Command startShooterCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             shooterOn();
 
-        }, () -> {
         });
     }
 
     public Command stopShooterCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             shooterOff();
-        }, () -> {
         });
     }
 
     public Command reverseShooterCommand() {
-        return new StartEndCommand(() -> {
+        return new InstantCommand(() -> {
             shooterReverse();
-        }, () -> {
         });
     }
 }
