@@ -11,6 +11,8 @@ import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.photonvision.simulation.VisionSystemSim;
 
 public class VisionSubsystem extends SubsystemBase {
@@ -49,21 +51,19 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
 
-    public static Pose2d[] getVisionPose() throws NoSuchElementException {
-        Pose2d[] poses = {};
-
-        for (int i = 0; i < VisionConstants.CAMERA_NAMES.length; i++) {
+    public static Pose2d getVisionPose(int i) throws NoSuchElementException {
+        try {
             if (RobotBase.isSimulation()) {
-                poses[i] = cameraSims[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow())
+                return cameraSims[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow())
                         .orElseThrow().estimatedPose
                         .toPose2d();
             } else {
-                poses[i] = cameras[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow())
-                        .orElseThrow().estimatedPose
+                return cameras[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow()).orElseThrow().estimatedPose
                         .toPose2d();
             }
+        } catch (Exception e) {
+            throw e;
         }
-        return poses;
     }
 
     @Override

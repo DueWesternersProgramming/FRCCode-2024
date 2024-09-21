@@ -29,6 +29,7 @@ import frc.robot.RobotConstants;
 import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.drive.swerve.SwerveModule;
 import frc.robot.subsystems.drive.swerve.SwerveModuleSim;
@@ -245,13 +246,15 @@ public class DriveSubsystem extends SubsystemBase {
 
     private void updateVisionMeasurements() {
         if (RobotBase.isReal()) {
-            for (int i = 0; i < VisionSubsystem.getVisionPose().length; i++) {
-                try {
-                    m_odometry.addVisionMeasurement(VisionSubsystem.getVisionPose()[i],
-                            Timer.getFPGATimestamp());
-                } catch (NoSuchElementException e) {
 
+            for (int i = 0; i < VisionConstants.CAMERA_NAMES.length; i++) {
+                try {
+                    m_odometry.addVisionMeasurement(VisionSubsystem.getVisionPose(i),
+                            Timer.getFPGATimestamp());
+                } catch (Exception e) {
+                    
                 }
+
             }
         }
     }

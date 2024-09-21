@@ -258,20 +258,11 @@ public final class RobotConstants {
                                                 new Rotation3d(
                                                                 Units.degreesToRadians(0),
                                                                 Units.degreesToRadians(-30),
-                                                                Units.degreesToRadians(180 + 10))),
-                                // Shooter Bridge Camera
-                                new Transform3d(
-                                                new Translation3d(
-                                                                Units.inchesToMeters(-8.441), // forward+
-                                                                Units.inchesToMeters(0.038069), // left+
-                                                                Units.inchesToMeters(19.307)), // up+
-                                                new Rotation3d(
-                                                                Units.degreesToRadians(0),
-                                                                Units.degreesToRadians(-30),
-                                                                Units.degreesToRadians(180))) };
+                                                                Units.degreesToRadians(180 + 10)))
+                                 };
 
                 public static final String[] CAMERA_NAMES = { "frontLeftCamera", "frontRightCamera", "backLeftCamera",
-                                "backRightCamera", "shooterBridgeCamera" };
+                                "backRightCamera" };
         }
 
         public static final class TeleopConstants {
@@ -323,7 +314,7 @@ public final class RobotConstants {
 
         public static final class SubsystemEnabledConstants {
                 public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
-                public static final boolean CLIMBER_SUBSYSTEM_ENABLED = true;
+                public static final boolean CLIMBER_SUBSYSTEM_ENABLED = false;
                 public static final boolean INTAKE_SUBSYSTEM_ENABLED = true;
                 public static final boolean SHOOTER_SUBSYSTEM_ENABLED = true;
                 public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;

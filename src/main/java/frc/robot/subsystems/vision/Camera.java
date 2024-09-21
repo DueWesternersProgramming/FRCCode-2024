@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.CowboyUtils;
+
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class Camera {
@@ -74,12 +76,17 @@ public class Camera {
         }
     }
 
-    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) throws NoSuchElementException {
+        try{
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED) {
-            photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+            
             return photonPoseEstimator.update();
         } else {
             return null;
         }
+    }
+    catch(Exception e){
+        throw e;
+    }
     }
 }
