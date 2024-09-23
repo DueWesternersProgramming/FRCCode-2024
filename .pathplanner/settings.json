@@ -4,9 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "Amp Blue Side",
-    "Middle Auto Blue OLD",
-    "Middle Auto NEW",
-    "Non-Amp Side Blue"
+    "Middle Auto NEW"
   ],
   "autoFolders": [],
   "defaultMaxVel": 6.0,

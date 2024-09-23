@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.LightConstants;
@@ -17,10 +18,10 @@ public class LightSubsystem extends SubsystemBase {
     CANdle candle;
     CANdleConfiguration candleConfig;
     public boolean runningAnimation;
-    
-    public LightSubsystem(){
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
-            try{
+
+    public LightSubsystem() {
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
+            try {
                 candle = new CANdle(PortConstants.CAN.LIGHT_PORT);
                 candleConfig = new CANdleConfiguration();
                 candleConfig.stripType = LEDStripType.RGB;
@@ -31,8 +32,7 @@ public class LightSubsystem extends SubsystemBase {
                 candleConfig.brightnessScalar = LightConstants.LIGHT_BRIGHTNESS;
                 candle.configAllSettings(candleConfig);
                 runningAnimation = false;
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
         }
@@ -42,11 +42,12 @@ public class LightSubsystem extends SubsystemBase {
      *
      * @apiNote Used to set a premade animation from this list: ColorFlowAnimation,
      * @apiNote FireAnimation, LarsonAnimation, RainbowAnimation, RgbFadeAnimation,
-     * @apiNote SingleFadeAnimation, StrobeAnimation, TwinkleAnimation, TwinkleOffAnimation 
+     * @apiNote SingleFadeAnimation, StrobeAnimation, TwinkleAnimation,
+     *          TwinkleOffAnimation
      * @param animation The animation being set
      */
     public void setAnimation(Animation animation) {
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             candle.animate(animation);
         }
     }
@@ -55,18 +56,19 @@ public class LightSubsystem extends SubsystemBase {
      *
      * @apiNote Used to set a premade animation from this list: ColorFlowAnimation,
      * @apiNote FireAnimation, LarsonAnimation, RainbowAnimation, RgbFadeAnimation,
-     * @apiNote SingleFadeAnimation, StrobeAnimation, TwinkleAnimation, TwinkleOffAnimation 
+     * @apiNote SingleFadeAnimation, StrobeAnimation, TwinkleAnimation,
+     *          TwinkleOffAnimation
      * @param animation The animation being set
-     * @param slot The animation slot being used
+     * @param slot      The animation slot being used
      */
-    public void setAnimation(Animation animation, int slot){
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+    public void setAnimation(Animation animation, int slot) {
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             candle.animate(animation, slot);
         }
     }
 
-    public void stopAnimation(int slot){
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+    public void stopAnimation(int slot) {
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             candle.clearAnimation(slot);
         }
     }
@@ -74,12 +76,12 @@ public class LightSubsystem extends SubsystemBase {
     /**
      * 
      * @apiNote Used to set the specific colors for the whole LED strip
-     * @param red The amount of red from 0-255
+     * @param red   The amount of red from 0-255
      * @param green The amount of green from 0-255
-     * @param blue The amount of blue from 0-255
+     * @param blue  The amount of blue from 0-255
      */
-    public void setColor(int red, int green, int blue){
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED) {
+    public void setColor(int red, int green, int blue) {
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             candle.setLEDs(red, green, blue);
         }
     }
@@ -87,26 +89,26 @@ public class LightSubsystem extends SubsystemBase {
     /**
      * 
      * @apiNote Used to set specific colors in specific sections of the LED strip
-     * @param red The amount of red from 0-255
-     * @param green The amount of green from 0-255
-     * @param blue The amount of blue from 0-255
-     * @param white The amount of white from 0-255
+     * @param red        The amount of red from 0-255
+     * @param green      The amount of green from 0-255
+     * @param blue       The amount of blue from 0-255
+     * @param white      The amount of white from 0-255
      * @param startindex The starting LED for this setColor method
-     * @param count The number of LEDs to apply this setColor method to
+     * @param count      The number of LEDs to apply this setColor method to
      */
-    public void setColor(int red, int green, int blue, int white, int startindex, int count){ 
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
+    public void setColor(int red, int green, int blue, int white, int startindex, int count) {
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             candle.setLEDs(red, green, blue, white, startindex, count);
         }
     }
 
     public double getCurrent() {
-        return SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED ? candle.getCurrent() : 0;
+        return SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal() ? candle.getCurrent() : 0;
     }
 
     @Override
     public void periodic() {
-        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED){
+        if (SubsystemEnabledConstants.LIGHT_SUBSYSTEM_ENABLED && RobotBase.isReal()) {
             SmartDashboard.putNumber("Light Current", getCurrent());
         }
     }

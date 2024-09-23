@@ -7,8 +7,10 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -16,35 +18,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.drive.TeleopDriveCommand;
-import frc.robot.commands.drive.SnapToHeadingCommand;
-import frc.robot.commands.drive.TwistCommand;
-import frc.robot.commands.drive.XCommand;
-import frc.robot.commands.intake.StartIntake;
-import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
 import frc.robot.commands.light.LEDPrematch;
-import frc.robot.commands.shooter.StartShooter;
-import frc.robot.commands.shooter.StopShooter;
-import frc.robot.commands.transit.StartTransit;
-import frc.robot.commands.transit.StopTransit;
-import frc.robot.commands.automated.IntakeTransitAutoCommand;
-import frc.robot.commands.automated.IntakeTransitAutoReverseCommand;
-import frc.robot.commands.automated.IntakeTransitAutoStopCommand;
-import frc.robot.commands.automated.RobotSystemsCheckCommand;
-import frc.robot.commands.automated.autonomous.OldTransitShootAutoCommand;
-import frc.robot.commands.automated.teleop.AutoAlignSpeaker;
-import frc.robot.commands.automated.teleop.TransitChamberAutoCommand;
-import frc.robot.commands.automated.teleop.TransitLaunchAutoCommand;
 import frc.robot.commands.climber.ClimberCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.RobotConstants.SubsystemEnabledConstants;
+import frc.robot.RobotConstants.TeleopConstants;
+import frc.robot.commands.RobotSystemsCheckCommand;
+import frc.robot.commands.ShootingCommands;
+import frc.robot.commands.drive.AlignWithPose;
+import frc.robot.commands.NoteMovementCommands;
+
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.drive.GyroReset;
+
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -61,7 +55,9 @@ public class RobotContainer {
     public final LightSubsystem lightSubsystem = new LightSubsystem();
     public final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     public final VisionSubsystem visionSubsystem = new VisionSubsystem();
-    private final Joystick driveJoystick = new Joystick(RobotConstants.PortConstants.Controller.DRIVE_JOYSTICK);
+
+    private final XboxController driveJoystick = new XboxController(
+            RobotConstants.PortConstants.Controller.DRIVE_JOYSTICK);
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.Controller.OPERATOR_JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
@@ -81,7 +77,8 @@ public class RobotContainer {
 
         try {
             pdp = new PowerDistribution(16, ModuleType.kRev);
-            m_autoPositionChooser = AutoBuilder.buildAutoChooser("lineAuto");
+            DogLog.setPdh(pdp);
+            m_autoPositionChooser = AutoBuilder.buildAutoChooser("");
             Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
             Shuffleboard.getTab("Power").add(pdp);
         } catch (Exception e) {
@@ -90,53 +87,66 @@ public class RobotContainer {
     }
 
     private void createNamedCommands() {
-        NamedCommands.registerCommand("StartShooter", new StartShooter(shooterSubsystem, 0));
-        NamedCommands.registerCommand("StopShooter", new StopShooter(shooterSubsystem));
-        NamedCommands.registerCommand("StartIntake", new StartIntake(intakeSubsystem));
-        NamedCommands.registerCommand("StopIntake", new StopIntake(intakeSubsystem));
-        NamedCommands.registerCommand("StartTransit", new StartTransit(transitSubsystem));
-        NamedCommands.registerCommand("StopTransit", new StopTransit(transitSubsystem));
-        NamedCommands.registerCommand("IntakeTransitCommand",
-                new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
-        NamedCommands.registerCommand("IntakeTransitStopCommand",
-                new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        NamedCommands.registerCommand("IntakeTransit",
-                new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem));
-        NamedCommands.registerCommand("TransitShootSpeaker",
-                new OldTransitShootAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem, lightSubsystem, 0));
+
+        NamedCommands.registerCommand("StartShooter",
+                shooterSubsystem.startShooterCommand());
+
+        NamedCommands.registerCommand("StopShooter",
+                shooterSubsystem.stopShooterCommand());
+
+        // NamedCommands.registerCommand("StartIntake",
+        // intakeSubsystem.startIntakeCommand());
+
+        // NamedCommands.registerCommand("StopIntake",
+        // intakeSubsystem.stopIntakeCommand());
+
+        // NamedCommands.registerCommand("StartTransit",
+        // transitSubsystem.startTransitCommand());
+
+        // NamedCommands.registerCommand("StopTransit",
+        // transitSubsystem.startTransitCommand());
+
+        NamedCommands.registerCommand("StopIntaking",
+                NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
+
+        NamedCommands.registerCommand("StartIntaking",
+                NoteMovementCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
+                        lightSubsystem));
+
+        NamedCommands.registerCommand("ShootSpeaker",
+                ShootingCommands.fullShootSpeakerCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                        lightSubsystem));
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(driveJoystick, 1).whileTrue(new TwistCommand());
-        new JoystickButton(driveJoystick, 11).onTrue(new GyroReset(driveSubsystem));
-        new JoystickButton(driveJoystick, 3).onTrue((new XCommand()));
-        // new JoystickButton(driveJoystick, 7).whileTrue(new
-        // AutoAimCommand(visionSubsystem));
-        new JoystickButton(driveJoystick, 2).whileTrue(new SnapToHeadingCommand(driveSubsystem, 45));
-        new JoystickButton(driveJoystick, 6).whileTrue(new AutoAlignSpeaker());
-        // new JoystickButton(driveJoystick, 5).whileTrue(new AutoAlignSpeaker());
-        /////////////////// Above = DriveJoystick, Below = OperatorJoystick
-        // /////////////////////////////////////////
+        if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
+            new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
+            new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
+            new JoystickButton(driveJoystick, 1).whileTrue(AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
+        }
 
-        new JoystickButton(operatorJoystick, 2).onTrue(
-                (new IntakeTransitAutoCommand(shooterSubsystem, intakeSubsystem, transitSubsystem, lightSubsystem)))
-                .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 7)
-                .onTrue(new IntakeTransitAutoReverseCommand(shooterSubsystem, intakeSubsystem, transitSubsystem))
-                .onFalse(new IntakeTransitAutoStopCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));
-        new JoystickButton(operatorJoystick, 4)
-                .onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                        lightSubsystem, 0).onlyIf(() -> !UserPolicy.shootCommandLocked))
-                .onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                        lightSubsystem, 0).onlyIf(() -> UserPolicy.shootCommandLocked)); // SPEAKER
-        new JoystickButton(operatorJoystick, 3)
-                .onTrue(new TransitChamberAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                        lightSubsystem, 1).onlyIf(() -> !UserPolicy.shootCommandLocked))
-                .onFalse(new TransitLaunchAutoCommand(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                        lightSubsystem, 1).onlyIf(() -> UserPolicy.shootCommandLocked)); // AMP
-        // new JoystickButton(operatorJoystick, 5).whileTrue(new
-        // AutomaticStopIntakeCommand(shooterSubsystem, intakeSubsystem,
-        // transitSubsystem));
+        // Above = DriveJoystick, Below = OperatorJoystick
+        if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
+            new JoystickButton(operatorJoystick, 2).onTrue(
+                    (NoteMovementCommands.startIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem,
+                            lightSubsystem)))
+                    .onFalse(NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem,
+                            transitSubsystem));
+
+            new JoystickButton(operatorJoystick, 7)
+                    .onTrue(NoteMovementCommands.reverseIntakingCommand(shooterSubsystem, intakeSubsystem,
+                            transitSubsystem))
+                    .onFalse(NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem,
+                            transitSubsystem));
+        }
+        if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
+            new JoystickButton(operatorJoystick, 4)
+                    .onTrue(ShootingCommands.ShootSpeakerChamber(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                            lightSubsystem).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                    .onFalse(ShootingCommands.ShootSpeaker(shooterSubsystem, transitSubsystem, intakeSubsystem,
+                            lightSubsystem).onlyIf(() -> UserPolicy.shootCommandLocked));
+        }
+
     }
 
     public Command preLEDCommand() {
@@ -155,7 +165,7 @@ public class RobotContainer {
         if (m_autoPositionChooser.getSelected() != null) {
             return m_autoPositionChooser.getSelected();
         } else {
-            return new GyroReset(driveSubsystem);
+            return driveSubsystem.gyroReset();
         }
     }
 
@@ -168,10 +178,9 @@ public class RobotContainer {
     }
 
     public final class UserPolicy {
-        public static boolean twistable = false;
         public static boolean xLocked = false;
-        public static boolean canAutoAlign = false;
         public static boolean shootCommandLocked = false;
         public static boolean intakeRunning = false;
+        public static boolean isManualControlled = true;
     }
 }

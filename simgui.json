@@ -1,0 +1,42 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [20]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [21]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [22]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [23]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [24]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Autonomous/SendableChooser[1]": "String Chooser",
+      "/SmartDashboard/Odometry Pose Field": "Field2d",
+      "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}
