@@ -36,10 +36,6 @@ import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
 import frc.robot.commands.NoteMovementCommands;
 
-import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.commands.drive.GyroReset;
-
-
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -87,7 +83,6 @@ public class RobotContainer {
     }
 
     private void createNamedCommands() {
-
         NamedCommands.registerCommand("StartShooter",
                 shooterSubsystem.startShooterCommand());
 
@@ -146,7 +141,6 @@ public class RobotContainer {
                     .onFalse(ShootingCommands.ShootSpeaker(shooterSubsystem, transitSubsystem, intakeSubsystem,
                             lightSubsystem).onlyIf(() -> UserPolicy.shootCommandLocked));
         }
-
     }
 
     public Command preLEDCommand() {
