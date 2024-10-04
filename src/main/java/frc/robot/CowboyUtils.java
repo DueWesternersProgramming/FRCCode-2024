@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 public class CowboyUtils {
     public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
-    public static Pose2d blueAllianceSpeaker = new Pose2d(1.4, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
-    public static Pose2d redAllianceSpeaker = new Pose2d(15.2, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
+    public static Pose2d blueAllianceSpeaker = new Pose2d(1.2, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
+    public static Pose2d redAllianceSpeaker = new Pose2d(15.4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
 
     public static boolean isRedAlliance() {
         return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);

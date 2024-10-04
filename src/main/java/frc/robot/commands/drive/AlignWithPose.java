@@ -12,6 +12,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -27,9 +28,10 @@ public class AlignWithPose {
     public static Command pathToPoseCommand(Pose2d target, DriveSubsystem driveSubsystem) {
 
         HolonomicDriveController holonomicDriveController = new HolonomicDriveController(
+
                 new PIDController(3, 0, 0),
                 new PIDController(3, 0, 0), new ProfiledPIDController(3, 0, 0, new Constraints(3, 3)));
-        holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, new Rotation2d(10)));
+        holonomicDriveController.setTolerance(new Pose2d(1, 1, new Rotation2d(10)));
         Command roughAlignmentCommand = AutoBuilder.pathfindToPose(
                 target,
                 PathFindToPoseConstants.PATH_FINDING_CONSTRAINTS,
