@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "TransitShootSpeaker"
+                "name": null
               }
             }
           ]
@@ -58,7 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeTransitStopCommand"
+                "name": null
               }
             }
           ]

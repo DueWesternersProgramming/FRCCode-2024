@@ -74,7 +74,7 @@ public class RobotContainer {
         try {
             pdp = new PowerDistribution(16, ModuleType.kRev);
             DogLog.setPdh(pdp);
-            m_autoPositionChooser = AutoBuilder.buildAutoChooser("");
+            m_autoPositionChooser = AutoBuilder.buildAutoChooser("JustShoot");
             Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
             Shuffleboard.getTab("Power").add(pdp);
         } catch (Exception e) {
@@ -83,23 +83,6 @@ public class RobotContainer {
     }
 
     private void createNamedCommands() {
-        NamedCommands.registerCommand("StartShooter",
-                shooterSubsystem.startShooterCommand());
-
-        NamedCommands.registerCommand("StopShooter",
-                shooterSubsystem.stopShooterCommand());
-
-        // NamedCommands.registerCommand("StartIntake",
-        // intakeSubsystem.startIntakeCommand());
-
-        // NamedCommands.registerCommand("StopIntake",
-        // intakeSubsystem.stopIntakeCommand());
-
-        // NamedCommands.registerCommand("StartTransit",
-        // transitSubsystem.startTransitCommand());
-
-        // NamedCommands.registerCommand("StopTransit",
-        // transitSubsystem.startTransitCommand());
 
         NamedCommands.registerCommand("StopIntaking",
                 NoteMovementCommands.stopIntakingCommand(shooterSubsystem, intakeSubsystem, transitSubsystem));

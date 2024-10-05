@@ -3,8 +3,9 @@
   "robotLength": 0.762,
   "holonomicMode": true,
   "pathFolders": [
-    "Amp Blue Side",
-    "Middle Auto NEW"
+    "2 Note far Amp Side Auto",
+    "Middle Auto 4 note",
+    "Source Side Disrupt Notes"
   ],
   "autoFolders": [],
   "defaultMaxVel": 6.0,

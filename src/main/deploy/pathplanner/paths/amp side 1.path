@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.4470228638771384,
+        "y": 6.9054241391535145
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.6046784792615814,
+        "y": 6.773134369005678
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.057974712860854,
+        "y": 6.465220753446648
+      },
+      "prevControl": {
+        "x": 1.2370673259921268,
+        "y": 6.55005409650883
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 43.84868421369414,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "2 Note far Amp Side Auto",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
