@@ -9,6 +9,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -30,7 +31,7 @@ import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.VisionConstants;
-import frc.robot.RobotContainer.UserPolicy;
+import frc.robot.RobotState;
 import frc.robot.subsystems.drive.swerve.SwerveModule;
 import frc.robot.subsystems.drive.swerve.SwerveModuleSim;
 import frc.robot.subsystems.drive.swerve.SwerveUtils;
@@ -242,6 +243,7 @@ public class DriveSubsystem extends SubsystemBase {
                     });
         }
         field.setRobotPose(m_odometry.getEstimatedPosition());
+        RobotState.updatePose(m_odometry.getEstimatedPosition());
     }
 
     private void updateVisionMeasurements() {
@@ -252,7 +254,7 @@ public class DriveSubsystem extends SubsystemBase {
                     m_odometry.addVisionMeasurement(VisionSubsystem.getVisionPose(i),
                             Timer.getFPGATimestamp());
                 } catch (Exception e) {
-                    
+
                 }
 
             }
@@ -274,7 +276,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
     }
 
-    public static Optional<Pose2d> getPose() {
+    public Optional<Pose2d> getPose() {
         return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_odometry.getEstimatedPosition())
                 : Optional.empty();
     }
@@ -376,9 +378,14 @@ public class DriveSubsystem extends SubsystemBase {
             double ySpeedDelivered = ySpeedCommanded * DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND;
             double rotDelivered = m_currentRotation * DrivetrainConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
-            ChassisSpeeds speeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
+            ChassisSpeeds speeds = new ChassisSpeeds(ySpeedDelivered, xSpeedDelivered, rotDelivered);
 
-            Rotation2d rotation = Rotation2d.fromDegrees(getGyroAngle());
+            Rotation2d rotation;
+            if (RobotBase.isSimulation()) {
+                rotation = Rotation2d.fromDegrees(getGyroAngle() + (CowboyUtils.isRedAlliance() ? 180 : 0));
+            } else {
+                rotation = Rotation2d.fromDegrees(getGyroAngle());
+            }
 
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative
@@ -387,19 +394,9 @@ public class DriveSubsystem extends SubsystemBase {
 
             SwerveDriveKinematics.desaturateWheelSpeeds(
                     swerveModuleStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
-            if (UserPolicy.isManualControlled) {
-                if (RobotBase.isReal()) {
-                    swerveModules[0].setDesiredState(swerveModuleStates[0]);
-                    swerveModules[1].setDesiredState(swerveModuleStates[1]);
-                    swerveModules[2].setDesiredState(swerveModuleStates[2]);
-                    swerveModules[3].setDesiredState(swerveModuleStates[3]);
-                } else {
-                    swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
-                    swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
-                    swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
-                    swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
-                }
-            }
+
+            setModuleStates(swerveModuleStates);
+
         }
     }
 
@@ -416,17 +413,7 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
 
-        if (RobotBase.isReal()) {
-            swerveModules[0].setDesiredState(swerveModuleStates[0]);
-            swerveModules[1].setDesiredState(swerveModuleStates[1]);
-            swerveModules[2].setDesiredState(swerveModuleStates[2]);
-            swerveModules[3].setDesiredState(swerveModuleStates[3]);
-        } else {
-            swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
-            swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
-            swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
-            swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
-        }
+        setModuleStates(swerveModuleStates);
     }
 
     /**
@@ -534,6 +521,7 @@ public class DriveSubsystem extends SubsystemBase {
     private void pathFollowDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
         setModuleStates(swerveModuleStates);
+
     }
 
     private ChassisSpeeds getChassisSpeeds() {
@@ -560,11 +548,17 @@ public class DriveSubsystem extends SubsystemBase {
     public Command xCommand() {
         return Commands.startEnd(() -> {
             // init
-            UserPolicy.xLocked = !UserPolicy.xLocked;
+            RobotState.xLocked = !RobotState.xLocked;
         }, () -> {
             // end
         });
 
+    }
+
+    public Optional<Double> getPoseDistance(Pose2d target) {
+        Optional<Double> distance = Optional.empty();
+        distance = Optional.of(getPose().orElseThrow().getTranslation().getDistance(target.getTranslation()));
+        return distance;
     }
 
 }

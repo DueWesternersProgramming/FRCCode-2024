@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants.ShooterConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.RobotContainer.UserPolicy;
+import frc.robot.RobotState;
 import frc.robot.RobotConstants.PortConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -98,7 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public Command LockShootCommand(Boolean locked) {
         return new InstantCommand(() -> {
-            UserPolicy.shootCommandLocked = locked;
+            RobotState.shootCommandLocked = locked;
         });
     }
 

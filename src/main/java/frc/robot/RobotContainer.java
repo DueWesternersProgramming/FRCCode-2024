@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.TeleopDriveCommand;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
@@ -34,6 +36,7 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
+import frc.robot.commands.drive.SourceAssistCommand;
 import frc.robot.commands.NoteMovementCommands;
 
 /*
@@ -69,7 +72,7 @@ public class RobotContainer {
 
         createNamedCommands();
 
-        configureButtonBindings();
+        configureTriggers();
 
         try {
             pdp = new PowerDistribution(16, ModuleType.kRev);
@@ -96,13 +99,17 @@ public class RobotContainer {
                         lightSubsystem));
     }
 
-    private void configureButtonBindings() {
+    private void configureTriggers() {
+
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
             new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
-            new JoystickButton(driveJoystick, 1).whileTrue(AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
-        }
+            new JoystickButton(driveJoystick, 1)
+                    .whileTrue((AlignWithPose.alignWithSpeakerCommand(driveSubsystem)));
 
+            new Trigger(() -> driveJoystick.getRawAxis(2) > 0.25)
+                    .whileTrue(new SourceAssistCommand(driveSubsystem, driveJoystick));
+        }
         // Above = DriveJoystick, Below = OperatorJoystick
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 2).onTrue(
@@ -120,9 +127,9 @@ public class RobotContainer {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 4)
                     .onTrue(ShootingCommands.ShootSpeakerChamber(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                            lightSubsystem).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                            lightSubsystem).onlyIf(() -> !RobotState.shootCommandLocked))
                     .onFalse(ShootingCommands.ShootSpeaker(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                            lightSubsystem).onlyIf(() -> UserPolicy.shootCommandLocked));
+                            lightSubsystem).onlyIf(() -> RobotState.shootCommandLocked));
         }
     }
 
@@ -152,12 +159,5 @@ public class RobotContainer {
 
     public Field2d getField() {
         return field;
-    }
-
-    public final class UserPolicy {
-        public static boolean xLocked = false;
-        public static boolean shootCommandLocked = false;
-        public static boolean intakeRunning = false;
-        public static boolean isManualControlled = true;
     }
 }

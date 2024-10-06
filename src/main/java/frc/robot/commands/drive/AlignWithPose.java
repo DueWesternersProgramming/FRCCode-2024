@@ -12,11 +12,10 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotConstants.AutonomousConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
-import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.CowboyUtils;
+import frc.robot.RobotState;
 import frc.robot.RobotConstants.PathFindToPoseConstants;
 
 public class AlignWithPose {
@@ -39,18 +38,15 @@ public class AlignWithPose {
                 0);
         Command fineAlignmentCommand = new FunctionalCommand(
                 () -> {
-                    UserPolicy.isManualControlled = false;
                 },
                 () -> {
-                    ChassisSpeeds output = holonomicDriveController.calculate(DriveSubsystem.getPose().orElseThrow(),
+                    ChassisSpeeds output = holonomicDriveController.calculate(RobotState.robotPose,
                             target, 1,
                             new Rotation2d(0));
                     output.div(DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
                     driveSubsystem.runChassisSpeeds(output, false);
-
                 },
                 (interrupted) -> {
-                    UserPolicy.isManualControlled = true;
                 },
                 () -> false);
 

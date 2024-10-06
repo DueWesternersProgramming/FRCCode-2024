@@ -259,29 +259,29 @@ public final class RobotConstants {
                                                                 Units.degreesToRadians(0),
                                                                 Units.degreesToRadians(-30),
                                                                 Units.degreesToRadians(180 + 10)))
-                                 };
+                };
 
                 public static final String[] CAMERA_NAMES = { "frontLeftCamera", "frontRightCamera", "backLeftCamera",
                                 "backRightCamera" };
         }
 
         public static final class TeleopConstants {
-                public static final double MAX_SPEED_PERCENT = 1;
-                public static final int DRIVE_COMMAND_X_AXIS = 0;
-                public static final int DRIVE_COMMAND_Y_AXIS = 1;
-
-                public static final int DRIVE_COMMAND_ROT_AXIS = 4;
-                public static final int SHOOTER_COMMAND_AXIS = 3;
-                public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
-                public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5;
+                public static final double MAX_SPEED_PERCENT = 1; // drivetrain percent
 
                 // Driver constants:
+                public static final int DRIVE_COMMAND_X_AXIS = 0; // Left X
+                public static final int DRIVE_COMMAND_Y_AXIS = 1; // Left Y
+                public static final int DRIVE_COMMAND_ROT_AXIS = 4; // Right X
+
                 public static final int ROBOT_RELATIVE_BUTTON = 6;
                 public static final int SPEAKER_AIM_BUTTON = 1;
                 public static final int RESET_GYRO_BUTTON = 5;
                 public static final int X_LOCK_BUTTON = 6;
+                public static final int SOURCE_ASSIST_AXIS = 2; // Left trigger
 
                 // Operator constants: TODO:
+                public static final int CLIMBER_LEFT_COMMAND_AXIS = 1; // left Y
+                public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5; // right Y
         }
 
         public static final class IntakeConstants {

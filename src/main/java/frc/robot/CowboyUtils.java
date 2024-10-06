@@ -13,6 +13,9 @@ public class CowboyUtils {
     public static Pose2d blueAllianceSpeaker = new Pose2d(1.2, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
     public static Pose2d redAllianceSpeaker = new Pose2d(15.4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
 
+    public static Pose2d blueAllianceSource = new Pose2d(15.7, 0.55, new Rotation2d()); // Meters
+    public static Pose2d redAllianceSource = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
+
     public static boolean isRedAlliance() {
         return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);
     }

@@ -1,14 +1,13 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants;
 import frc.robot.RobotConstants.TeleopConstants;
+import frc.robot.RobotState;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.RobotContainer.UserPolicy;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class TeleopDriveCommand extends Command {
@@ -24,7 +23,7 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0, 0, DrivetrainConstants.FIELD_RELATIVE, true);
+        drive.drive(0.0, 0.0, 0.0, DrivetrainConstants.FIELD_RELATIVE, true);
     }
 
     @Override
@@ -57,12 +56,12 @@ public class TeleopDriveCommand extends Command {
             double ySquared = Math.copySign(yConstrained * yConstrained, yConstrained);
             double rotSquared = Math.copySign(rotConstrained * rotConstrained, rotConstrained);
 
-            if (UserPolicy.xLocked) {
+            if (RobotState.xLocked) {
                 drive.setX();
                 return;
             }
 
-            drive.drive(ySquared, xSquared, rotSquared, fieldRelative, true);
+            drive.drive(xSquared, ySquared, rotSquared, fieldRelative, true);
 
         }
 
