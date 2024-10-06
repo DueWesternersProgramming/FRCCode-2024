@@ -44,13 +44,13 @@ public class TeleopDriveCommand extends Command {
 
             double xConstrained = MathUtil.applyDeadband(
                     MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
+                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_DEADZONE);
             double yConstrained = MathUtil.applyDeadband(
                     MathUtil.clamp(yRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
+                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_DEADZONE);
             double rotConstrained = MathUtil.applyDeadband(
                     MathUtil.clamp(rot, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
+                    RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_DEADZONE);
 
             double xSquared = Math.copySign(xConstrained * xConstrained, xConstrained);
             double ySquared = Math.copySign(yConstrained * yConstrained, yConstrained);

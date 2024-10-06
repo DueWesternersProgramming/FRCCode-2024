@@ -12,11 +12,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotConstants.DriverAssistConstants.AutoBuilderConstants;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.CowboyUtils;
 import frc.robot.RobotState;
-import frc.robot.RobotConstants.PathFindToPoseConstants;
 
 public class AlignWithPose {
 
@@ -33,7 +33,7 @@ public class AlignWithPose {
         holonomicDriveController.setTolerance(new Pose2d(1, 1, new Rotation2d(10)));
         Command roughAlignmentCommand = AutoBuilder.pathfindToPose(
                 target,
-                PathFindToPoseConstants.PATH_FINDING_CONSTRAINTS,
+                AutoBuilderConstants.PATH_FINDING_CONSTRAINTS,
                 0.0,
                 0);
         Command fineAlignmentCommand = new FunctionalCommand(
@@ -54,6 +54,6 @@ public class AlignWithPose {
     }
 
     public static Command alignWithSpeakerCommand(DriveSubsystem driveSubsystem) {
-        return pathToPoseCommand(CowboyUtils.blueAllianceSpeaker, driveSubsystem);
+        return pathToPoseCommand(CowboyUtils.getAllianceSpeaker(), driveSubsystem);
     }
 }

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Optional;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,5 +24,23 @@ public class CowboyUtils {
 
     public static boolean isBlueAlliance() {
         return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Blue) : (false);
+    }
+
+    public static Pose2d getAllianceSource() {
+        return isBlueAlliance() ? blueAllianceSource : redAllianceSource;
+    }
+
+    public static Pose2d getAllianceSpeaker() {
+        return isBlueAlliance() ? blueAllianceSpeaker : redAllianceSpeaker;
+    }
+
+    public static double getAngleFromPoses(Pose2d robot, Pose2d target) {
+        double angle = Math.toDegrees(Math.atan2(target.getY() - robot.getY(), target.getX() - robot.getX()));
+        return angle;
+    }
+
+    public double getPoseDistance(Pose2d target) {
+        double distance = RobotState.robotPose.getTranslation().getDistance(target.getTranslation());
+        return distance;
     }
 }

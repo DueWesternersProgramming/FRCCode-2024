@@ -53,17 +53,19 @@ public final class RobotConstants {
                 public static final boolean FIELD_RELATIVE = true;
         }
 
-        public static final class PathFindToPoseConstants {
-                public static final double MAX_VELOCITY = 5; // Meters per second
-                public static final double MAX_ACCELERATION = 3; // Meters per second squared
-                public static final double MAX_ANGULAR_SPEED = 200.0; // Degrees per second
-                public static final double MAX_ANGULAR_ACCELERATION = 175.0; // Degrees per second squared
+        public static final class DriverAssistConstants {
 
-                // Create the constraints to use while pathfinding (Speeds and acceleration)
-                public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
-                                PathFindToPoseConstants.MAX_VELOCITY, PathFindToPoseConstants.MAX_ACCELERATION,
-                                Units.degreesToRadians(PathFindToPoseConstants.MAX_ANGULAR_SPEED),
-                                Units.degreesToRadians(PathFindToPoseConstants.MAX_ANGULAR_ACCELERATION));
+                public static final class AutoBuilderConstants {
+                        public static final double MAX_VELOCITY = 5; // Meters per second
+                        public static final double MAX_ACCELERATION = 3; // Meters per second squared
+                        public static final double MAX_ANGULAR_SPEED = 200.0; // Degrees per second
+                        public static final double MAX_ANGULAR_ACCELERATION = 175.0; // Degrees per second squared
+                        // Create the constraints to use while pathfinding (Speeds and acceleration)
+                        public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
+                                        AutoBuilderConstants.MAX_VELOCITY, AutoBuilderConstants.MAX_ACCELERATION,
+                                        Units.degreesToRadians(AutoBuilderConstants.MAX_ANGULAR_SPEED),
+                                        Units.degreesToRadians(AutoBuilderConstants.MAX_ANGULAR_ACCELERATION));
+                }
         }
 
         public static final class SwerveModuleConstants {
@@ -160,7 +162,7 @@ public final class RobotConstants {
                 }
 
                 public static class Controller {
-                        public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
+                        public static final double JOYSTICK_AXIS_DEADZONE = 0.05;
                         public static final int DRIVE_JOYSTICK = 0;
                         public static final int PANEL = 1;
                         public static final int OPERATOR_JOYSTICK = 1;
@@ -266,7 +268,7 @@ public final class RobotConstants {
         }
 
         public static final class TeleopConstants {
-                public static final double MAX_SPEED_PERCENT = 1; // drivetrain percent
+                public static final double MAX_SPEED_PERCENT = 1; // drivetrain speed percent
 
                 // Driver constants:
                 public static final int DRIVE_COMMAND_X_AXIS = 0; // Left X
@@ -278,6 +280,7 @@ public final class RobotConstants {
                 public static final int RESET_GYRO_BUTTON = 5;
                 public static final int X_LOCK_BUTTON = 6;
                 public static final int SOURCE_ASSIST_AXIS = 2; // Left trigger
+                public static final int SPEAKER_ASSIST_AXIS = 3; // Left trigger
 
                 // Operator constants: TODO:
                 public static final int CLIMBER_LEFT_COMMAND_AXIS = 1; // left Y

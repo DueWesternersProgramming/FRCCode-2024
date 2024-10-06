@@ -11,23 +11,24 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.RobotState;
 
-public class SourceAssistCommand extends Command {
+public class AimAssistCommand extends Command {
     private final DriveSubsystem driveSubsystem;
     private final XboxController driveController;
     PIDController rotController = new PIDController(0.1, 0, 0);
-    Pose2d sourcePose = CowboyUtils.isBlueAlliance() ? CowboyUtils.blueAllianceSource : CowboyUtils.redAllianceSource;
     double targetAngle, output;
+    Pose2d target;
 
-    public SourceAssistCommand(DriveSubsystem driveSubsystem, XboxController driveController) {
+    public AimAssistCommand(DriveSubsystem driveSubsystem, XboxController driveController, Pose2d target) {
         rotController.enableContinuousInput(-180, 180);
         this.driveSubsystem = driveSubsystem;
         this.driveController = driveController;
+        this.target = target;
         addRequirements(driveSubsystem);
     }
 
     @Override
     public void initialize() {
-        RobotState.isManualControl = false;
+
         driveSubsystem.drive(0, 0, 0, true, true);
     }
 
@@ -38,22 +39,22 @@ public class SourceAssistCommand extends Command {
 
         double xConstrained = MathUtil.applyDeadband(
                 MathUtil.clamp(xRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
+                RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_DEADZONE);
         double yConstrained = MathUtil.applyDeadband(
                 MathUtil.clamp(yRaw, -TeleopConstants.MAX_SPEED_PERCENT, TeleopConstants.MAX_SPEED_PERCENT),
-                RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_THRESHOLD);
+                RobotConstants.PortConstants.Controller.JOYSTICK_AXIS_DEADZONE);
 
         double xSquared = Math.copySign(xConstrained * xConstrained, xConstrained);
         double ySquared = Math.copySign(yConstrained * yConstrained, yConstrained);
 
-        targetAngle = getAngleFromPoints(RobotState.robotPose, sourcePose);
+        targetAngle = CowboyUtils.getAngleFromPoses(RobotState.robotPose, target);
         output = rotController.calculate(RobotState.robotPose.getRotation().getDegrees(), targetAngle);
         driveSubsystem.drive(xSquared, ySquared, output, true, true);
     }
 
     @Override
     public void end(boolean interrupted) {
-        RobotState.isManualControl = true;
+
     }
 
     @Override
@@ -61,7 +62,4 @@ public class SourceAssistCommand extends Command {
         return false;
     }
 
-    private double getAngleFromPoints(Pose2d robot, Pose2d target) {
-        return Math.toDegrees(Math.atan2(target.getY() - robot.getY(), target.getX() - robot.getX()));
-    }
 }

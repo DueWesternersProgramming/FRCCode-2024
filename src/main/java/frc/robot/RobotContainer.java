@@ -36,7 +36,8 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
-import frc.robot.commands.drive.SourceAssistCommand;
+import frc.robot.commands.drive.AimAssistCommand;
+import frc.robot.commands.drive.AlignAssistCommand;
 import frc.robot.commands.NoteMovementCommands;
 
 /*
@@ -108,7 +109,11 @@ public class RobotContainer {
                     .whileTrue((AlignWithPose.alignWithSpeakerCommand(driveSubsystem)));
 
             new Trigger(() -> driveJoystick.getRawAxis(2) > 0.25)
-                    .whileTrue(new SourceAssistCommand(driveSubsystem, driveJoystick));
+                    .whileTrue(new AimAssistCommand(driveSubsystem, driveJoystick,
+                            CowboyUtils.getAllianceSource()));
+
+            new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25)
+                    .whileTrue(new AlignAssistCommand(driveSubsystem, driveJoystick, CowboyUtils.getAllianceSpeaker()));
         }
         // Above = DriveJoystick, Below = OperatorJoystick
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {

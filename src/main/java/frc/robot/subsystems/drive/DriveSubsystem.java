@@ -555,10 +555,4 @@ public class DriveSubsystem extends SubsystemBase {
 
     }
 
-    public Optional<Double> getPoseDistance(Pose2d target) {
-        Optional<Double> distance = Optional.empty();
-        distance = Optional.of(getPose().orElseThrow().getTranslation().getDistance(target.getTranslation()));
-        return distance;
-    }
-
 }
