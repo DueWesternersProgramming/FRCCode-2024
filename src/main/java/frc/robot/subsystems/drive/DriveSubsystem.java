@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -90,7 +91,16 @@ public class DriveSubsystem extends SubsystemBase {
                                 swerveModuleSims[1].getPosition(),
                                 swerveModuleSims[2].getPosition(),
                                 swerveModuleSims[3].getPosition()
-                        }, new Pose2d());
+                        },
+                        new Pose2d());// Units.degreesToRadians(CowboyUtils.isRedAlliance() ? 180 : 0))));
+                                      // // This
+                                      // is
+                                      // to
+                // simulate robot
+                // facing forward
+                // when gyro starts
+                // up(on each
+                // alliance)
 
             } else {
                 // If the code is actually running on the robot, make real swerve module

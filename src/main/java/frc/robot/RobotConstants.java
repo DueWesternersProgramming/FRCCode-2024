@@ -1,6 +1,10 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -11,6 +15,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 
 public final class RobotConstants {
@@ -323,5 +329,26 @@ public final class RobotConstants {
                 public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
                 public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
                 public static final boolean VISION_SUBSYSTEM_ENABLED = true;
+        }
+
+        public static final class FieldPointPoses {
+                public static Pose2d BLUE_ALLIANCE_SPEAKER = new Pose2d(1.2, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
+                public static Pose2d RED_ALLIANCE_SPEAKER = new Pose2d(15.4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
+
+                public static Pose2d BLUE_ALLIANCE_SOURCE = new Pose2d(15.7, 0.55, new Rotation2d()); // Meters
+                public static Pose2d RED_ALLIANCE_SOURCE = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
+
+                public static final class BlueAlliance {
+                        public static List<Translation2d> LEFT_LANE_WAYPOINTS = PathPlannerPath.bezierFromPoses(
+                                        new Pose2d(8.5, 6.7, Rotation2d.fromDegrees(180)),
+                                        new Pose2d(5.5, 6.6, Rotation2d.fromDegrees(-175)),
+                                        new Pose2d(2.5, 5.7, Rotation2d.fromDegrees(-150)));
+
+                        public static List<Translation2d> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.bezierFromPoses(
+                                        new Pose2d(7, 4, Rotation2d.fromDegrees(180)),
+                                        new Pose2d(5.6, 4, Rotation2d.fromDegrees(180)),
+                                        new Pose2d(3.1, 5.75, Rotation2d.fromDegrees(180)));
+                }
+
         }
 }

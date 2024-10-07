@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.TeleopDriveCommand;
 import frc.robot.commands.light.LEDHasNoteUpdater;
@@ -36,6 +38,7 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
+import frc.robot.commands.drive.LaneAssist;
 import frc.robot.commands.drive.AimAssistCommand;
 import frc.robot.commands.drive.AlignAssistCommand;
 import frc.robot.commands.NoteMovementCommands;
@@ -79,7 +82,7 @@ public class RobotContainer {
             pdp = new PowerDistribution(16, ModuleType.kRev);
             DogLog.setPdh(pdp);
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("JustShoot");
-            Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
+            Shuffleboard.getTab("Auto and setup").add(m_autoPositionChooser);
             Shuffleboard.getTab("Power").add(pdp);
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +116,10 @@ public class RobotContainer {
                             CowboyUtils.getAllianceSource()));
 
             new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25)
-                    .whileTrue(new AlignAssistCommand(driveSubsystem, driveJoystick, CowboyUtils.getAllianceSpeaker()));
+                    .whileTrue(new SequentialCommandGroup(LaneAssist.laneAssistCommand(),
+                            new AlignAssistCommand(driveSubsystem, driveJoystick, CowboyUtils.getAllianceSpeaker())));
+
+            new POVButton(driveJoystick, 90).whileTrue(LaneAssist.laneAssistCommand());
         }
         // Above = DriveJoystick, Below = OperatorJoystick
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {

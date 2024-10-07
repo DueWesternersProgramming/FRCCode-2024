@@ -1,22 +1,14 @@
 package frc.robot;
 
-import java.util.Optional;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.RobotConstants.FieldPointPoses;
 
 public class CowboyUtils {
     public static AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-
-    public static Pose2d blueAllianceSpeaker = new Pose2d(1.2, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
-    public static Pose2d redAllianceSpeaker = new Pose2d(15.4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
-
-    public static Pose2d blueAllianceSource = new Pose2d(15.7, 0.55, new Rotation2d()); // Meters
-    public static Pose2d redAllianceSource = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
 
     public static boolean isRedAlliance() {
         return DriverStation.getAlliance().isPresent() ? (DriverStation.getAlliance().get() == Alliance.Red) : (false);
@@ -27,11 +19,11 @@ public class CowboyUtils {
     }
 
     public static Pose2d getAllianceSource() {
-        return isBlueAlliance() ? blueAllianceSource : redAllianceSource;
+        return isBlueAlliance() ? FieldPointPoses.BLUE_ALLIANCE_SOURCE : FieldPointPoses.RED_ALLIANCE_SOURCE;
     }
 
     public static Pose2d getAllianceSpeaker() {
-        return isBlueAlliance() ? blueAllianceSpeaker : redAllianceSpeaker;
+        return isBlueAlliance() ? FieldPointPoses.BLUE_ALLIANCE_SPEAKER : FieldPointPoses.RED_ALLIANCE_SPEAKER;
     }
 
     public static double getAngleFromPoses(Pose2d robot, Pose2d target) {
