@@ -92,7 +92,7 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
-            // SmartDashboard.putNumber("Intake Speed", getIntakeSpeed());
+
         }
     }
 

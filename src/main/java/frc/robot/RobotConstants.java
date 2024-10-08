@@ -21,10 +21,14 @@ import edu.wpi.first.math.geometry.Rotation3d;
 
 public final class RobotConstants {
         public static final class DrivetrainConstants {
-                public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 5.30603;
-                public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 3.31033;
-                public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 0.59211;
-                public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 5.67266;
+                public static final boolean IS_SWERVE_DEBUGGING_ENABLED = false; // Enables extra network tables swerve
+                                                                                 // stats and numbers
+
+                public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0; // These are zero because we set the
+                                                                                  // CANCoders to zero in Pheonix Tuner.
+                public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;
+                public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;
+                public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;
 
                 public static final double DRIVE_BASE_RADIUS_METERS = 0.52705; // Middle of the robot to one of the
                                                                                // swerve
@@ -61,17 +65,18 @@ public final class RobotConstants {
 
         public static final class DriverAssistConstants {
 
-                public static final class AutoBuilderConstants {
-                        public static final double MAX_VELOCITY = 5; // Meters per second
-                        public static final double MAX_ACCELERATION = 3; // Meters per second squared
-                        public static final double MAX_ANGULAR_SPEED = 200.0; // Degrees per second
-                        public static final double MAX_ANGULAR_ACCELERATION = 175.0; // Degrees per second squared
-                        // Create the constraints to use while pathfinding (Speeds and acceleration)
-                        public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
-                                        AutoBuilderConstants.MAX_VELOCITY, AutoBuilderConstants.MAX_ACCELERATION,
-                                        Units.degreesToRadians(AutoBuilderConstants.MAX_ANGULAR_SPEED),
-                                        Units.degreesToRadians(AutoBuilderConstants.MAX_ANGULAR_ACCELERATION));
-                }
+                public static final double MAX_VELOCITY = 5; // Meters per second
+                public static final double MAX_ACCELERATION = 3; // Meters per second squared
+                public static final double MAX_ANGULAR_SPEED = 300; // Degrees per second
+                public static final double MAX_ANGULAR_ACCELERATION = 450; // Degrees per second squared
+                // Create the constraints to use while pathfinding (Speeds and acceleration)
+                public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
+                                DriverAssistConstants.MAX_VELOCITY, DriverAssistConstants.MAX_ACCELERATION,
+                                Units.degreesToRadians(DriverAssistConstants.MAX_ANGULAR_SPEED),
+                                Units.degreesToRadians(DriverAssistConstants.MAX_ANGULAR_ACCELERATION));
+
+                public static final double SKIP_LANE_PATH_DISTANCE = 3; // Meters
+
         }
 
         public static final class SwerveModuleConstants {
@@ -332,19 +337,21 @@ public final class RobotConstants {
         }
 
         public static final class FieldPointPoses {
-                public static Pose2d BLUE_ALLIANCE_SPEAKER = new Pose2d(1.2, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
+                public static Pose2d BLUE_ALLIANCE_SPEAKER = new Pose2d(1.4, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
                 public static Pose2d RED_ALLIANCE_SPEAKER = new Pose2d(15.4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
 
-                public static Pose2d BLUE_ALLIANCE_SOURCE = new Pose2d(15.7, 0.55, new Rotation2d()); // Meters
+                public static Pose2d BLUE_ALLIANCE_SOURCE = new Pose2d(15.5, 0.55, new Rotation2d()); // Meters
                 public static Pose2d RED_ALLIANCE_SOURCE = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
 
                 public static final class BlueAlliance {
-                        public static List<Translation2d> LEFT_LANE_WAYPOINTS = PathPlannerPath.bezierFromPoses(
-                                        new Pose2d(8.5, 6.7, Rotation2d.fromDegrees(180)),
-                                        new Pose2d(5.5, 6.6, Rotation2d.fromDegrees(-175)),
-                                        new Pose2d(2.5, 5.7, Rotation2d.fromDegrees(-150)));
 
-                        public static List<Translation2d> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.bezierFromPoses(
+                        public static final List<Translation2d> LEFT_LANE_WAYPOINTS = PathPlannerPath
+                                        .bezierFromPoses(
+                                                        new Pose2d(8.5, 6.7, Rotation2d.fromDegrees(180)),
+                                                        new Pose2d(5.5, 6.6, Rotation2d.fromDegrees(-175)),
+                                                        new Pose2d(2.5, 5.7, Rotation2d.fromDegrees(-150)));
+
+                        public static final List<Translation2d> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.bezierFromPoses(
                                         new Pose2d(7, 4, Rotation2d.fromDegrees(180)),
                                         new Pose2d(5.6, 4, Rotation2d.fromDegrees(180)),
                                         new Pose2d(3.1, 5.75, Rotation2d.fromDegrees(180)));

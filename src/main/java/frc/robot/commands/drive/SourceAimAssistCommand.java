@@ -11,18 +11,17 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.RobotState;
 
-public class AimAssistCommand extends Command {
+public class SourceAimAssistCommand extends Command {
     private final DriveSubsystem driveSubsystem;
     private final XboxController driveController;
     PIDController rotController = new PIDController(0.1, 0, 0);
     double targetAngle, output;
     Pose2d target;
 
-    public AimAssistCommand(DriveSubsystem driveSubsystem, XboxController driveController, Pose2d target) {
+    public SourceAimAssistCommand(DriveSubsystem driveSubsystem, XboxController driveController) {
         rotController.enableContinuousInput(-180, 180);
         this.driveSubsystem = driveSubsystem;
         this.driveController = driveController;
-        this.target = target;
         addRequirements(driveSubsystem);
     }
 
@@ -30,6 +29,7 @@ public class AimAssistCommand extends Command {
     public void initialize() {
 
         driveSubsystem.drive(0, 0, 0, true, true);
+        target = CowboyUtils.getAllianceSource();
     }
 
     @Override

@@ -178,33 +178,39 @@ public class DriveSubsystem extends SubsystemBase {
 
     private void putSmartDashboardData() {
         if (RobotBase.isReal()) {
-            SmartDashboard.putData("Odometry Pose Field", field);
-            SmartDashboard.putNumberArray("modules pose angles", new double[] {
-                    swerveModules[0].getPosition().angle.getDegrees(),
-                    swerveModules[1].getPosition().angle.getDegrees(),
-                    swerveModules[2].getPosition().angle.getDegrees(),
-                    swerveModules[3].getPosition().angle.getDegrees()
-            });
-            SmartDashboard.putNumberArray("modules pose meters", new double[] {
-                    swerveModules[0].getPosition().distanceMeters,
-                    swerveModules[1].getPosition().distanceMeters,
-                    swerveModules[2].getPosition().distanceMeters,
-                    swerveModules[3].getPosition().distanceMeters
-            });
+            if (DrivetrainConstants.IS_SWERVE_DEBUGGING_ENABLED) {
+                SmartDashboard.putData("Odometry Pose Field", field);
+                SmartDashboard.putNumberArray("modules pose angles", new double[] {
+                        swerveModules[0].getPosition().angle.getDegrees(),
+                        swerveModules[1].getPosition().angle.getDegrees(),
+                        swerveModules[2].getPosition().angle.getDegrees(),
+                        swerveModules[3].getPosition().angle.getDegrees()
+                });
+                SmartDashboard.putNumberArray("modules pose meters", new double[] {
+                        swerveModules[0].getPosition().distanceMeters,
+                        swerveModules[1].getPosition().distanceMeters,
+                        swerveModules[2].getPosition().distanceMeters,
+                        swerveModules[3].getPosition().distanceMeters
+                });
 
-            SmartDashboard.putNumberArray("Virtual abs encoders", new double[] {
-                    swerveModules[0].getTurningAbsoluteEncoder().getVirtualPosition(),
-                    swerveModules[1].getTurningAbsoluteEncoder().getVirtualPosition(),
-                    swerveModules[2].getTurningAbsoluteEncoder().getVirtualPosition(),
-                    swerveModules[3].getTurningAbsoluteEncoder().getVirtualPosition()
-            });
-            SmartDashboard.putNumberArray("Raw abs encoders", new double[] {
-                    swerveModules[0].getTurningAbsoluteEncoder().getPosition(),
-                    swerveModules[1].getTurningAbsoluteEncoder().getPosition(),
-                    swerveModules[2].getTurningAbsoluteEncoder().getPosition(),
-                    swerveModules[3].getTurningAbsoluteEncoder().getPosition()
-            });
-            SmartDashboard.putData("NAVX", m_gyro);
+                SmartDashboard.putNumberArray("Virtual abs encoders", new double[] {
+                        swerveModules[0].getTurningAbsoluteEncoder().getVirtualPosition(),
+                        swerveModules[1].getTurningAbsoluteEncoder().getVirtualPosition(),
+                        swerveModules[2].getTurningAbsoluteEncoder().getVirtualPosition(),
+                        swerveModules[3].getTurningAbsoluteEncoder().getVirtualPosition()
+                });
+                SmartDashboard.putNumberArray("Raw abs encoders", new double[] {
+                        swerveModules[0].getTurningAbsoluteEncoder().getPosition(),
+                        swerveModules[1].getTurningAbsoluteEncoder().getPosition(),
+                        swerveModules[2].getTurningAbsoluteEncoder().getPosition(),
+                        swerveModules[3].getTurningAbsoluteEncoder().getPosition()
+                });
+                SmartDashboard.putData("NAVX", m_gyro);
+
+            }
+            publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
+                    swerveModuleSims[1].getState(),
+                    swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
 
         }
 
@@ -215,7 +221,6 @@ public class DriveSubsystem extends SubsystemBase {
 
             // SmartDashboard.putData("Debugging field",
             // VisionSubsystem.visionSim.getDebugField());
-
             publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
                     swerveModuleSims[1].getState(),
                     swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
