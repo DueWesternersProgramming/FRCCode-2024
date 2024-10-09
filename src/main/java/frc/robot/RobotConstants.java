@@ -343,6 +343,7 @@ public final class RobotConstants {
                 public static Pose2d BLUE_ALLIANCE_SOURCE = new Pose2d(15.5, 0.55, new Rotation2d()); // Meters
                 public static Pose2d RED_ALLIANCE_SOURCE = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
 
+                // TODO:ADD PLACEHOLDER DEFAULT LANE
                 public static final class BlueAlliance {
 
                         public static final List<Translation2d> LEFT_LANE_WAYPOINTS = PathPlannerPath

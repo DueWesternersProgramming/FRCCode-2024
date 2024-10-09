@@ -28,15 +28,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
-import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.swerve.SwerveModule;
 import frc.robot.subsystems.drive.swerve.SwerveModuleSim;
-import frc.robot.subsystems.drive.swerve.SwerveUtils;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.util.CowboyUtils;
+import frc.robot.util.SwerveUtils;
 import frc.robot.RobotConstants.AutonomousConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;

@@ -33,13 +33,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.util.CowboyUtils;
 import frc.robot.RobotConstants.DriverAssistConstants;
 import frc.robot.RobotConstants.FieldPointPoses;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
-import frc.robot.commands.drive.LaneAssist;
+import frc.robot.commands.drive.LaneAssistCommand;
 import frc.robot.commands.drive.SourceAimAssistCommand;
 import frc.robot.commands.drive.SpeakerAlignAssistCommand;
 import frc.robot.commands.NoteMovementCommands;
@@ -98,8 +99,6 @@ public class RobotContainer {
         if (CowboyUtils.isBlueAlliance()) {
             m_laneChooser.addOption("Left Lane", FieldPointPoses.BlueAlliance.LEFT_LANE_WAYPOINTS);
             m_laneChooser.addOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
-
-            m_laneChooser.setDefaultOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
         } else {
             m_laneChooser.addOption("Left Lane", FieldPointPoses.BlueAlliance.LEFT_LANE_WAYPOINTS);
             m_laneChooser.addOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
@@ -109,6 +108,7 @@ public class RobotContainer {
     }
 
     public static List<Translation2d> getSelectedLane() {
+
         return m_laneChooser.getSelected() != null ? m_laneChooser.getSelected()
                 : FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS;
     }
@@ -137,7 +137,7 @@ public class RobotContainer {
                     .whileTrue(new SourceAimAssistCommand(driveSubsystem, driveJoystick));
 
             new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25)
-                    .whileTrue(new SequentialCommandGroup(LaneAssist.laneAssistCommand().onlyIf(() -> (CowboyUtils
+                    .whileTrue(new SequentialCommandGroup(new LaneAssistCommand().onlyIf(() -> (CowboyUtils
                             .getPoseDistance(
                                     CowboyUtils.getAllianceSpeaker()) > DriverAssistConstants.SKIP_LANE_PATH_DISTANCE)),
                             new SpeakerAlignAssistCommand(driveSubsystem, driveJoystick)));
