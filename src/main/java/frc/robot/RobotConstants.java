@@ -338,6 +338,30 @@ public final class RobotConstants {
                                         new Pose2d(7, 4, Rotation2d.fromDegrees(180)),
                                         new Pose2d(5.6, 4, Rotation2d.fromDegrees(180)),
                                         new Pose2d(3.1, 5.75, Rotation2d.fromDegrees(180)));
+
+                        public static final List<Waypoint> RIGHT_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(6.5, 1.3, Rotation2d.fromDegrees(160)),
+                                        new Pose2d(3.4, 2.4, Rotation2d.fromDegrees(150)),
+                                        new Pose2d(1.75, 4, Rotation2d.fromDegrees(130)));
+                }
+
+                public static final class RedAlliance {
+
+                        public static final List<Waypoint> LEFT_LANE_WAYPOINTS = PathPlannerPath
+                                        .waypointsFromPoses(
+                                                        new Pose2d(10, 1.5, Rotation2d.fromDegrees(10)),
+                                                        new Pose2d(13.5, 2.4, Rotation2d.fromDegrees(20)),
+                                                        new Pose2d(15, 4.25, Rotation2d.fromDegrees(60)));
+
+                        public static final List<Waypoint> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(10, 4, Rotation2d.fromDegrees(10)),
+                                        new Pose2d(12, 4.5, Rotation2d.fromDegrees(45)),
+                                        new Pose2d(13.5, 6, Rotation2d.fromDegrees(45)));
+
+                        public static final List<Waypoint> RIGHT_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(10, 6.75, Rotation2d.fromDegrees(-10)),
+                                        new Pose2d(12.4, 6.1, Rotation2d.fromDegrees(-30)),
+                                        new Pose2d(14, 5.2, Rotation2d.fromDegrees(-50)));
                 }
 
         }

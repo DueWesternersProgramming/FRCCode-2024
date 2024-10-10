@@ -100,11 +100,12 @@ public class RobotContainer {
         if (CowboyUtils.isBlueAlliance()) {
             m_laneChooser.addOption("Left Lane", FieldPointPoses.BlueAlliance.LEFT_LANE_WAYPOINTS);
             m_laneChooser.addOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
-        } else {
-            m_laneChooser.addOption("Left Lane", FieldPointPoses.BlueAlliance.LEFT_LANE_WAYPOINTS);
-            m_laneChooser.addOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
+            m_laneChooser.addOption("Right Lane", FieldPointPoses.BlueAlliance.RIGHT_LANE_WAYPOINTS);
 
-            m_laneChooser.setDefaultOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
+        } else {
+            m_laneChooser.addOption("Left Lane", FieldPointPoses.RedAlliance.LEFT_LANE_WAYPOINTS);
+            m_laneChooser.setDefaultOption("Middle Lane", FieldPointPoses.RedAlliance.MIDDLE_LANE_WAYPOINTS);
+            m_laneChooser.setDefaultOption("Right Lane", FieldPointPoses.RedAlliance.RIGHT_LANE_WAYPOINTS);
         }
     }
 
