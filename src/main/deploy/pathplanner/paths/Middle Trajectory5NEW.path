@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6513651260920754,
-        "y": 6.455173252226847
+        "x": 1.818780891724523,
+        "y": 6.240416627864359
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8909454969907094,
-        "y": 6.993104356579084
+        "x": 2.9412285277602286,
+        "y": 6.988715051888163
       },
       "prevControl": {
-        "x": 0.7509152340242001,
-        "y": 7.086657592118603
+        "x": 0.8011982647937193,
+        "y": 7.0822682874276826
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,41 +30,35 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "New Event Marker",
       "waypointRelativePos": 0.65,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "sequential",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": null
-              }
-            }
-          ]
+          "commands": []
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Middle Auto 4 note",
-  "previewStartingState": {
-    "rotation": -0.34423885703228213,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

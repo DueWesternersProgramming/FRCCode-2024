@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2654580294915574,
+        "x": 1.3355048262091496,
         "y": 5.5430292057165325
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.365458029491557,
+        "x": 1.5855048262091496,
         "y": 5.5430292057165325
       },
       "isLocked": false,
@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 2.9026396514331485,
+        "x": 2.764546955421275,
         "y": 5.5430292057165325
       },
       "prevControl": {
-        "x": 2.2235011267332165,
+        "x": 2.085408430721343,
         "y": 5.5580852397944245
       },
       "nextControl": null,
@@ -30,23 +30,23 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Middle Auto 4 note",
-  "previewStartingState": {
-    "rotation": -0.32240677001872065,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

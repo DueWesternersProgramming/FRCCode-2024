@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.Waypoint;
 
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -67,7 +68,7 @@ public class RobotContainer {
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.Controller.OPERATOR_JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
-    static SendableChooser<List<Translation2d>> m_laneChooser = new SendableChooser<List<Translation2d>>();
+    static SendableChooser<List<Waypoint>> m_laneChooser = new SendableChooser<List<Waypoint>>();
 
     PowerDistribution pdp;
 
@@ -107,7 +108,7 @@ public class RobotContainer {
         }
     }
 
-    public static List<Translation2d> getSelectedLane() {
+    public static List<Waypoint> getSelectedLane() {
 
         return m_laneChooser.getSelected() != null ? m_laneChooser.getSelected()
                 : FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS;

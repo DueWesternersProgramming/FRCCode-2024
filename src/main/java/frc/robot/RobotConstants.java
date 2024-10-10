@@ -1,15 +1,12 @@
 package frc.robot;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.path.Waypoint;
 import com.revrobotics.CANSparkBase.IdleMode;
-
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -190,37 +187,22 @@ public final class RobotConstants {
         }
 
         public static final class AutonomousConstants {
-                public static final double X_CONTROLLER_P = 3.5;
-                public static final double Y_CONTROLLER_P = 3.5;
-                public static final double THETA_CONTROLLER_P = 3;
 
-                public static final double X_CONTROLLER_I = 0;
-                public static final double Y_CONTROLLER_I = 0;
-                public static final double THETA_CONTROLLER_I = 1.5;
+                public static final PIDConstants TRANSLATION_PID_CONSTANTS = new PIDConstants(3.5, 0, 0);
 
-                public static final double X_CONTROLLER_D = 0;
-                public static final double Y_CONTROLLER_D = 0;
-                public static final double THETA_CONTROLLER_D = 0;
+                public static final PIDConstants ROTATION_PID_CONSTANTS = new PIDConstants(3, 0, 0);
 
                 public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
                 public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
 
-                public static final HolonomicPathFollowerConfig HOLONOMIC_PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
-                                new PIDConstants(AutonomousConstants.X_CONTROLLER_P, AutonomousConstants.X_CONTROLLER_I,
-                                                AutonomousConstants.X_CONTROLLER_D), // Translation PID constants
-                                new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P,
-                                                AutonomousConstants.THETA_CONTROLLER_I,
-                                                AutonomousConstants.THETA_CONTROLLER_D), // Rotation
-                                RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in
-                                                                                                // m/s
-                                RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in
-                                                                                             // meters.
-                                                                                             // Distance from robot
-                                                                                             // center
-                                                                                             // to furthest module.
-                                new ReplanningConfig(false, false) // Default path replanning config. See the API for
-                                                                   // the options here
-                );
+                public static final double kMaxAngularAcceleration = 4 * Math.PI;
+                public static final double kMaxAccelerationMetersPerSecondSquared = 3.00;
+
+                public static final PathConstraints DEFAULT_PATH_CONSTRAINTS = new PathConstraints(
+                                DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND,
+                                AutonomousConstants.kMaxAccelerationMetersPerSecondSquared,
+                                DrivetrainConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND,
+                                5 * Math.PI);
 
                 // public static final Boolean FLIP_PATHPLANNER_AUTOS = true;
         }
@@ -346,13 +328,13 @@ public final class RobotConstants {
                 // TODO:ADD PLACEHOLDER DEFAULT LANE
                 public static final class BlueAlliance {
 
-                        public static final List<Translation2d> LEFT_LANE_WAYPOINTS = PathPlannerPath
-                                        .bezierFromPoses(
+                        public static final List<Waypoint> LEFT_LANE_WAYPOINTS = PathPlannerPath
+                                        .waypointsFromPoses(
                                                         new Pose2d(8.5, 6.7, Rotation2d.fromDegrees(180)),
                                                         new Pose2d(5.5, 6.6, Rotation2d.fromDegrees(-175)),
                                                         new Pose2d(2.5, 5.7, Rotation2d.fromDegrees(-150)));
 
-                        public static final List<Translation2d> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.bezierFromPoses(
+                        public static final List<Waypoint> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
                                         new Pose2d(7, 4, Rotation2d.fromDegrees(180)),
                                         new Pose2d(5.6, 4, Rotation2d.fromDegrees(180)),
                                         new Pose2d(3.1, 5.75, Rotation2d.fromDegrees(180)));

@@ -40,6 +40,10 @@ import frc.robot.util.SwerveUtils;
 import frc.robot.RobotConstants.AutonomousConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 import edu.wpi.first.wpilibj.Timer;
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
@@ -67,6 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private double fakeGyro = 0;
     Field2d field = new Field2d();
+    RobotConfig config;
 
     // temp:
     StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
@@ -142,13 +147,19 @@ public class DriveSubsystem extends SubsystemBase {
             }
         }
 
-        AutoBuilder.configureHolonomic(
-                m_odometry::getEstimatedPosition, // Robot pose supplier
-                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::pathFollowDrive,
-                AutonomousConstants.HOLONOMIC_PATH_FOLLOWER_CONFIG,
-                () -> {
+        try {
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+        }
+
+        AutoBuilder.configure(m_odometry::getEstimatedPosition, this::resetOdometry, this::getChassisSpeeds,
+                (speeds) -> pathFollowDrive(speeds), new PPHolonomicDriveController(
+                        AutonomousConstants.TRANSLATION_PID_CONSTANTS,
+                        AutonomousConstants.ROTATION_PID_CONSTANTS),
+
+                config, () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red
                     // alliance
                     // This will flip the path being followed to the red side of the field.
@@ -160,8 +171,7 @@ public class DriveSubsystem extends SubsystemBase {
                     }
                     return false;
                 },
-                this // Reference to this subsystem to set requirements
-        );
+                this);
     }
 
     private double getGyroAngle() {

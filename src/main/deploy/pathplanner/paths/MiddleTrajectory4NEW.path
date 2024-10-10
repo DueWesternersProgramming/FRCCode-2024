@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.949416269202909,
-        "y": 4.1046482092964185
+        "x": 2.59306189991582,
+        "y": 4.09945169246292
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.060660531577474,
-        "y": 4.057871591526657
+        "x": 1.704306162290385,
+        "y": 4.052675074693159
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.2654580294915574,
-        "y": 5.5430292057165325
+        "x": 1.3355048262091496,
+        "y": 5.554476405842538
       },
       "prevControl": {
-        "x": 2.107437149347233,
-        "y": 5.566417514601411
+        "x": 2.177483946064825,
+        "y": 5.577864714727417
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,58 +30,23 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.5,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": null
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.2,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": null
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 6.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.525356301900408,
-    "rotateFast": false
+    "rotation": -0.525356301900408
   },
   "reversed": false,
-  "folder": "Middle Auto 4 note",
-  "previewStartingState": {
-    "rotation": 1.1227365357992924,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

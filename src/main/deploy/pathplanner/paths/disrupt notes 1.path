@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4765822748056395,
-        "y": 4.125369177766229
+        "x": 0.5288118434567908,
+        "y": 4.053144067767074
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7873968018548562,
-        "y": 3.9129792509507
+        "x": 0.8396263705060074,
+        "y": 3.840754140951545
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.8236584966770244,
-        "y": 4.508707094457749
+        "x": 1.0328786688042837,
+        "y": 4.563038255257312
       },
       "prevControl": {
-        "x": 1.4349270665364318,
-        "y": 3.571083271198829
+        "x": 1.3388151812984268,
+        "y": 4.3066343209765074
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,6 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
@@ -39,14 +40,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.528807709151636,
-    "rotateFast": true
+    "rotation": -57.528807709151636
   },
   "reversed": false,
-  "folder": "Source Side Disrupt Notes",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

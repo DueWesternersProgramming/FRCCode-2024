@@ -22,11 +22,11 @@ public class LaneAssistCommand extends Command {
 
     @Override
     public void initialize() {
-        PathPlannerPath path = new PathPlannerPath(
-                RobotContainer.getSelectedLane(), // This will be called every time the command is initialized
+
+        PathPlannerPath path = new PathPlannerPath(RobotContainer.getSelectedLane(),
                 new PathConstraints(DriverAssistConstants.MAX_VELOCITY, DriverAssistConstants.MAX_ACCELERATION,
                         DriverAssistConstants.MAX_ANGULAR_SPEED, DriverAssistConstants.MAX_ANGULAR_ACCELERATION),
-                new GoalEndState(0.0, Rotation2d.fromDegrees(0)));
+                null, new GoalEndState(0.0, Rotation2d.fromDegrees(0)));
 
         command = AutoBuilder.followPath(path);
         CommandScheduler.getInstance().schedule(command);
@@ -46,6 +46,6 @@ public class LaneAssistCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return command.isFinished();
     }
 }

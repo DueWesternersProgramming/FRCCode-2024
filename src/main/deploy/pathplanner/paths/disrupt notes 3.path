@@ -3,55 +3,66 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.262486177336902,
-        "y": 0.7685722856569429
+        "x": 7.833204379807163,
+        "y": 0.7211360651647657
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.443794651447742,
-        "y": 0.6287057484857221
+        "x": 6.765864917215225,
+        "y": 3.0133796742617047
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.262486177336902,
-        "y": 6.979682584484567
+        "x": 8.418357270267792,
+        "y": 2.53530012557983
       },
       "prevControl": {
-        "x": 8.163335362581766,
-        "y": 5.487698895788254
+        "x": 8.613246222617924,
+        "y": 2.3787169328295517
       },
       "nextControl": {
-        "x": 8.371271261803408,
-        "y": 8.616639093599593
+        "x": 6.911367388553187,
+        "y": 3.746088547785013
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.003687342794835,
-        "y": 7.637573333397641
+        "x": 8.304033899930822,
+        "y": 4.109844726129918
       },
       "prevControl": {
-        "x": 7.397385743721232,
-        "y": 7.114368879534927
+        "x": 6.568724035406948,
+        "y": 4.109844726129918
+      },
+      "nextControl": {
+        "x": 8.88604378528267,
+        "y": 4.109844726129918
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.017566493191422,
+        "y": 4.156613377631405
+      },
+      "prevControl": {
+        "x": 8.026020249338645,
+        "y": 4.068272591461929
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.65,
-      "rotationDegrees": 30.940687503855724,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
@@ -61,14 +72,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Source Side Disrupt Notes",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
