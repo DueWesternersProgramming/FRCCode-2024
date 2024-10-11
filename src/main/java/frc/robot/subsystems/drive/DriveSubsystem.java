@@ -181,10 +181,9 @@ public class DriveSubsystem extends SubsystemBase {
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[swerveModuleSims.length];
         for (int i = 0; i < swerveModuleSims.length; i++) {
-            if (RobotBase.isReal()){
+            if (RobotBase.isReal()) {
                 states[i] = swerveModules[i].getState();
-            }
-            else{
+            } else {
                 states[i] = swerveModuleSims[i].getState();
             }
         }
@@ -223,9 +222,9 @@ public class DriveSubsystem extends SubsystemBase {
                 SmartDashboard.putData("NAVX", m_gyro);
 
             }
-            // publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
-            //         swerveModuleSims[1].getState(),
-            //         swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
+            publisher.set(new SwerveModuleState[] { swerveModules[0].getState(),
+                    swerveModules[1].getState(),
+                    swerveModules[2].getState(), swerveModules[3].getState() });
 
         }
 
@@ -297,7 +296,7 @@ public class DriveSubsystem extends SubsystemBase {
             updateOdometry();
             putSmartDashboardData();
             DogLog.log("Field Pose", getPose().orElseThrow());
-            DogLog.setOptions(new DogLogOptions().withCaptureNt(true));
+
         }
         // Vision pose estimates are added into the main odometry filter if vision
         // subsystem is enabled.
@@ -433,7 +432,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void runChassisSpeeds(ChassisSpeeds speeds, Boolean fieldRelative) {
         Rotation2d rotation = Rotation2d.fromDegrees(
                 getGyroAngle());
-                        //+ (CowboyUtils.isRedAlliance() ? 180 : 0));
+        // + (CowboyUtils.isRedAlliance() ? 180 : 0));
 
         var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative
