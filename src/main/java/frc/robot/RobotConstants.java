@@ -1,24 +1,31 @@
 package frc.robot;
 
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-import com.revrobotics.CANSparkBase.IdleMode;
+import java.util.List;
 
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
+import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 
 public final class RobotConstants {
         public static final class DrivetrainConstants {
-                public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 5.30603;
-                public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 3.31033;
-                public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;// 0.59211;
-                public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;// 5.67266;
+                public static final boolean IS_SWERVE_DEBUGGING_ENABLED = false; // Enables extra network tables swerve
+                                                                                 // stats and numbers
+
+                public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0; // These are zero because we set the
+                                                                                  // CANCoders to zero in Pheonix Tuner.
+                public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;
+                public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 0;
+                public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0;
 
                 public static final double DRIVE_BASE_RADIUS_METERS = 0.52705; // Middle of the robot to one of the
                                                                                // swerve
@@ -53,17 +60,20 @@ public final class RobotConstants {
                 public static final boolean FIELD_RELATIVE = true;
         }
 
-        public static final class PathFindToPoseConstants {
-                public static final double MAX_VELOCITY = 5; // Meters per second
-                public static final double MAX_ACCELERATION = 3; // Meters per second squared
-                public static final double MAX_ANGULAR_SPEED = 200.0; // Degrees per second
-                public static final double MAX_ANGULAR_ACCELERATION = 175.0; // Degrees per second squared
+        public static final class DriverAssistConstants {
 
+                public static final double MAX_VELOCITY = 2; // Meters per second
+                public static final double MAX_ACCELERATION = 2; // Meters per second squared
+                public static final double MAX_ANGULAR_SPEED = 150; // Degrees per second
+                public static final double MAX_ANGULAR_ACCELERATION = 300; // Degrees per second squared
                 // Create the constraints to use while pathfinding (Speeds and acceleration)
                 public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
-                                PathFindToPoseConstants.MAX_VELOCITY, PathFindToPoseConstants.MAX_ACCELERATION,
-                                Units.degreesToRadians(PathFindToPoseConstants.MAX_ANGULAR_SPEED),
-                                Units.degreesToRadians(PathFindToPoseConstants.MAX_ANGULAR_ACCELERATION));
+                                DriverAssistConstants.MAX_VELOCITY, DriverAssistConstants.MAX_ACCELERATION,
+                                Units.degreesToRadians(DriverAssistConstants.MAX_ANGULAR_SPEED),
+                                Units.degreesToRadians(DriverAssistConstants.MAX_ANGULAR_ACCELERATION));
+
+                public static final double SKIP_LANE_PATH_DISTANCE = 3; // Meters
+
         }
 
         public static final class SwerveModuleConstants {
@@ -160,7 +170,7 @@ public final class RobotConstants {
                 }
 
                 public static class Controller {
-                        public static final double JOYSTICK_AXIS_THRESHOLD = 0.2;
+                        public static final double JOYSTICK_AXIS_DEADZONE = 0.05;
                         public static final int DRIVE_JOYSTICK = 0;
                         public static final int PANEL = 1;
                         public static final int OPERATOR_JOYSTICK = 1;
@@ -177,37 +187,22 @@ public final class RobotConstants {
         }
 
         public static final class AutonomousConstants {
-                public static final double X_CONTROLLER_P = 3.5;
-                public static final double Y_CONTROLLER_P = 3.5;
-                public static final double THETA_CONTROLLER_P = 3;
 
-                public static final double X_CONTROLLER_I = 0;
-                public static final double Y_CONTROLLER_I = 0;
-                public static final double THETA_CONTROLLER_I = 1.5;
+                public static final PIDConstants TRANSLATION_PID_CONSTANTS = new PIDConstants(3.5, 0, 0);
 
-                public static final double X_CONTROLLER_D = 0;
-                public static final double Y_CONTROLLER_D = 0;
-                public static final double THETA_CONTROLLER_D = 0;
+                public static final PIDConstants ROTATION_PID_CONSTANTS = new PIDConstants(3, 0, 0);
 
                 public static final double FIELD_LENGTH_INCHES = 54 * 12 + 1; // 54ft 1in
                 public static final double FIELD_WIDTH_INCHES = 26 * 12 + 7; // 26ft 7in
 
-                public static final HolonomicPathFollowerConfig HOLONOMIC_PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
-                                new PIDConstants(AutonomousConstants.X_CONTROLLER_P, AutonomousConstants.X_CONTROLLER_I,
-                                                AutonomousConstants.X_CONTROLLER_D), // Translation PID constants
-                                new PIDConstants(AutonomousConstants.THETA_CONTROLLER_P,
-                                                AutonomousConstants.THETA_CONTROLLER_I,
-                                                AutonomousConstants.THETA_CONTROLLER_D), // Rotation
-                                RobotConstants.DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND, // Max module speed, in
-                                                                                                // m/s
-                                RobotConstants.DrivetrainConstants.DRIVE_BASE_RADIUS_METERS, // Drive base radius in
-                                                                                             // meters.
-                                                                                             // Distance from robot
-                                                                                             // center
-                                                                                             // to furthest module.
-                                new ReplanningConfig(false, false) // Default path replanning config. See the API for
-                                                                   // the options here
-                );
+                public static final double kMaxAngularAcceleration = 4 * Math.PI;
+                public static final double kMaxAccelerationMetersPerSecondSquared = 3.00;
+
+                public static final PathConstraints DEFAULT_PATH_CONSTRAINTS = new PathConstraints(
+                                DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND,
+                                AutonomousConstants.kMaxAccelerationMetersPerSecondSquared,
+                                DrivetrainConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND,
+                                5 * Math.PI);
 
                 // public static final Boolean FLIP_PATHPLANNER_AUTOS = true;
         }
@@ -229,16 +224,16 @@ public final class RobotConstants {
                                                                                              // need -40 (the rest of
                                                                                              // these as well) ;)
                                                                 Units.degreesToRadians(20))), // left 20
-                                // Front Right
-                                new Transform3d(
-                                                new Translation3d(
-                                                                Units.inchesToMeters(13.682), // forward+
-                                                                Units.inchesToMeters(-13.118), // left+
-                                                                Units.inchesToMeters(8.351)), // up+
-                                                new Rotation3d(
-                                                                Units.degreesToRadians(0),
-                                                                Units.degreesToRadians(-30),
-                                                                Units.degreesToRadians(-20))), // right 20
+                                // // Front Right
+                                // new Transform3d(
+                                //                 new Translation3d(
+                                //                                 Units.inchesToMeters(13.682), // forward+
+                                //                                 Units.inchesToMeters(-13.118), // left+
+                                //                                 Units.inchesToMeters(8.351)), // up+
+                                //                 new Rotation3d(
+                                //                                 Units.degreesToRadians(0),
+                                //                                 Units.degreesToRadians(-30),
+                                //                                 Units.degreesToRadians(-20))), // right 20
                                 // Back Left
                                 new Transform3d(
                                                 new Translation3d(
@@ -259,29 +254,30 @@ public final class RobotConstants {
                                                                 Units.degreesToRadians(0),
                                                                 Units.degreesToRadians(-30),
                                                                 Units.degreesToRadians(180 + 10)))
-                                 };
+                };
 
-                public static final String[] CAMERA_NAMES = { "frontLeftCamera", "frontRightCamera", "backLeftCamera",
+                public static final String[] CAMERA_NAMES = { "frontLeftCamera", "backLeftCamera",
                                 "backRightCamera" };
         }
 
         public static final class TeleopConstants {
-                public static final double MAX_SPEED_PERCENT = 1;
-                public static final int DRIVE_COMMAND_X_AXIS = 0;
-                public static final int DRIVE_COMMAND_Y_AXIS = 1;
-
-                public static final int DRIVE_COMMAND_ROT_AXIS = 4;
-                public static final int SHOOTER_COMMAND_AXIS = 3;
-                public static final int CLIMBER_LEFT_COMMAND_AXIS = 1;
-                public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5;
+                public static final double MAX_SPEED_PERCENT = 1; // drivetrain speed percent
 
                 // Driver constants:
+                public static final int DRIVE_COMMAND_X_AXIS = 0; // Left X
+                public static final int DRIVE_COMMAND_Y_AXIS = 1; // Left Y
+                public static final int DRIVE_COMMAND_ROT_AXIS = 4; // Right X
+
                 public static final int ROBOT_RELATIVE_BUTTON = 6;
                 public static final int SPEAKER_AIM_BUTTON = 1;
                 public static final int RESET_GYRO_BUTTON = 5;
                 public static final int X_LOCK_BUTTON = 6;
+                public static final int SOURCE_ASSIST_AXIS = 2; // Left trigger
+                public static final int SPEAKER_ASSIST_AXIS = 3; // Left trigger
 
                 // Operator constants: TODO:
+                public static final int CLIMBER_LEFT_COMMAND_AXIS = 1; // left Y
+                public static final int CLIMBER_RIGHT_COMMAND_AXIS = 5; // right Y
         }
 
         public static final class IntakeConstants {
@@ -320,5 +316,53 @@ public final class RobotConstants {
                 public static final boolean TRANSIT_SUBSYSTEM_ENABLED = true;
                 public static final boolean LIGHT_SUBSYSTEM_ENABLED = false;
                 public static final boolean VISION_SUBSYSTEM_ENABLED = true;
+        }
+
+        public static final class FieldPointPoses {
+                public static Pose2d BLUE_ALLIANCE_SPEAKER = new Pose2d(1.4, 5.55, new Rotation2d(Math.toRadians(0))); // Meters
+                public static Pose2d RED_ALLIANCE_SPEAKER = new Pose2d(15.4, 5.55, new Rotation2d(Math.toRadians(180))); // Meters
+
+                public static Pose2d BLUE_ALLIANCE_SOURCE = new Pose2d(15.5, 0.55, new Rotation2d()); // Meters
+                public static Pose2d RED_ALLIANCE_SOURCE = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
+
+                // TODO:ADD PLACEHOLDER DEFAULT LANE
+                public static final class BlueAlliance {
+
+                        public static final List<Waypoint> LEFT_LANE_WAYPOINTS = PathPlannerPath
+                                        .waypointsFromPoses(
+                                                        new Pose2d(8.5, 6.7, Rotation2d.fromDegrees(180)),
+                                                        new Pose2d(5.5, 6.6, Rotation2d.fromDegrees(-175)),
+                                                        new Pose2d(2.5, 5.7, Rotation2d.fromDegrees(-150)));
+
+                        public static final List<Waypoint> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(7, 4, Rotation2d.fromDegrees(180)),
+                                        new Pose2d(5.6, 4, Rotation2d.fromDegrees(180)),
+                                        new Pose2d(3.1, 5.75, Rotation2d.fromDegrees(180)));
+
+                        public static final List<Waypoint> RIGHT_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(6.5, 1.3, Rotation2d.fromDegrees(160)),
+                                        new Pose2d(3.4, 2.4, Rotation2d.fromDegrees(150)),
+                                        new Pose2d(1.75, 4, Rotation2d.fromDegrees(130)));
+                }
+
+                public static final class RedAlliance {
+
+                        public static final List<Waypoint> LEFT_LANE_WAYPOINTS = PathPlannerPath
+                                        .waypointsFromPoses(
+                                                        new Pose2d(10, 1.5, Rotation2d.fromDegrees(10)),
+                                                        new Pose2d(13.5, 2.4, Rotation2d.fromDegrees(20)),
+                                                        new Pose2d(15, 4.25, Rotation2d.fromDegrees(60)));
+
+                        public static final List<Waypoint> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(10, 4, Rotation2d.fromDegrees(10)),
+                                        new Pose2d(12, 4.5, Rotation2d.fromDegrees(45)),
+                                        new Pose2d(13.5, 6, Rotation2d.fromDegrees(45)));
+
+                        public static final List<Waypoint> RIGHT_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
+                                        new Pose2d(10, 6.75, Rotation2d.fromDegrees(-10)),
+                                        new Pose2d(12.4, 6.1, Rotation2d.fromDegrees(-30)),
+                                        new Pose2d(14, 5.2, Rotation2d.fromDegrees(-50)));
+                }
+
         }
 }

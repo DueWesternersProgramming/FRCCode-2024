@@ -6,8 +6,10 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.Waypoint;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,7 +18,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.TeleopDriveCommand;
 import frc.robot.commands.light.LEDHasNoteUpdater;
 import frc.robot.commands.light.LEDOff;
@@ -29,12 +34,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TransitSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.util.CowboyUtils;
+import frc.robot.RobotConstants.DriverAssistConstants;
+import frc.robot.RobotConstants.FieldPointPoses;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
+import frc.robot.commands.drive.LaneAssistCommand;
+import frc.robot.commands.drive.SourceAimAssistCommand;
+import frc.robot.commands.drive.SpeakerAlignAssistCommand;
 import frc.robot.commands.NoteMovementCommands;
+import java.util.List;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -57,6 +69,7 @@ public class RobotContainer {
     private final Joystick operatorJoystick = new Joystick(RobotConstants.PortConstants.Controller.OPERATOR_JOYSTICK);
 
     SendableChooser<Command> m_autoPositionChooser = new SendableChooser<>();
+    static SendableChooser<List<Waypoint>> m_laneChooser = new SendableChooser<List<Waypoint>>();
 
     PowerDistribution pdp;
 
@@ -69,17 +82,38 @@ public class RobotContainer {
 
         createNamedCommands();
 
-        configureButtonBindings();
+        configureTriggers();
 
         try {
             pdp = new PowerDistribution(16, ModuleType.kRev);
             DogLog.setPdh(pdp);
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("JustShoot");
-            Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
+            addLaneSelections();
+            Shuffleboard.getTab("Auto and setup").add("Auto Chooser", m_autoPositionChooser);
+            Shuffleboard.getTab("Auto and setup").add("Teleop Lane Chooser", m_laneChooser);
             Shuffleboard.getTab("Power").add(pdp);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void addLaneSelections() {
+        if (CowboyUtils.isBlueAlliance()) {
+            m_laneChooser.addOption("Left Lane", FieldPointPoses.BlueAlliance.LEFT_LANE_WAYPOINTS);
+            m_laneChooser.addOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
+            m_laneChooser.addOption("Right Lane", FieldPointPoses.BlueAlliance.RIGHT_LANE_WAYPOINTS);
+
+        } else {
+            m_laneChooser.addOption("Left Lane", FieldPointPoses.RedAlliance.LEFT_LANE_WAYPOINTS);
+            m_laneChooser.setDefaultOption("Middle Lane", FieldPointPoses.RedAlliance.MIDDLE_LANE_WAYPOINTS);
+            m_laneChooser.setDefaultOption("Right Lane", FieldPointPoses.RedAlliance.RIGHT_LANE_WAYPOINTS);
+        }
+    }
+
+    public static List<Waypoint> getSelectedLane() {
+
+        return m_laneChooser.getSelected() != null ? m_laneChooser.getSelected()
+                : FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS;
     }
 
     private void createNamedCommands() {
@@ -96,13 +130,22 @@ public class RobotContainer {
                         lightSubsystem));
     }
 
-    private void configureButtonBindings() {
+    private void configureTriggers() {
+
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
             new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
-            new JoystickButton(driveJoystick, 1).whileTrue(AlignWithPose.alignWithSpeakerCommand(driveSubsystem));
-        }
 
+            new Trigger(() -> driveJoystick.getRawAxis(2) > 0.25)
+                    .whileTrue(new SourceAimAssistCommand(driveSubsystem, driveJoystick));
+
+            new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25).whileTrue(new AlignWithPose(driveSubsystem));
+                    // .whileTrue(new SequentialCommandGroup(new LaneAssistCommand().onlyIf(() -> (CowboyUtils
+                    //         .getPoseDistance(
+                    //                 CowboyUtils.getAllianceSpeaker()) > DriverAssistConstants.SKIP_LANE_PATH_DISTANCE)),
+                    //         new SpeakerAlignAssistCommand(driveSubsystem, driveJoystick)));
+
+        }
         // Above = DriveJoystick, Below = OperatorJoystick
         if (SubsystemEnabledConstants.INTAKE_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 2).onTrue(
@@ -120,9 +163,9 @@ public class RobotContainer {
         if (SubsystemEnabledConstants.SHOOTER_SUBSYSTEM_ENABLED) {
             new JoystickButton(operatorJoystick, 4)
                     .onTrue(ShootingCommands.ShootSpeakerChamber(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                            lightSubsystem).onlyIf(() -> !UserPolicy.shootCommandLocked))
+                            lightSubsystem).onlyIf(() -> !RobotState.shootCommandLocked))
                     .onFalse(ShootingCommands.ShootSpeaker(shooterSubsystem, transitSubsystem, intakeSubsystem,
-                            lightSubsystem).onlyIf(() -> UserPolicy.shootCommandLocked));
+                            lightSubsystem).onlyIf(() -> RobotState.shootCommandLocked));
         }
     }
 
@@ -152,12 +195,5 @@ public class RobotContainer {
 
     public Field2d getField() {
         return field;
-    }
-
-    public final class UserPolicy {
-        public static boolean xLocked = false;
-        public static boolean shootCommandLocked = false;
-        public static boolean intakeRunning = false;
-        public static boolean isManualControlled = true;
     }
 }

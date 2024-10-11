@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3570101634409344,
-        "y": 8.036451976442946
+        "x": 1.1305977936310612,
+        "y": 7.904333201065651
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0878508446650466,
-        "y": 6.466838614854806
+        "x": 1.0511765951308698,
+        "y": 6.542826941062375
       },
       "prevControl": {
-        "x": 1.502270214061255,
-        "y": 7.642753575516546
+        "x": 1.8340426946327533,
+        "y": 7.626359006314982
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,11 +31,11 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 3.2458114113254903,
-      "rotateFast": true
+      "rotationDegrees": 3.2458114113254903
     }
   ],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 6.0,
@@ -45,14 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 48.96465472285604,
-    "rotateFast": true
+    "rotation": 48.96465472285605
   },
   "reversed": false,
-  "folder": "2 Note far Amp Side Auto",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

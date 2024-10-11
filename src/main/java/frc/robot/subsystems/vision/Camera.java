@@ -10,7 +10,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
-import frc.robot.CowboyUtils;
+import frc.robot.util.CowboyUtils;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -76,17 +76,17 @@ public class Camera {
         }
     }
 
-    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) throws NoSuchElementException {
-        try{
-        if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED) {
-            
-            return photonPoseEstimator.update();
-        } else {
-            return null;
+    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose)
+            throws NoSuchElementException {
+        try {
+            if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED) {
+
+                return photonPoseEstimator.update();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw e;
         }
-    }
-    catch(Exception e){
-        throw e;
-    }
     }
 }

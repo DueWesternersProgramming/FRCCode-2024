@@ -9,6 +9,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -16,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -26,18 +28,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
-import frc.robot.CowboyUtils;
 import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.VisionConstants;
-import frc.robot.RobotContainer.UserPolicy;
+import frc.robot.RobotState;
 import frc.robot.subsystems.drive.swerve.SwerveModule;
 import frc.robot.subsystems.drive.swerve.SwerveModuleSim;
-import frc.robot.subsystems.drive.swerve.SwerveUtils;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.util.CowboyUtils;
+import frc.robot.util.SwerveUtils;
 import frc.robot.RobotConstants.AutonomousConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 import edu.wpi.first.wpilibj.Timer;
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
@@ -65,6 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private double fakeGyro = 0;
     Field2d field = new Field2d();
+    RobotConfig config;
 
     // temp:
     StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
@@ -89,7 +96,16 @@ public class DriveSubsystem extends SubsystemBase {
                                 swerveModuleSims[1].getPosition(),
                                 swerveModuleSims[2].getPosition(),
                                 swerveModuleSims[3].getPosition()
-                        }, new Pose2d());
+                        },
+                        new Pose2d());// Units.degreesToRadians(CowboyUtils.isRedAlliance() ? 180 : 0))));
+                                      // // This
+                                      // is
+                                      // to
+                // simulate robot
+                // facing forward
+                // when gyro starts
+                // up(on each
+                // alliance)
 
             } else {
                 // If the code is actually running on the robot, make real swerve module
@@ -131,13 +147,19 @@ public class DriveSubsystem extends SubsystemBase {
             }
         }
 
-        AutoBuilder.configureHolonomic(
-                m_odometry::getEstimatedPosition, // Robot pose supplier
-                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::pathFollowDrive,
-                AutonomousConstants.HOLONOMIC_PATH_FOLLOWER_CONFIG,
-                () -> {
+        try {
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+        }
+
+        AutoBuilder.configure(m_odometry::getEstimatedPosition, this::resetOdometry, this::getChassisSpeeds,
+                (speeds) -> pathFollowDrive(speeds), new PPHolonomicDriveController(
+                        AutonomousConstants.TRANSLATION_PID_CONSTANTS,
+                        AutonomousConstants.ROTATION_PID_CONSTANTS),
+
+                config, () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red
                     // alliance
                     // This will flip the path being followed to the red side of the field.
@@ -149,8 +171,7 @@ public class DriveSubsystem extends SubsystemBase {
                     }
                     return false;
                 },
-                this // Reference to this subsystem to set requirements
-        );
+                this);
     }
 
     private double getGyroAngle() {
@@ -160,7 +181,12 @@ public class DriveSubsystem extends SubsystemBase {
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[swerveModuleSims.length];
         for (int i = 0; i < swerveModuleSims.length; i++) {
-            states[i] = swerveModuleSims[i].getState();
+            if (RobotBase.isReal()){
+                states[i] = swerveModules[i].getState();
+            }
+            else{
+                states[i] = swerveModuleSims[i].getState();
+            }
         }
         return states;
     }
@@ -168,32 +194,38 @@ public class DriveSubsystem extends SubsystemBase {
     private void putSmartDashboardData() {
         if (RobotBase.isReal()) {
             SmartDashboard.putData("Odometry Pose Field", field);
-            SmartDashboard.putNumberArray("modules pose angles", new double[] {
-                    swerveModules[0].getPosition().angle.getDegrees(),
-                    swerveModules[1].getPosition().angle.getDegrees(),
-                    swerveModules[2].getPosition().angle.getDegrees(),
-                    swerveModules[3].getPosition().angle.getDegrees()
-            });
-            SmartDashboard.putNumberArray("modules pose meters", new double[] {
-                    swerveModules[0].getPosition().distanceMeters,
-                    swerveModules[1].getPosition().distanceMeters,
-                    swerveModules[2].getPosition().distanceMeters,
-                    swerveModules[3].getPosition().distanceMeters
-            });
+            if (DrivetrainConstants.IS_SWERVE_DEBUGGING_ENABLED) {
+                SmartDashboard.putNumberArray("modules pose angles", new double[] {
+                        swerveModules[0].getPosition().angle.getDegrees(),
+                        swerveModules[1].getPosition().angle.getDegrees(),
+                        swerveModules[2].getPosition().angle.getDegrees(),
+                        swerveModules[3].getPosition().angle.getDegrees()
+                });
+                SmartDashboard.putNumberArray("modules pose meters", new double[] {
+                        swerveModules[0].getPosition().distanceMeters,
+                        swerveModules[1].getPosition().distanceMeters,
+                        swerveModules[2].getPosition().distanceMeters,
+                        swerveModules[3].getPosition().distanceMeters
+                });
 
-            SmartDashboard.putNumberArray("Virtual abs encoders", new double[] {
-                    swerveModules[0].getTurningAbsoluteEncoder().getVirtualPosition(),
-                    swerveModules[1].getTurningAbsoluteEncoder().getVirtualPosition(),
-                    swerveModules[2].getTurningAbsoluteEncoder().getVirtualPosition(),
-                    swerveModules[3].getTurningAbsoluteEncoder().getVirtualPosition()
-            });
-            SmartDashboard.putNumberArray("Raw abs encoders", new double[] {
-                    swerveModules[0].getTurningAbsoluteEncoder().getPosition(),
-                    swerveModules[1].getTurningAbsoluteEncoder().getPosition(),
-                    swerveModules[2].getTurningAbsoluteEncoder().getPosition(),
-                    swerveModules[3].getTurningAbsoluteEncoder().getPosition()
-            });
-            SmartDashboard.putData("NAVX", m_gyro);
+                SmartDashboard.putNumberArray("Virtual abs encoders", new double[] {
+                        swerveModules[0].getTurningAbsoluteEncoder().getVirtualPosition(),
+                        swerveModules[1].getTurningAbsoluteEncoder().getVirtualPosition(),
+                        swerveModules[2].getTurningAbsoluteEncoder().getVirtualPosition(),
+                        swerveModules[3].getTurningAbsoluteEncoder().getVirtualPosition()
+                });
+                SmartDashboard.putNumberArray("Raw abs encoders", new double[] {
+                        swerveModules[0].getTurningAbsoluteEncoder().getPosition(),
+                        swerveModules[1].getTurningAbsoluteEncoder().getPosition(),
+                        swerveModules[2].getTurningAbsoluteEncoder().getPosition(),
+                        swerveModules[3].getTurningAbsoluteEncoder().getPosition()
+                });
+                SmartDashboard.putData("NAVX", m_gyro);
+
+            }
+            // publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
+            //         swerveModuleSims[1].getState(),
+            //         swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
 
         }
 
@@ -204,7 +236,6 @@ public class DriveSubsystem extends SubsystemBase {
 
             // SmartDashboard.putData("Debugging field",
             // VisionSubsystem.visionSim.getDebugField());
-
             publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
                     swerveModuleSims[1].getState(),
                     swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
@@ -242,6 +273,7 @@ public class DriveSubsystem extends SubsystemBase {
                     });
         }
         field.setRobotPose(m_odometry.getEstimatedPosition());
+        RobotState.updatePose(m_odometry.getEstimatedPosition());
     }
 
     private void updateVisionMeasurements() {
@@ -252,7 +284,7 @@ public class DriveSubsystem extends SubsystemBase {
                     m_odometry.addVisionMeasurement(VisionSubsystem.getVisionPose(i),
                             Timer.getFPGATimestamp());
                 } catch (Exception e) {
-                    
+
                 }
 
             }
@@ -274,7 +306,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
     }
 
-    public static Optional<Pose2d> getPose() {
+    public Optional<Pose2d> getPose() {
         return SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED ? Optional.of(m_odometry.getEstimatedPosition())
                 : Optional.empty();
     }
@@ -376,9 +408,14 @@ public class DriveSubsystem extends SubsystemBase {
             double ySpeedDelivered = ySpeedCommanded * DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND;
             double rotDelivered = m_currentRotation * DrivetrainConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
-            ChassisSpeeds speeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
+            ChassisSpeeds speeds = new ChassisSpeeds(ySpeedDelivered, xSpeedDelivered, rotDelivered);
 
-            Rotation2d rotation = Rotation2d.fromDegrees(getGyroAngle());
+            Rotation2d rotation;
+            if (RobotBase.isSimulation()) {
+                rotation = Rotation2d.fromDegrees(getGyroAngle() + (CowboyUtils.isRedAlliance() ? 180 : 0));
+            } else {
+                rotation = Rotation2d.fromDegrees(getGyroAngle());
+            }
 
             var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                     fieldRelative
@@ -387,26 +424,16 @@ public class DriveSubsystem extends SubsystemBase {
 
             SwerveDriveKinematics.desaturateWheelSpeeds(
                     swerveModuleStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
-            if (UserPolicy.isManualControlled) {
-                if (RobotBase.isReal()) {
-                    swerveModules[0].setDesiredState(swerveModuleStates[0]);
-                    swerveModules[1].setDesiredState(swerveModuleStates[1]);
-                    swerveModules[2].setDesiredState(swerveModuleStates[2]);
-                    swerveModules[3].setDesiredState(swerveModuleStates[3]);
-                } else {
-                    swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
-                    swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
-                    swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
-                    swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
-                }
-            }
+
+            setModuleStates(swerveModuleStates);
+
         }
     }
 
     public void runChassisSpeeds(ChassisSpeeds speeds, Boolean fieldRelative) {
         Rotation2d rotation = Rotation2d.fromDegrees(
-                getGyroAngle()
-                        + (CowboyUtils.isRedAlliance() ? 180 : 0));
+                getGyroAngle());
+                        //+ (CowboyUtils.isRedAlliance() ? 180 : 0));
 
         var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative
@@ -416,17 +443,7 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
 
-        if (RobotBase.isReal()) {
-            swerveModules[0].setDesiredState(swerveModuleStates[0]);
-            swerveModules[1].setDesiredState(swerveModuleStates[1]);
-            swerveModules[2].setDesiredState(swerveModuleStates[2]);
-            swerveModules[3].setDesiredState(swerveModuleStates[3]);
-        } else {
-            swerveModuleSims[0].setDesiredState(swerveModuleStates[0]);
-            swerveModuleSims[1].setDesiredState(swerveModuleStates[1]);
-            swerveModuleSims[2].setDesiredState(swerveModuleStates[2]);
-            swerveModuleSims[3].setDesiredState(swerveModuleStates[3]);
-        }
+        setModuleStates(swerveModuleStates);
     }
 
     /**
@@ -534,6 +551,7 @@ public class DriveSubsystem extends SubsystemBase {
     private void pathFollowDrive(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
         setModuleStates(swerveModuleStates);
+
     }
 
     private ChassisSpeeds getChassisSpeeds() {
@@ -560,7 +578,7 @@ public class DriveSubsystem extends SubsystemBase {
     public Command xCommand() {
         return Commands.startEnd(() -> {
             // init
-            UserPolicy.xLocked = !UserPolicy.xLocked;
+            RobotState.xLocked = !RobotState.xLocked;
         }, () -> {
             // end
         });

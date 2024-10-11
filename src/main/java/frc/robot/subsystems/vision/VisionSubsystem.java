@@ -5,14 +5,11 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.CowboyUtils;
+import frc.robot.util.CowboyUtils;
+import frc.robot.RobotState;
 import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.VisionConstants;
-import frc.robot.subsystems.drive.DriveSubsystem;
-
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import org.photonvision.simulation.VisionSystemSim;
 
 public class VisionSubsystem extends SubsystemBase {
@@ -54,11 +51,12 @@ public class VisionSubsystem extends SubsystemBase {
     public static Pose2d getVisionPose(int i) throws NoSuchElementException {
         try {
             if (RobotBase.isSimulation()) {
-                return cameraSims[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow())
+                return cameraSims[i].getEstimatedGlobalPose(RobotState.robotPose)
                         .orElseThrow().estimatedPose
                         .toPose2d();
             } else {
-                return cameras[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow()).orElseThrow().estimatedPose
+                return cameras[i].getEstimatedGlobalPose(RobotState.robotPose)
+                        .orElseThrow().estimatedPose
                         .toPose2d();
             }
         } catch (Exception e) {
@@ -70,7 +68,7 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         if (SubsystemEnabledConstants.VISION_SUBSYSTEM_ENABLED) {
             if (RobotBase.isSimulation()) {
-                visionSim.update(DriveSubsystem.getPose().orElseThrow());
+                visionSim.update(RobotState.robotPose);
             }
         }
     }

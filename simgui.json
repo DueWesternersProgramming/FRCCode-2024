@@ -31,6 +31,9 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Auto and setup/Auto Chooser": "String Chooser",
+      "/Shuffleboard/Auto and setup/SendableChooser[1]": "String Chooser",
+      "/Shuffleboard/Auto and setup/Teleop Lane Chooser": "String Chooser",
       "/Shuffleboard/Autonomous/SendableChooser[1]": "String Chooser",
       "/SmartDashboard/Odometry Pose Field": "Field2d",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"

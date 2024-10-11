@@ -76,9 +76,7 @@ public class ClimberSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (SubsystemEnabledConstants.CLIMBER_SUBSYSTEM_ENABLED) {
-            // SmartDashboard.putNumber("Climber Speed", getSpeed());
-            // SmartDashboard.putNumber("Climber L Position", getEncoder1Position());
-            // SmartDashboard.putNumber("Climber R Position", getEncoder2Position());
+
         }
     }
 }

@@ -1,12 +1,5 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.2654580294915574,
-      "y": 5.5430292057165325
-    },
-    "rotation": 0.8473192878032328
-  },
   "command": {
     "type": "sequential",
     "data": {
@@ -15,6 +8,12 @@
           "type": "named",
           "data": {
             "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
           }
         },
         {
@@ -38,13 +37,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.1
           }
         },
         {
           "type": "named",
           "data": {
             "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
@@ -68,13 +73,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.1
           }
         },
         {
           "type": "named",
           "data": {
             "name": "ShootSpeaker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
           }
         },
         {
@@ -98,7 +109,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.25
+            "waitTime": 0.1
           }
         },
         {
@@ -106,10 +117,17 @@
           "data": {
             "name": "ShootSpeaker"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle Trajectory7NEW"
+          }
         }
       ]
     }
   },
+  "resetOdom": true,
   "folder": null,
   "choreoAuto": false
 }
