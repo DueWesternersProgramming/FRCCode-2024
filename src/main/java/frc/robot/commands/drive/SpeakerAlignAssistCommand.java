@@ -16,14 +16,16 @@ import frc.robot.RobotState;
 public class SpeakerAlignAssistCommand extends Command {
         private final DriveSubsystem driveSubsystem;
         private final XboxController driveController;
-        PIDController xController = new PIDController(2, 0, 0);
-        PIDController yController = new PIDController(2, 0, 0);
-        PIDController rotController = new PIDController(.1, 0, 0);
+        PIDController xController = new PIDController(0.1, 1, 0);
+        PIDController yController = new PIDController(0.1, 1, 0);
+        PIDController rotController = new PIDController(0.1, 1, 0);
         double targetAngle, output;
         Pose2d target;
 
         public SpeakerAlignAssistCommand(DriveSubsystem driveSubsystem, XboxController driveController) {
                 rotController.enableContinuousInput(-180, 180);
+                xController.setTolerance(0.2);
+                yController.setTolerance(0.2);
                 rotController.setTolerance(10);
                 this.driveSubsystem = driveSubsystem;
                 this.driveController = driveController;
@@ -40,7 +42,7 @@ public class SpeakerAlignAssistCommand extends Command {
         public void execute() {
                 double multiplier = driveController.getRawAxis(TeleopConstants.SPEAKER_ASSIST_AXIS);
                 double maxSpeedPercent = (DriverAssistConstants.MAX_VELOCITY
-                                / DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND) / 2;
+                                / DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND);
                 double xOutput = MathUtil.clamp(xController.calculate(RobotState.robotPose.getY(), target.getY()),
                                 -maxSpeedPercent,
                                 maxSpeedPercent)

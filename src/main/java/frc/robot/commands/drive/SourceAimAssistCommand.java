@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotConstants;
+import frc.robot.RobotConstants.DriverAssistConstants;
+import frc.robot.RobotConstants.DrivetrainConstants;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.util.CowboyUtils;
@@ -49,7 +51,8 @@ public class SourceAimAssistCommand extends Command {
 
         targetAngle = CowboyUtils.getAngleFromPoses(RobotState.robotPose, target);
         output = rotController.calculate(RobotState.robotPose.getRotation().getDegrees(), targetAngle);
-        driveSubsystem.drive(xSquared, ySquared, output, true, true);
+        driveSubsystem.drive(xSquared, ySquared, output*(DriverAssistConstants.MAX_VELOCITY
+                                / DrivetrainConstants.MAX_SPEED_METERS_PER_SECOND), true, true);
     }
 
     @Override

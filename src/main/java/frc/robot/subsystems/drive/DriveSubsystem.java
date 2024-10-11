@@ -181,15 +181,20 @@ public class DriveSubsystem extends SubsystemBase {
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[swerveModuleSims.length];
         for (int i = 0; i < swerveModuleSims.length; i++) {
-            states[i] = swerveModuleSims[i].getState();
+            if (RobotBase.isReal()){
+                states[i] = swerveModules[i].getState();
+            }
+            else{
+                states[i] = swerveModuleSims[i].getState();
+            }
         }
         return states;
     }
 
     private void putSmartDashboardData() {
         if (RobotBase.isReal()) {
+            SmartDashboard.putData("Odometry Pose Field", field);
             if (DrivetrainConstants.IS_SWERVE_DEBUGGING_ENABLED) {
-                SmartDashboard.putData("Odometry Pose Field", field);
                 SmartDashboard.putNumberArray("modules pose angles", new double[] {
                         swerveModules[0].getPosition().angle.getDegrees(),
                         swerveModules[1].getPosition().angle.getDegrees(),
@@ -218,9 +223,9 @@ public class DriveSubsystem extends SubsystemBase {
                 SmartDashboard.putData("NAVX", m_gyro);
 
             }
-            publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
-                    swerveModuleSims[1].getState(),
-                    swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
+            // publisher.set(new SwerveModuleState[] { swerveModuleSims[0].getState(),
+            //         swerveModuleSims[1].getState(),
+            //         swerveModuleSims[2].getState(), swerveModuleSims[3].getState() });
 
         }
 
@@ -427,8 +432,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void runChassisSpeeds(ChassisSpeeds speeds, Boolean fieldRelative) {
         Rotation2d rotation = Rotation2d.fromDegrees(
-                getGyroAngle()
-                        + (CowboyUtils.isRedAlliance() ? 180 : 0));
+                getGyroAngle());
+                        //+ (CowboyUtils.isRedAlliance() ? 180 : 0));
 
         var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative

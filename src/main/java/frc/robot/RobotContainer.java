@@ -41,6 +41,7 @@ import frc.robot.RobotConstants.SubsystemEnabledConstants;
 import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
+import frc.robot.commands.drive.AlignWithPose;
 import frc.robot.commands.drive.LaneAssistCommand;
 import frc.robot.commands.drive.SourceAimAssistCommand;
 import frc.robot.commands.drive.SpeakerAlignAssistCommand;
@@ -138,11 +139,11 @@ public class RobotContainer {
             new Trigger(() -> driveJoystick.getRawAxis(2) > 0.25)
                     .whileTrue(new SourceAimAssistCommand(driveSubsystem, driveJoystick));
 
-            new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25)
-                    .whileTrue(new SequentialCommandGroup(new LaneAssistCommand().onlyIf(() -> (CowboyUtils
-                            .getPoseDistance(
-                                    CowboyUtils.getAllianceSpeaker()) > DriverAssistConstants.SKIP_LANE_PATH_DISTANCE)),
-                            new SpeakerAlignAssistCommand(driveSubsystem, driveJoystick)));
+            new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25).whileTrue(new AlignWithPose(driveSubsystem));
+                    // .whileTrue(new SequentialCommandGroup(new LaneAssistCommand().onlyIf(() -> (CowboyUtils
+                    //         .getPoseDistance(
+                    //                 CowboyUtils.getAllianceSpeaker()) > DriverAssistConstants.SKIP_LANE_PATH_DISTANCE)),
+                    //         new SpeakerAlignAssistCommand(driveSubsystem, driveJoystick)));
 
         }
         // Above = DriveJoystick, Below = OperatorJoystick
