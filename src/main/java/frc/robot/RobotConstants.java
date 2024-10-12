@@ -62,10 +62,10 @@ public final class RobotConstants {
 
         public static final class DriverAssistConstants {
 
-                public static final double MAX_VELOCITY = 3.5; // Meters per second
-                public static final double MAX_ACCELERATION = 3; // Meters per second squared
-                public static final double MAX_ANGULAR_SPEED = 350; // Degrees per second
-                public static final double MAX_ANGULAR_ACCELERATION = 500; // Degrees per second squared
+                public static final double MAX_VELOCITY = 2; // Meters per second
+                public static final double MAX_ACCELERATION = 2; // Meters per second squared
+                public static final double MAX_ANGULAR_SPEED = 150; // Degrees per second
+                public static final double MAX_ANGULAR_ACCELERATION = 300; // Degrees per second squared
                 // Create the constraints to use while pathfinding (Speeds and acceleration)
                 public static final PathConstraints PATH_FINDING_CONSTRAINTS = new PathConstraints(
                                 DriverAssistConstants.MAX_VELOCITY, DriverAssistConstants.MAX_ACCELERATION,
@@ -226,14 +226,14 @@ public final class RobotConstants {
                                                                 Units.degreesToRadians(20))), // left 20
                                 // // Front Right
                                 // new Transform3d(
-                                // new Translation3d(
-                                // Units.inchesToMeters(13.682), // forward+
-                                // Units.inchesToMeters(-13.118), // left+
-                                // Units.inchesToMeters(8.351)), // up+
-                                // new Rotation3d(
-                                // Units.degreesToRadians(0),
-                                // Units.degreesToRadians(-30),
-                                // Units.degreesToRadians(-20))), // right 20
+                                //                 new Translation3d(
+                                //                                 Units.inchesToMeters(13.682), // forward+
+                                //                                 Units.inchesToMeters(-13.118), // left+
+                                //                                 Units.inchesToMeters(8.351)), // up+
+                                //                 new Rotation3d(
+                                //                                 Units.degreesToRadians(0),
+                                //                                 Units.degreesToRadians(-30),
+                                //                                 Units.degreesToRadians(-20))), // right 20
                                 // Back Left
                                 new Transform3d(
                                                 new Translation3d(
