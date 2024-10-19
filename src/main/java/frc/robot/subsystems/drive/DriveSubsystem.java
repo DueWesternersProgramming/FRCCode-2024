@@ -40,8 +40,6 @@ import frc.robot.RobotConstants.AutonomousConstants;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.Timer;
-import dev.doglog.DogLog;
-import dev.doglog.DogLogOptions;
 
 /**
  * The {@code Drivetrain} class contains fields and methods pertaining to the
@@ -266,8 +264,7 @@ public class DriveSubsystem extends SubsystemBase {
         if (SubsystemEnabledConstants.DRIVE_SUBSYSTEM_ENABLED) {
             updateOdometry();
             putSmartDashboardData();
-            DogLog.log("Field Pose", getPose().orElseThrow());
-            DogLog.setOptions(new DogLogOptions().withCaptureNt(true));
+            
         }
         // Vision pose estimates are added into the main odometry filter if vision
         // subsystem is enabled.

@@ -7,7 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import dev.doglog.DogLog;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
@@ -76,7 +76,7 @@ public class RobotContainer {
 
         try {
             pdp = new PowerDistribution(16, ModuleType.kRev);
-            DogLog.setPdh(pdp);
+            
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("JustShoot");
             Shuffleboard.getTab("Autonomous").add(m_autoPositionChooser);
             Shuffleboard.getTab("Power").add(pdp);

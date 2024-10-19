@@ -14,8 +14,8 @@ import frc.robot.RobotState;
 public class SourceAssistCommand extends Command {
     private final DriveSubsystem driveSubsystem;
     private final XboxController driveController;
-    PIDController rotController = new PIDController(0.1, 0, 0);
-    Pose2d sourcePose = CowboyUtils.isBlueAlliance() ? CowboyUtils.blueAllianceSource : CowboyUtils.redAllianceSource;
+    PIDController rotController = new PIDController(0.2, 0, 0);
+    Pose2d sourcePose = CowboyUtils.isBlueAlliance() ? CowboyUtils.blueAllianceSpeaker : CowboyUtils.blueAllianceSpeaker;
     double targetAngle, output;
 
     public SourceAssistCommand(DriveSubsystem driveSubsystem, XboxController driveController) {

@@ -239,16 +239,16 @@ public final class RobotConstants {
                                                                 Units.degreesToRadians(0),
                                                                 Units.degreesToRadians(-30),
                                                                 Units.degreesToRadians(-20))), // right 20
-                                // Back Left
-                                new Transform3d(
-                                                new Translation3d(
-                                                                Units.inchesToMeters(-13.774), // forward+
-                                                                Units.inchesToMeters(12.645), // left+
-                                                                Units.inchesToMeters(8.351)), // up+
-                                                new Rotation3d(
-                                                                Units.degreesToRadians(0),
-                                                                Units.degreesToRadians(-30),
-                                                                Units.degreesToRadians(180 - 10))),
+                                // // Back Left
+                                // new Transform3d(
+                                //                 new Translation3d(
+                                //                                 Units.inchesToMeters(-13.774), // forward+
+                                //                                 Units.inchesToMeters(12.645), // left+
+                                //                                 Units.inchesToMeters(8.351)), // up+
+                                //                 new Rotation3d(
+                                //                                 Units.degreesToRadians(0),
+                                //                                 Units.degreesToRadians(-30),
+                                //                                 Units.degreesToRadians(180 - 10))),
                                 // Back Right
                                 new Transform3d(
                                                 new Translation3d(
@@ -261,7 +261,7 @@ public final class RobotConstants {
                                                                 Units.degreesToRadians(180 + 10)))
                 };
 
-                public static final String[] CAMERA_NAMES = { "frontLeftCamera", "frontRightCamera", "backLeftCamera",
+                public static final String[] CAMERA_NAMES = { "frontLeftCamera", "frontRightCamera",
                                 "backRightCamera" };
         }
 
