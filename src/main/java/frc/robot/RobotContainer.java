@@ -42,7 +42,6 @@ import frc.robot.RobotConstants.TeleopConstants;
 import frc.robot.commands.RobotSystemsCheckCommand;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.commands.drive.AlignWithPose;
-import frc.robot.commands.drive.LaneAssistCommand;
 import frc.robot.commands.drive.SourceAimAssistCommand;
 import frc.robot.commands.drive.SpeakerAlignAssistCommand;
 import frc.robot.commands.NoteMovementCommands;
@@ -88,32 +87,12 @@ public class RobotContainer {
             pdp = new PowerDistribution(16, ModuleType.kRev);
             DogLog.setPdh(pdp);
             m_autoPositionChooser = AutoBuilder.buildAutoChooser("JustShoot");
-            addLaneSelections();
             Shuffleboard.getTab("Auto and setup").add("Auto Chooser", m_autoPositionChooser);
             Shuffleboard.getTab("Auto and setup").add("Teleop Lane Chooser", m_laneChooser);
             Shuffleboard.getTab("Power").add(pdp);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void addLaneSelections() {
-        if (CowboyUtils.isBlueAlliance()) {
-            m_laneChooser.addOption("Left Lane", FieldPointPoses.BlueAlliance.LEFT_LANE_WAYPOINTS);
-            m_laneChooser.addOption("Middle Lane", FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS);
-            m_laneChooser.addOption("Right Lane", FieldPointPoses.BlueAlliance.RIGHT_LANE_WAYPOINTS);
-
-        } else {
-            m_laneChooser.addOption("Left Lane", FieldPointPoses.RedAlliance.LEFT_LANE_WAYPOINTS);
-            m_laneChooser.setDefaultOption("Middle Lane", FieldPointPoses.RedAlliance.MIDDLE_LANE_WAYPOINTS);
-            m_laneChooser.setDefaultOption("Right Lane", FieldPointPoses.RedAlliance.RIGHT_LANE_WAYPOINTS);
-        }
-    }
-
-    public static List<Waypoint> getSelectedLane() {
-
-        return m_laneChooser.getSelected() != null ? m_laneChooser.getSelected()
-                : FieldPointPoses.BlueAlliance.MIDDLE_LANE_WAYPOINTS;
     }
 
     private void createNamedCommands() {
@@ -136,14 +115,7 @@ public class RobotContainer {
             new JoystickButton(driveJoystick, TeleopConstants.RESET_GYRO_BUTTON).onTrue(driveSubsystem.gyroReset());
             new JoystickButton(driveJoystick, TeleopConstants.X_LOCK_BUTTON).onTrue((driveSubsystem.gyroReset()));
 
-            new Trigger(() -> driveJoystick.getRawAxis(2) > 0.25)
-                    .whileTrue(new SourceAimAssistCommand(driveSubsystem, driveJoystick));
-
             new Trigger(() -> driveJoystick.getRawAxis(3) > 0.25).whileTrue(new AlignWithPose(driveSubsystem));
-                    // .whileTrue(new SequentialCommandGroup(new LaneAssistCommand().onlyIf(() -> (CowboyUtils
-                    //         .getPoseDistance(
-                    //                 CowboyUtils.getAllianceSpeaker()) > DriverAssistConstants.SKIP_LANE_PATH_DISTANCE)),
-                    //         new SpeakerAlignAssistCommand(driveSubsystem, driveJoystick)));
 
         }
         // Above = DriveJoystick, Below = OperatorJoystick

@@ -226,14 +226,14 @@ public final class RobotConstants {
                                                                 Units.degreesToRadians(20))), // left 20
                                 // // Front Right
                                 // new Transform3d(
-                                //                 new Translation3d(
-                                //                                 Units.inchesToMeters(13.682), // forward+
-                                //                                 Units.inchesToMeters(-13.118), // left+
-                                //                                 Units.inchesToMeters(8.351)), // up+
-                                //                 new Rotation3d(
-                                //                                 Units.degreesToRadians(0),
-                                //                                 Units.degreesToRadians(-30),
-                                //                                 Units.degreesToRadians(-20))), // right 20
+                                // new Translation3d(
+                                // Units.inchesToMeters(13.682), // forward+
+                                // Units.inchesToMeters(-13.118), // left+
+                                // Units.inchesToMeters(8.351)), // up+
+                                // new Rotation3d(
+                                // Units.degreesToRadians(0),
+                                // Units.degreesToRadians(-30),
+                                // Units.degreesToRadians(-20))), // right 20
                                 // Back Left
                                 new Transform3d(
                                                 new Translation3d(
@@ -324,45 +324,6 @@ public final class RobotConstants {
 
                 public static Pose2d BLUE_ALLIANCE_SOURCE = new Pose2d(15.5, 0.55, new Rotation2d()); // Meters
                 public static Pose2d RED_ALLIANCE_SOURCE = new Pose2d(0.85, 0.55, new Rotation2d()); // Meters
-
-                // TODO:ADD PLACEHOLDER DEFAULT LANE
-                public static final class BlueAlliance {
-
-                        public static final List<Waypoint> LEFT_LANE_WAYPOINTS = PathPlannerPath
-                                        .waypointsFromPoses(
-                                                        new Pose2d(8.5, 6.7, Rotation2d.fromDegrees(180)),
-                                                        new Pose2d(5.5, 6.6, Rotation2d.fromDegrees(-175)),
-                                                        new Pose2d(2.5, 5.7, Rotation2d.fromDegrees(-150)));
-
-                        public static final List<Waypoint> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
-                                        new Pose2d(7, 4, Rotation2d.fromDegrees(180)),
-                                        new Pose2d(5.6, 4, Rotation2d.fromDegrees(180)),
-                                        new Pose2d(3.1, 5.75, Rotation2d.fromDegrees(180)));
-
-                        public static final List<Waypoint> RIGHT_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
-                                        new Pose2d(6.5, 1.3, Rotation2d.fromDegrees(160)),
-                                        new Pose2d(3.4, 2.4, Rotation2d.fromDegrees(150)),
-                                        new Pose2d(1.75, 4, Rotation2d.fromDegrees(130)));
-                }
-
-                public static final class RedAlliance {
-
-                        public static final List<Waypoint> LEFT_LANE_WAYPOINTS = PathPlannerPath
-                                        .waypointsFromPoses(
-                                                        new Pose2d(10, 1.5, Rotation2d.fromDegrees(10)),
-                                                        new Pose2d(13.5, 2.4, Rotation2d.fromDegrees(20)),
-                                                        new Pose2d(15, 4.25, Rotation2d.fromDegrees(60)));
-
-                        public static final List<Waypoint> MIDDLE_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
-                                        new Pose2d(10, 4, Rotation2d.fromDegrees(10)),
-                                        new Pose2d(12, 4.5, Rotation2d.fromDegrees(45)),
-                                        new Pose2d(13.5, 6, Rotation2d.fromDegrees(45)));
-
-                        public static final List<Waypoint> RIGHT_LANE_WAYPOINTS = PathPlannerPath.waypointsFromPoses(
-                                        new Pose2d(10, 6.75, Rotation2d.fromDegrees(-10)),
-                                        new Pose2d(12.4, 6.1, Rotation2d.fromDegrees(-30)),
-                                        new Pose2d(14, 5.2, Rotation2d.fromDegrees(-50)));
-                }
 
         }
 }
